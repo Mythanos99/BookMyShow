@@ -1,0 +1,11 @@
+{
+  "name": "bookmyshow_server",
+  "version": "1.0.0",
+  "description": "Package.Json for the Server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sriram Hariharan",
+  "license": "MIT"
+}

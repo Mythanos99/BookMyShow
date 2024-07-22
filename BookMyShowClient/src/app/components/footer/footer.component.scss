@@ -1,0 +1,58 @@
+/* footer.css */
+//  #[x]- Clean the code 
+/* Full-width footer */
+footer {
+    width: 100%;
+    background-color: #333338;
+}
+
+/* Style for the call to action section */
+section.mb-4 {
+    padding: 1rem;
+}
+
+/* Style for the CTA button */
+.btn-primary {
+    color: rgb(255, 255, 255);
+    background-color: rgb(248, 68, 100); /* Same color as sign-in button */
+    border: 1px solid rgb(248, 68, 100); /* Border color matching the button */
+    font-size: 1.25rem; /* Increase font size */
+}
+
+/* Style for the call to action text */
+.font-weight-bold {
+    font-size: 1.25rem; /* Increase font size */
+}
+
+/* Remove underlines from links */
+.text-decoration-none {
+    text-decoration: none;
+}
+
+/* Style for the logos */
+.img-fluid {
+    max-width: 100px; /* Adjust size */
+    padding: 10px; /* Padding around icons */
+    border-radius: 5px; /* Rounded corners */
+}
+.icon-div{
+    background-color: #404043; /* Background color for icons */
+}
+
+/* Style for link items */
+.list-unstyled li a {
+    font-size: 0.9rem; /* Font size for links */
+    margin-bottom: 0.5rem; /* Vertical spacing between links */
+}
+
+/* Style for headings */
+h5.text-uppercase {
+    font-size: 1.2rem; /* Font size for headings */
+    font-weight: bold; /* Bold font weight for headings */
+}
+
+/* Style for footer content */
+footer p {
+    font-size: 0.9rem; /* Font size for paragraph text */
+    line-height: 1.6; /* Line height for better readability */
+}

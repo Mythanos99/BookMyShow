@@ -1,0 +1,56 @@
+            <!-- #TODO when the navbar works change the colour back to bg-white -->
+             <!-- #[x]- Clean the code -->
+              <!-- #FIXME when loggin is done then remove the  -->
+            <nav class="container-fluid navbar navbar-expand-lg navbar-light bg-light" id="banner">
+                <div class="d-flex align-items-center w-100">
+                    <!-- Logo -->
+                    <a class="navbar-brand d-flex align-items-center" href="#">
+                        <img class="navbar-logo" src="../../../assets/images/bookmyshow-logo-vector.svg" alt="BookMyShow Logo">
+                    </a>
+                    
+                    <!-- Search Form -->
+                    <form class="form-inline ml-auto d-flex align-items-center w-50">
+                        <div class="input-group w-100">
+                            <input class="form-control" type="search" placeholder="Search for Movies, Play, Sports and Activities" aria-label="Search">
+                        </div>
+                    </form>
+                    
+                    <!-- Location, Sign In Button, and Menu Icon -->
+                     <!-- #XXX can do as extra feature. Take geolation from user -->
+                     <div class="d-flex align-items-center ml-auto side-right">
+                        <div class="location-dropdown mx-3" (click)="toggleCityDropdown($event)">
+                            Bengaluru
+                            <span class="dropdown-arrow mx-1">&#9662;</span> <!-- Arrow for dropdown -->
+                            <div class="dropdown-menu" [class.show]="isCityDropdownOpen">
+                                <a class="dropdown-item" href="#">Mumbai</a>
+                                <a class="dropdown-item" href="#">Delhi</a>
+                                <a class="dropdown-item" href="#">Chennai</a>
+                                <!-- Add more cities as needed -->
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-sm mx-3">Sign In</button>
+                        <!-- Menu Icon -->
+                        <span class="navbar-toggler-icon mx-4" (click)="toggleOffcanvas($event)"></span>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Offcanvas Sidebar -->
+            <div class="offcanvas" [class.show]="isOffcanvasOpen">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title mt-4" id="offcanvasExampleLabel">Hey!</h5>
+                    <hr>
+                    <button type="button" class="close" (click)="closeOffcanvas()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="list-unstyled">
+                        <li class="mb-3"><a href="#!" class="text-decoration-none">Login</a></li>
+                        <li class="mb-3"><a href="#!" class="text-decoration-none">View Your Orders</a></li>
+                        <li class="mb-3"><a href="#!" class="text-decoration-none">View Your Profile</a></li>
+                        <li class="mb-3"><a href="#!" class="text-decoration-none">Contact Us</a></li>
+                    </ul>
+                    <hr>
+                </div>
+            </div>

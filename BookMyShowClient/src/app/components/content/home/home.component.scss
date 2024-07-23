@@ -1,0 +1,23 @@
+// #[x] Clean the code
+.carousel-container {
+    margin: 20px auto; /* Add margin for top and bottom */
+    max-width: 100%; /* Ensure the container width does not exceed the viewport */
+    height: 40vh; /* Set the height of the carousel */
+    overflow: hidden; /* Hide overflow to prevent image spill */
+  }
+  
+  .carousel-inner {
+    height: 100%; /* Ensure the inner carousel takes full height of the container */
+  }
+  
+  .carousel-inner img {
+    height: 100%; /* Make image fill the height of the carousel */
+    width: 100%; /* Make image fill the width of the carousel */
+    object-fit: cover; /* Ensure image covers the container */
+  }
+  
+  .carousel-control-prev,
+  .carousel-control-next {
+    width: 5%; /* Adjust the width of controls as needed */
+  }
+  

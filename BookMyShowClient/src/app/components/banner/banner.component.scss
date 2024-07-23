@@ -123,4 +123,23 @@ ul.list-unstyled li {
   .dropdown-item:hover {
     background-color: #f1f1f1;
   }
+  .custom-tab-nav-bar {
+    background-color: #F5F5F5; /* Background color */
+    display: flex; /* Flex container */
+    padding: 0 1rem; /* Optional: add some padding */
+  }
+  
+  .left-tabs {
+    display: flex;
+    
+  }
+  
+  .right-tab {
+    margin-left: auto; /* Pushes the right tab to the right */
+  }
+  
+  mat-tab-link {
+    font-size: 0.875rem; /* Decrease font size */
+  }
+  
   

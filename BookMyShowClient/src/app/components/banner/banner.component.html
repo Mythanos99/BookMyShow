@@ -1,7 +1,7 @@
             <!-- #TODO when the navbar works change the colour back to bg-white -->
              <!-- #[x]- Clean the code -->
               <!-- #FIXME when loggin is done then remove the  -->
-            <nav class="container-fluid navbar navbar-expand-lg navbar-light bg-light" id="banner">
+            <nav class="container-fluid navbar navbar-expand-lg navbar-light bg-white" id="banner">
                 <div class="d-flex align-items-center w-100">
                     <!-- Logo -->
                     <a class="navbar-brand d-flex align-items-center" href="#">
@@ -28,12 +28,15 @@
                                 <!-- Add more cities as needed -->
                             </div>
                         </div>
+                        
                         <button class="btn btn-primary btn-sm mx-3">Sign In</button>
                         <!-- Menu Icon -->
                         <span class="navbar-toggler-icon mx-4" (click)="toggleOffcanvas($event)"></span>
                     </div>
                 </div>
             </nav>
+        
+
 
             <!-- Offcanvas Sidebar -->
             <div class="offcanvas" [class.show]="isOffcanvasOpen">
@@ -54,3 +57,30 @@
                     <hr>
                 </div>
             </div>
+            <nav mat-tab-nav-bar class="custom-tab-nav-bar">
+                <div class="left-tabs">
+                  <a mat-tab-link
+                     [routerLink]="['/movies']"
+                     routerLinkActive="mat-accent">Movies</a>
+                  <a mat-tab-link
+                     [routerLink]="['/plays']"
+                     routerLinkActive="mat-accent">Plays</a>
+                  <a mat-tab-link
+                     [routerLink]="['/sports']"
+                     routerLinkActive="mat-accent">Sports</a>
+                  <a mat-tab-link
+                     [routerLink]="['/events']"
+                     routerLinkActive="mat-accent">Events</a>
+                  <a mat-tab-link
+                     [routerLink]="['/activities']"
+                     routerLinkActive="mat-accent">Activities</a>
+                </div>
+                <div class="right-tab">
+                  <a mat-tab-link
+                     [routerLink]="['/list-shows']"
+                     routerLinkActive="mat-accent">List Your Shows</a>
+                </div>
+              </nav>
+              
+              
+

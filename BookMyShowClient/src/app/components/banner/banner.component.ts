@@ -36,8 +36,7 @@ export class BannerComponent implements OnInit {
     const target = event.target as HTMLElement;
     const offcanvas = document.querySelector('.offcanvas') as HTMLElement;
     const menuIcon = document.querySelector('.navbar-toggler-icon') as HTMLElement;
-    const cityDropdown = document.querySelector('.location-dropdown') as HTMLElement;
-    const isClickInside = offcanvas.contains(target) || menuIcon.contains(target) || cityDropdown.contains(target);
+    const isClickInside = offcanvas.contains(target) || menuIcon.contains(target);
 
     if (!isClickInside) {
       this.closeOffcanvas();

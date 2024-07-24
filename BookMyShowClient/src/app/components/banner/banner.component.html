@@ -1,6 +1,5 @@
-            <!-- #TODO when the navbar works change the colour back to bg-white -->
              <!-- #[x]- Clean the code -->
-              <!-- #FIXME when loggin is done then remove the  -->
+              <!-- #FIXME when loggin is done then remove the  login button-->
             <nav class="container-fluid navbar navbar-expand-lg navbar-light bg-white" id="banner">
                 <div class="d-flex align-items-center w-100">
                     <!-- Logo -->
@@ -29,7 +28,7 @@
                             </div>
                         </div>
                         
-                        <button class="btn btn-primary btn-sm mx-3">Sign In</button>
+                        <button class="btn btn-primary btn-sm mx-3" (click)="openAuthDialog()">Sign In</button>
                         <!-- Menu Icon -->
                         <span class="navbar-toggler-icon mx-4" (click)="toggleOffcanvas($event)"></span>
                     </div>

@@ -2,6 +2,7 @@ export class User {
   id: string;
   username: string;
   mobile_no: string;
+  password: string;
   role: string;
   address: Address;
   personal_details: PersonalDetails;
@@ -12,7 +13,8 @@ export class User {
     id: string,
     username: string,
     mobile_no: string,
-    role: string,
+    password: string,
+    role: string='user',
     address: Address = new Address(),
     personal_details: PersonalDetails = new PersonalDetails(),
     created_at: Date = new Date(),
@@ -21,6 +23,7 @@ export class User {
     this.id = id;
     this.username = username;
     this.mobile_no = mobile_no;
+    this.password = password;
     this.role = role;
     this.address = address;
     this.personal_details = personal_details;

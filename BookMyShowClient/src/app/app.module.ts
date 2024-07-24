@@ -9,7 +9,6 @@ import { BannerComponent } from './components/banner/banner.component';
 import { ContentComponent } from './components/content/content.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { LocationComponent } from './components/shared/location/location.component';
-import { LoginComponent } from './components/shared/login/login.component';
 import { HomeComponent } from './components/content/home/home.component';
 import {MatTabsModule} from '@angular/material/tabs';
 import { MoviesComponent } from './components/content/movies/movies.component';
@@ -18,6 +17,15 @@ import { ActivitiesComponent } from './components/content/activities/activities.
 import { SportsComponent } from './components/content/sports/sports.component';
 import { PlaysComponent } from './components/content/plays/plays.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { AuthComponent } from './components/auth/auth.component';
+import { RegisterComponent } from './components/auth/register/register.component';
+import { LoginComponent } from './components/auth/login/login.component';
+import {MatCardModule} from '@angular/material/card';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatFormFieldModule} from '@angular/material/form-field'
+import {ReactiveFormsModule} from '@angular/forms';
+import {MatButtonModule} from '@angular/material/button';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -33,14 +41,16 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
     ActivitiesComponent,
     SportsComponent,
     PlaysComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    AuthComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
     BrowserAnimationsModule,
-    MatTabsModule
+    MatTabsModule,MatCardModule,MatDialogModule,MatFormFieldModule,ReactiveFormsModule,MatButtonModule,HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

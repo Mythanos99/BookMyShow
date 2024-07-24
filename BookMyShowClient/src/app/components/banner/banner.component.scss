@@ -141,5 +141,10 @@ ul.list-unstyled li {
   mat-tab-link {
     font-size: 0.875rem; /* Decrease font size */
   }
+  .custom-dialog-container {
+    position: absolute;
+    padding: 16px; 
+    top: -50px;
+  }
   
   

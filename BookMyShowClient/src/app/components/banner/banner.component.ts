@@ -1,4 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { AuthComponent } from '../auth/auth.component';
 
 @Component({
   selector: 'app-banner',
@@ -9,7 +11,7 @@ export class BannerComponent implements OnInit {
   isOffcanvasOpen = false;
   isCityDropdownOpen = false;
 
-  constructor() { }
+  constructor(public dialog: MatDialog) { }
 
   ngOnInit(): void {}
 
@@ -43,4 +45,32 @@ export class BannerComponent implements OnInit {
       this.closeCityDropdown();
     }
   }
+  openAuthDialog() {
+    const dialogConfig = this.dialog.open(AuthComponent, {
+      width: this.getDialogWidth(),
+      height: this.getDialogHeight(),
+      maxWidth: '90vw', 
+      maxHeight: '90vh', 
+      panelClass: 'custom-dialog-container' 
+    });
+  }
+  
+  private getDialogWidth(): string {
+    if (window.innerWidth <= 600) {
+      return '90vw'; 
+    } else if (window.innerWidth <= 960) {
+      return '70vw'; // 70% of the viewport width for medium screens
+    } else {
+      return '40vw'; // 50% of the viewport width for larger screens
+    }
+  }
+  
+  private getDialogHeight(): string {
+    if (window.innerHeight <= 600) {
+      return '80vh'; // 80% of the viewport height for small screens
+    } else {
+      return '70vh'; // 70% of the viewport height for larger screens
+    }
+  }
+  
 }

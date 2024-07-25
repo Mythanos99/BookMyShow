@@ -1,6 +1,8 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthComponent } from '../auth/auth.component';
+import { Router } from '@angular/router';
+import { SearchComponent } from './search/search.component';
 
 @Component({
   selector: 'app-banner',
@@ -11,7 +13,7 @@ export class BannerComponent implements OnInit {
   isOffcanvasOpen = false;
   isCityDropdownOpen = false;
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog,private router: Router) { }
 
   ngOnInit(): void {}
 
@@ -72,5 +74,13 @@ export class BannerComponent implements OnInit {
       return '70vh'; // 70% of the viewport height for larger screens
     }
   }
+  openSearch() {
+    this.dialog.open(SearchComponent, {
+      width: '100vw',
+      height: '100vh',
+      panelClass: 'full-screen-dialog'
+    });
+  }
+
   
 }

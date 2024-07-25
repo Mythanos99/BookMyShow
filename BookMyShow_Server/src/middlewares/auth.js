@@ -15,3 +15,4 @@ function authenticateToken(req, res, next) {
 module.exports = {authenticateToken}
 
 // #TODO check the status code for the errors and give accordingly.
+// #TODO verify that the jwt token is working correctly.

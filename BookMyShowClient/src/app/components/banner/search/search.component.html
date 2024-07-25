@@ -1,0 +1,30 @@
+<div class="search-dialog">
+    <form class="form-inline d-flex align-items-center w-100">
+      <div class="input-group w-100">
+        <input
+          class="form-control"
+          type="search"
+          placeholder="Search for Movies, Plays, Sports, and Activities"
+          aria-label="Search"
+          (input)="onSearch($event)"
+        />
+      </div>
+    </form>
+  
+    <!-- Movies Section -->
+    <div *ngIf="arrMovies.length > 0">
+      <h5>Movies</h5>
+      <ul>
+        <li *ngFor="let movie of arrMovies">{{ movie.name }}</li>
+      </ul>
+    </div>
+  
+    <!-- Cinemas Section -->
+    <div *ngIf="arrCinemas.length > 0">
+      <h5>Cinemas</h5>
+      <ul>
+        <li *ngFor="let cinema of arrCinemas">{{ cinema.name }}</li>
+      </ul>
+    </div>
+  </div>
+  

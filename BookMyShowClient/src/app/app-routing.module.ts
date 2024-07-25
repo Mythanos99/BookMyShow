@@ -7,6 +7,7 @@ import { SportsComponent } from './components/content/sports/sports.component';
 import { ActivitiesComponent } from './components/content/activities/activities.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { PlaysComponent } from './components/content/plays/plays.component';
+import { SearchComponent } from './components/banner/search/search.component';
 
 const routes: Routes = [
   // #TODO change it to location and add lazy laoding. Indiviudal routing for features like movies

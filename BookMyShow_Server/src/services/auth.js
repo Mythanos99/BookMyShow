@@ -2,45 +2,29 @@ const User = require("../models/user");
 const utils = require("../utils/utils");
 const jwt = require("jsonwebtoken");
 
+function verify_login(username, password) {
+  return User.findOne({ username: username }) // Assuming username field stores username
+    .then(user => {
+      if (!user) {
+        throw new Error("Invalid username");
+      }
+      return utils.comparePassword(password, user.password)
+        .then(isMatch => {
+          if (!isMatch) {
+            throw new Error("Invalid password");
+          }
 
-async function verify_login(req, res) {
-  const { email, password } = req.body;
-  try {
-    // Find user by email
-    const user = await User.findOne({ username: email }); // Assuming username field stores email
-    console.log(user);
-    if (!user) {
-      return res.status(401).json({ message: "Invalid email" });
-    }
+          // Generate JWT token after successful authentication
+          const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+            expiresIn: "1h",
+          });
 
-    // // Compare password
-    // const isMatch = await utils.comparePassword(password, user.password);
-
-    // if (!isMatch) {
-    //   return res.status(401).json({ message: "Invalid  password" });
-    // }
-
-    // Successful login - send a success response
-    // After successful authentication
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+          return {
+            user: { id: user._id, username: user.username },
+            token,
+          };
+        });
     });
-
-    res.cookie("jwtToken", token, {
-      httpOnly: true,
-      sameSite: "Strict",
-      expires: new Date(Date.now() + 3600000), // Cookie expiration
-    });
-    res
-      .status(200)
-      .json({
-        message: "Login successful",
-        user: { id: user.id, username: user.username },
-      });
-  } catch (error) {
-    console.error("Error during login:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
 }
 
 module.exports = { verify_login };

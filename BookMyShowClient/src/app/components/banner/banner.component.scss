@@ -146,5 +146,18 @@ ul.list-unstyled li {
     padding: 16px; 
     top: -50px;
   }
+/* styles.scss or global styles file */
+.mat-dialog-container {
+  width: 100vw !important; /* Override default width */
+  height: 100vh !important; /* Override default height */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+/* Prevent background color change on click */
+.form-inline .form-control:focus {
+  border-color: none;
+}
+
   
   

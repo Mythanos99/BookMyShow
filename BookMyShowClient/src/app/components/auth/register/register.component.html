@@ -35,15 +35,16 @@
         </div>
         <div class="row mb-3">
           <div class="col-md-12">
-            <label for="mobileNo" class="form-label">Mobile No.</label>
-            <input type="tel" id="mobileNo" placeholder="Mobile No." class="form-control" formControlName="mobileNo">
-            <div *ngIf="f['mobileNo'].touched && f['mobileNo'].errors">
-              <div class="text-danger" *ngIf="f['mobileNo'].errors['required']">*Mobile No. is required</div>
-              <div class="text-danger" *ngIf="f['mobileNo'].errors['pattern']">*Mobile No. should be 10 digits</div>
+            <label for="mobile_no" class="form-label">Mobile No.</label>
+            <input type="tel" id="mobile_no" placeholder="Mobile No." class="form-control" formControlName="mobile_no">
+            <div *ngIf="f['mobile_no'].touched && f['mobile_no'].errors">
+              <div class="text-danger" *ngIf="f['mobile_no'].errors['required']">*Mobile No. is required</div>
+              <div class="text-danger" *ngIf="f['mobile_no'].errors['pattern']">*Mobile No. should be 10 digits</div>
             </div>
           </div>
         </div>
         <div>
+          <div class="text-danger" *ngIf="userExists">Email ID is already registered.</div>
           <button type="submit" class="btn btn-primary justify-content-center" [disabled]="!registerForm.valid">Register</button>
         </div>
       </form>

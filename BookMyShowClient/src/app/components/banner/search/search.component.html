@@ -1,6 +1,7 @@
-<div class="search-dialog">
-    <form class="form-inline d-flex align-items-center w-100">
-      <div class="input-group w-100">
+<div class="search-container">
+  <div class="search-dialog">
+    <form class="search-form">
+      <div class="input-group">
         <input
           class="form-control"
           type="search"
@@ -11,20 +12,49 @@
       </div>
     </form>
   
-    <!-- Movies Section -->
-    <div *ngIf="arrMovies.length > 0">
-      <h5>Movies</h5>
-      <ul>
-        <li *ngFor="let movie of arrMovies">{{ movie.name }}</li>
+    <!-- Display tabs only if there is data for at least one category -->
+    <mat-tab-group class="tabs" *ngIf="hasData">
+      <mat-tab *ngIf="arrMovies.length > 0" label="Movies">
+        <div class="search-results">
+          <ul class="results-list">
+            <li *ngFor="let movie of arrMovies" class="result-item">{{ movie.name }}</li>
+          </ul>
+        </div>
+      </mat-tab>
+  
+      <mat-tab *ngIf="arrCinemas.length > 0" label="Cinemas">
+        <div class="search-results">
+          <ul class="results-list">
+            <li *ngFor="let cinema of arrCinemas" class="result-item">{{ cinema.name }}</li>
+          </ul>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  
+    <!-- Display a message if no results are found and a search has been performed -->
+    <div *ngIf="!hasData && searchQuery.length > 1 && !loading" class="no-results-message">
+      Sorry, nothing matches your search.
+    </div>
+  </div>
+
+  <!-- Trending Movies and Events Section -->
+  <div class="trending-section my-3">
+    <h4 class="trending-title">
+      <span class="trending-icon">🔥</span> Trending Movies
+    </h4>
+    <div class="trending-list-container">
+      <ul class="trending-list">
+        <li *ngFor="let movie of trendingMovies" class="trending-item">{{ movie.name }}</li>
       </ul>
     </div>
-  
-    <!-- Cinemas Section -->
-    <div *ngIf="arrCinemas.length > 0">
-      <h5>Cinemas</h5>
-      <ul>
-        <li *ngFor="let cinema of arrCinemas">{{ cinema.name }}</li>
+
+    <h4 class="trending-title">
+      <span class="trending-icon">🎉</span> Trending Events
+    </h4>
+    <div class="trending-list-container">
+      <ul class="trending-list">
+        <li *ngFor="let event of trendingEvents" class="trending-item">{{ event.name }}</li>
       </ul>
     </div>
   </div>
-  
+</div>

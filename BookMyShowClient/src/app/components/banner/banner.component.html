@@ -1,85 +1,66 @@
-             <!-- #[x]- Clean the code -->
-              <!-- #FIXME when loggin is done then remove the  login button-->
-            <nav class="container-fluid navbar navbar-expand-lg navbar-light bg-white" id="banner">
-                <div class="d-flex align-items-center w-100">
-                    <!-- Logo -->
-                    <a class="navbar-brand d-flex align-items-center" href="#">
-                        <img class="navbar-logo" src="../../../assets/images/bookmyshow-logo-vector.svg" alt="BookMyShow Logo">
-                    </a>
-                    
-                    <!-- Search Form -->
-                    <form class="form-inline ml-auto d-flex align-items-center w-50" (click)="openSearch()">
-                        <div class="input-group w-100">
-                            <input class="form-control" type="search" placeholder="Search for Movies, Play, Sports and Activities" aria-label="Search" readonly="true">
-                        </div>
-                    </form>
-                    
-                    <!-- Location, Sign In Button, and Menu Icon -->
-                     <!-- #XXX can do as extra feature. Take geolation from user -->
-                     <div class="d-flex align-items-center ml-auto side-right">
-                        <div class="location-dropdown mx-3" (click)="toggleCityDropdown($event)">
-                            Bengaluru
-                            <span class="dropdown-arrow mx-1">&#9662;</span> <!-- Arrow for dropdown -->
-                            <div class="dropdown-menu" [class.show]="isCityDropdownOpen">
-                                <a class="dropdown-item" href="#">Mumbai</a>
-                                <a class="dropdown-item" href="#">Delhi</a>
-                                <a class="dropdown-item" href="#">Chennai</a>
-                                <!-- Add more cities as needed -->
-                            </div>
-                        </div>
-                        
-                        <button class="btn btn-primary btn-sm mx-3" (click)="openAuthDialog()">Sign In</button>
-                        <!-- Menu Icon -->
-                        <span class="navbar-toggler-icon mx-4" (click)="toggleOffcanvas($event)"></span>
-                    </div>
-                </div>
-            </nav>
+<nav class="container-fluid navbar navbar-expand-lg navbar-light bg-white" id="banner">
+    <div class="d-flex align-items-center w-100">
+        <!-- Logo -->
+        <a class="navbar-brand d-flex align-items-center" href="#">
+            <img class="navbar-logo" src="../../../assets/images/bookmyshow-logo-vector.svg" alt="BookMyShow Logo">
+        </a>
         
-
-
-            <!-- Offcanvas Sidebar -->
-            <div class="offcanvas" [class.show]="isOffcanvasOpen">
-                <div class="offcanvas-header">
-                    <h5 class="offcanvas-title mt-4" id="offcanvasExampleLabel">Hey!</h5>
-                    <hr>
-                    <button type="button" class="close" (click)="closeOffcanvas()" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="offcanvas-body">
-                    <ul class="list-unstyled">
-                        <li class="mb-3"><a href="#!" class="text-decoration-none">Login</a></li>
-                        <li class="mb-3"><a href="#!" class="text-decoration-none">View Your Orders</a></li>
-                        <li class="mb-3"><a href="#!" class="text-decoration-none">View Your Profile</a></li>
-                        <li class="mb-3"><a href="#!" class="text-decoration-none">Contact Us</a></li>
-                    </ul>
-                    <hr>
-                </div>
+        <!-- Search Form (Hidden on small devices) -->
+        <form class="form-inline ml-auto d-none d-lg-flex align-items-center w-50" (click)="openSearch()">
+            <div class="input-group w-100">
+                <input class="form-control" type="search" placeholder="Search for Movies, Plays, Sports and Activities" aria-label="Search" readonly>
             </div>
-            <nav mat-tab-nav-bar class="custom-tab-nav-bar">
-                <div class="left-tabs">
-                  <a mat-tab-link
-                     [routerLink]="['/movies']"
-                     routerLinkActive="mat-accent">Movies</a>
-                  <a mat-tab-link
-                     [routerLink]="['/plays']"
-                     routerLinkActive="mat-accent">Plays</a>
-                  <a mat-tab-link
-                     [routerLink]="['/sports']"
-                     routerLinkActive="mat-accent">Sports</a>
-                  <a mat-tab-link
-                     [routerLink]="['/events']"
-                     routerLinkActive="mat-accent">Events</a>
-                  <a mat-tab-link
-                     [routerLink]="['/activities']"
-                     routerLinkActive="mat-accent">Activities</a>
-                </div>
-                <div class="right-tab">
-                  <a mat-tab-link
-                     [routerLink]="['/list-shows']"
-                     routerLinkActive="mat-accent">List Your Shows</a>
-                </div>
-              </nav>
-              
-              
+        </form>
+        
+        <!-- Search Icon (Visible on small devices) -->
+        <div class="d-lg-none ml-auto search-icon" (click)="openSearch()">
+            <img src="../../../assets/images/magnifying-glass-solid.svg" alt="Search">
+        </div>
+        
+        <!-- Location, Sign In Button, and Menu Icon -->
+        <div class="d-flex align-items-center side-right">
+            <div class="location-dropdown mx-2" (click)="promptForCity()">
+                {{ location || 'Select City' }}
+                <span class="dropdown-arrow mx-1">&#9662;</span>
+            </div>                       
+            <button class="btn btn-primary btn-sm mx-2 d-none d-lg-inline" (click)="openAuthDialog()">Sign In</button>
+            <!-- Menu Icon -->
+            <span class="navbar-toggler-icon mx-4" (click)="toggleOffcanvas($event)"></span>
+        </div>
+    </div>
+</nav>
 
+<!-- Offcanvas Sidebar -->
+<div class="offcanvas" [class.show]="isOffcanvasOpen">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title mt-4" id="offcanvasExampleLabel">Hey!</h5>
+        <hr>
+        <button type="button" class="close" (click)="closeOffcanvas()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="offcanvas-body">
+        <ul class="list-unstyled">
+            <li class="mb-3"><a href="#!" class="text-decoration-none">Login</a></li>
+            <li class="mb-3"><a href="#!" class="text-decoration-none">View Your Orders</a></li>
+            <li class="mb-3"><a href="#!" class="text-decoration-none">View Your Profile</a></li>
+            <li class="mb-3"><a href="#!" class="text-decoration-none">Contact Us</a></li>
+        </ul>
+        <hr>
+    </div>
+</div>
+
+<nav mat-tab-nav-bar class="custom-tab-nav-bar">
+    <div class="left-tabs">
+        <a mat-tab-link [routerLink]="['/movies']" routerLinkActive="mat-accent">Movies</a>
+        <a mat-tab-link [routerLink]="['/plays']" routerLinkActive="mat-accent">Plays</a>
+        <a mat-tab-link [routerLink]="['/sports']" routerLinkActive="mat-accent">Sports</a>
+        <a mat-tab-link [routerLink]="['/events']" routerLinkActive="mat-accent">Events</a>
+        <a mat-tab-link [routerLink]="['/activities']" routerLinkActive="mat-accent">Activities</a>
+    </div>
+    <div class="right-tab">
+        <a mat-tab-link [routerLink]="['/list-shows']" routerLinkActive="mat-accent">List Your Shows</a>
+    </div>
+</nav>
+
+<!-- #FIXME -search icon is shown in center. Fix it to the right in mobile version. -->

@@ -3,6 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { AuthComponent } from '../auth/auth.component';
 import { Router } from '@angular/router';
 import { SearchComponent } from './search/search.component';
+import { LocationService } from 'src/app/sharedservice/location.service';
+import { LocationComponent } from '../shared/location/location.component';
 
 @Component({
   selector: 'app-banner',
@@ -11,9 +13,12 @@ import { SearchComponent } from './search/search.component';
 })
 export class BannerComponent implements OnInit {
   isOffcanvasOpen = false;
-  isCityDropdownOpen = false;
-
-  constructor(public dialog: MatDialog,private router: Router) { }
+  location: string | null = null;
+  constructor(public dialog: MatDialog,private router: Router,private locationService:LocationService) {
+    this.locationService.cityName$.subscribe(city => {
+      this.location = city;
+   });
+  }
 
   ngOnInit(): void {}
 
@@ -26,14 +31,19 @@ export class BannerComponent implements OnInit {
     this.isOffcanvasOpen = false;
   }
 
-  toggleCityDropdown(event: Event): void {
-    event.stopPropagation();
-    this.isCityDropdownOpen = !this.isCityDropdownOpen;
+  promptForCity(): void {
+    const dialogRef = this.dialog.open(LocationComponent, {
+      width: '300px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.locationService.setCity(result);
+        // Use the city information as needed
+      }
+    });
   }
 
-  closeCityDropdown(): void {
-    this.isCityDropdownOpen = false;
-  }
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
@@ -44,7 +54,6 @@ export class BannerComponent implements OnInit {
 
     if (!isClickInside) {
       this.closeOffcanvas();
-      this.closeCityDropdown();
     }
   }
   openAuthDialog() {
@@ -69,15 +78,15 @@ export class BannerComponent implements OnInit {
   
   private getDialogHeight(): string {
     if (window.innerHeight <= 600) {
-      return '80vh'; // 80% of the viewport height for small screens
+      return '50vw'; // 80% of the viewport height for small screens
     } else {
-      return '70vh'; // 70% of the viewport height for larger screens
+      return '40vh'; // 70% of the viewport height for larger screens
     }
   }
   openSearch() {
     this.dialog.open(SearchComponent, {
-      width: '100vw',
-      height: '100vh',
+      width: '80vw',
+      height: '80vh',
       panelClass: 'full-screen-dialog'
     });
   }

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-location',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LocationComponent implements OnInit {
 
-  constructor() { }
+  cities: string[] = ['Bengaluru', 'Mumbai', 'Delhi', 'Chennai', 'Hyderabad'];
 
+  constructor(
+    public dialogRef: MatDialogRef<LocationComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {}
+
+  selectCity(city: string) {
+    this.dialogRef.close(city);
+  }
   ngOnInit(): void {
+    
   }
 
 }

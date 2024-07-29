@@ -7,7 +7,8 @@ async function getResults(searchQuery, cityQuery) {
             Movie.find({ name: { $regex: new RegExp(searchQuery, "i") } }).sort({ ratedby: 1 }).limit(5),
             Cinema.find({ name: { $regex: new RegExp(searchQuery, "i") }, city: cityQuery }).sort({ ratedby: 1 }).limit(5)
         ]);
-        // #FIXME- return only the data that is required for the frontend. currently returning the data 
+        // #FIXME- return only the data that is required for the frontend. currently returning the data full
+        // #TODO return currently screening movies and not all movies.
         const movies = moviesResult.status === 'fulfilled' ? moviesResult.value : [];
         const cinemas = cinemasResult.status === 'fulfilled' ? cinemasResult.value : [];
 

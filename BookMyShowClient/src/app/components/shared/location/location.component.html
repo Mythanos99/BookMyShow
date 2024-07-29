@@ -1,1 +1,8 @@
-<p>location works!</p>
+<div class="city-selection-dialog">
+    <h2>Select Your City</h2>
+    <ul class="city-list">
+      <li *ngFor="let city of cities" (click)="selectCity(city)">
+        {{ city }}
+      </li>
+    </ul>
+</div>

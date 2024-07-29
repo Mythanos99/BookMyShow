@@ -28,5 +28,22 @@ function createUser(req, res) {
       res.status(500).json({ message: "Internal server error" });
     });
 }
+function getUserById(req, res) {
+  res.setHeader('Content-Type', 'application/json');
+  const userId = req.params.id;
+  user_service.getUserById(userId)
+    .then(user => {
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      res.status(200).json({
+        
+      });
+    })
+    .catch(error => {
+      console.error("Error processing request:", error);
+      res.status(500).json({ message: "Internal server error" });
+    });
+}
 
-module.exports = { createUser };
+module.exports = { createUser , getUserById};

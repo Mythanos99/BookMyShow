@@ -1,54 +1,53 @@
+import { Time } from "@angular/common";
+import { ObjectId } from "mongodb"; 
 export class Show {
-    id: string;
-    movie_id: number;
-    sport_id: number;
-    play_id: number;
-    event_id: number;
-    activity_id: number;
-    cinema_id: number;
+    identity : string;
+    content_id: ObjectId;
+    location_id: number;
     start_time: Date;
     end_time: Date;
-    date: string;
-    format: string[];
+    date: Date;
+    city: string;
+    language: string;
+    format: string;
     seat_info:Seat[];
   
     constructor(
-      id: string,
-      movie_id: number = 0,
-      sport_id: number = 0,
-      play_id: number = 0,
-      event_id: number = 0,
-      activity_id: number = 0,
-      cinema_id: number = 0,
-      start_time: Date = new Date(),
-      end_time: Date = new Date(),
-      date: string = '',
-      format: string[] = [],
+      identity : string,
+      content_id: ObjectId,
+      location_id: number = 0,
+      start_time: Date,
+      end_time: Date,
+      date: Date = new Date(),
+      city: string = '',
+      laguage: string = '',
+      format: string = '',
       seat_info:Seat[]=[]
     ) {
-      this.id = id;
-      this.movie_id = movie_id;
-      this.sport_id = sport_id;
-      this.play_id = play_id;
-      this.event_id = event_id;
-      this.activity_id = activity_id;
-      this.cinema_id = cinema_id;
+      this.identity = identity;
+      this.content_id = content_id;
+      this.location_id = location_id;
       this.start_time = start_time;
       this.end_time = end_time;
       this.date = date;
+      this.language = laguage;
       this.format = format;
       this.seat_info = seat_info;
+      this.city = city;
     }
   }
 export class Seat{
     type:string;
-    seat_identity:string
+    status:string
+    price:number;
     constructor(
         type:string='',
-        seat_identity:string=''
+        status:string='',
+        price:number=0
     ){
         this.type=type;
-        this.seat_identity=seat_identity;
+        this.status=status;
+        this.price=price;
     }
 }
   

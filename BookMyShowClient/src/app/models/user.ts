@@ -1,5 +1,4 @@
 export class User {
-  id: string;
   username: string;
   mobile_no: string;
   password: string;
@@ -10,7 +9,6 @@ export class User {
   booking_ids: string[];
 
   constructor(
-    id: string,
     username: string,
     mobile_no: string,
     password: string,
@@ -20,7 +18,6 @@ export class User {
     created_at: Date = new Date(),
     booking_ids: string[] = []
   ) {
-    this.id = id;
     this.username = username;
     this.mobile_no = mobile_no;
     this.password = password;

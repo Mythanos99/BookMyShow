@@ -4,19 +4,22 @@ export class Cinema {
     location: Address;
     city: string;
     screens: number;
+    food_service: boolean;
   
     constructor(
       id: string,
       name: string,
       city: string,
+      screens: number,
       location: Address=new Address(),
-      screens: number
+      food_service: boolean=false,
     ) {
       this.id = id;
       this.name = name;
       this.location = location;
       this.screens = screens;
       this.city = city;
+      this.food_service = food_service;
     }
   }
 

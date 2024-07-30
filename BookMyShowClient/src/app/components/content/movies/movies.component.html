@@ -1,0 +1,106 @@
+<div class="container-fluid">
+  <div class="row">
+    <!-- Filters Section -->
+    <div class="col-md-4 col-lg-3 mb-4">
+      <h5>Filters</h5>
+
+      <!-- Language Filter Dropdown -->
+      <div class="dropdown mb-3">
+        <button class="btn btn-secondary dropdown-toggle w-100" type="button" (click)="toggleDropdown('language')">
+          Languages
+        </button>
+        <div class="dropdown-content" *ngIf="isDropdownOpen['language']">
+          <ul class="list-unstyled">
+            <li *ngFor="let language of availableLanguages" class="mb-2">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" [value]="language" [checked]="selectedLanguages.includes(language)" (change)="onCheckboxChange('language', $event)">
+                <label class="form-check-label">
+                  {{ language }}
+                </label>
+              </div>
+            </li>
+          </ul>
+          <div class="filter-actions">
+            <button class="btn btn-link" (click)="clearFilter('language')">Clear</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Genre Filter Dropdown -->
+      <div class="dropdown mb-3">
+        <button class="btn btn-secondary dropdown-toggle w-100" type="button" (click)="toggleDropdown('genre')">
+          Genre
+        </button>
+        <div class="dropdown-content" *ngIf="isDropdownOpen['genre']">
+          <ul class="list-unstyled">
+            <li *ngFor="let genre of genres" class="mb-2">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" [value]="genre" [checked]="selectedGenres.includes(genre)" (change)="onCheckboxChange('genre', $event)">
+                <label class="form-check-label">
+                  {{ genre }}
+                </label>
+              </div>
+            </li>
+          </ul>
+          <div class="filter-actions">
+            <button class="btn btn-link" (click)="clearFilter('genre')">Clear</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Format Filter Dropdown -->
+      <div class="dropdown mb-3">
+        <button class="btn btn-secondary dropdown-toggle w-100" type="button" (click)="toggleDropdown('format')">
+          Format
+        </button>
+        <div class="dropdown-content" *ngIf="isDropdownOpen['format']">
+          <ul class="list-unstyled">
+            <li *ngFor="let format of availableFormats" class="mb-2">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" [value]="format" [checked]="selectedFormat.includes(format)" (change)="onCheckboxChange('format', $event)">
+                <label class="form-check-label">
+                  {{ format }}
+                </label>
+              </div>
+            </li>
+          </ul>
+          <div class="filter-actions">
+            <button class="btn btn-link" (click)="clearFilter('format')">Clear</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Apply Filters Button -->
+      <button class="btn btn-primary w-100" (click)="applyFilters()">Apply Filters</button>
+    </div>
+
+    <!-- Movies Section -->
+    <div class="col-md-8 col-lg-9">
+      <h3>Movies in {{ location }}</h3>
+
+      <!-- Upcoming Movies Section -->
+      <div class="card mb-4">
+        <div class="card-body">
+          <p class="card-text">Check out the latest upcoming movies...</p>
+          <a href="#" class="btn btn-primary">See Upcoming</a>
+        </div>
+      </div>
+
+      <!-- Movies Display -->
+      <div class="row">
+        <div class="col-md-4 col-sm-6 mb-4" *ngFor="let movie of filteredMovies">
+          <div class="card h-100">
+            <img src="../../../../assets/images/sample_movie_poster.jpeg" class="card-img-top" [alt]="movie.name" />
+            <div class="card-body">
+              <h5 class="card-title">{{ movie.name }}</h5>
+              <p class="card-text">{{ movie.description }}</p>
+              <p><strong>Rating:</strong> {{ movie.rating }}</p>
+              <p><strong>Genre:</strong> {{ movie.genre.join(', ') }}</p>
+              <p><strong>Languages:</strong> {{ movie.languages.join(', ') }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

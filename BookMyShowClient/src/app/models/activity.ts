@@ -1,5 +1,4 @@
 export class Activity {
-  id: string;
   name: string;
   description: string;
   duration: number;
@@ -11,7 +10,6 @@ export class Activity {
   public_url: string;
 
   constructor(
-    id: string,
     name: string,
     description: string,
     duration: number,
@@ -22,7 +20,6 @@ export class Activity {
     image_url: string = '',
     public_url: string = ''
   ) {
-    this.id = id;
     this.name = name;
     this.description = description;
     this.duration = duration;

@@ -1,0 +1,37 @@
+.dropdown-content {
+    display: block;
+    background: #f8f9fa;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    margin-top: 5px;
+  
+    .form-check-input:checked + .form-check-label {
+      color: red;
+    }
+  
+    .filter-actions {
+      display: flex;
+      justify-content: flex-end;
+  
+      .btn-link {
+        margin-left: auto;
+        color: #007bff;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+    }
+  }
+  
+  .mb-2 {
+    margin-bottom: 0.5rem !important;
+  }
+  
+  .w-100 {
+    width: 100% !important;
+  }
+  
+  .mt-2 {
+    margin-top: 0.5rem !important;
+  }
+  

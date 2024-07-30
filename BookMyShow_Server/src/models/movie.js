@@ -10,7 +10,9 @@ const movieSchema = new Schema({
   genre: { type: [String], required: true },
   languages: { type: [String], required: true },
   image_url: { type: String, required: true },
-  movie_rated: { type: String, default: 'U' }
+  movie_rated: { type: String, default: 'U' },
+  release_date: { type: Date, required: true },
+  likes: { type: Number, default: 0 },
 }, { timestamps: true });
 
 const Movie = mongoose.model('movies', movieSchema);

@@ -8,7 +8,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class LocationComponent implements OnInit {
 
-  cities: string[] = ['Bengaluru', 'Mumbai', 'Delhi', 'Chennai', 'Hyderabad'];
+  cities: string[] = ['Bangalore', 'Mumbai', 'Delhi', 'Chennai', 'Hyderabad'];
 
   constructor(
     public dialogRef: MatDialogRef<LocationComponent>,

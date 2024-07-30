@@ -10,15 +10,15 @@ async function getAllMovies(req, res) {
         res.status(500).json({ message: "Internal Server Error. Could Not fetch Movies" });
     }
 }
-async function getMoviesBySearch(req,res){
-    res.setHeader('Content-Type', 'application/json');
-    const search=req.params.search;
-    try{
-        const movies=await movie_service.getBySearch(search);
+async function getFilteredMovies(req, res) {
+    try {
+        const filters = req.query;
+        console.log(filters);
+        const movies = await movie_service.getFilteredResult(filters);
         res.status(200).json(movies);
-    }catch(error){
-        res.status(500).json({message:"Internal Server Error. Could not fetch Movies"});
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
 }
 
-module.exports = { getAllMovies,getMoviesBySearch };
+module.exports = { getAllMovies,getFilteredMovies };

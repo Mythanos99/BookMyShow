@@ -1,5 +1,4 @@
 export class Movie {
-  id: string;
   name: string;
   description: string;
   duration: number;
@@ -8,22 +7,23 @@ export class Movie {
   genre: string[];
   languages: string[];
   image_url: string;
-  mvoie_rated:string;
+  movie_rated:string;
+  releaseDate: Date;   // To keep track of upcoming movies.
+  likes: number = 0; 
 
-  // #TODO: Add active tab to show currently active movies.
   constructor(
-    id: string,
     name: string,
     description: string,
     duration: number,
     movie_rated:string='U',
+    releaseDate: Date,
     rating: number = 0,
     ratedby: number = 0,
     genre: string[] = [],
     languages: string[] = [],
     image_url: string = '',
+    likes: number = 0
   ) {
-    this.id = id;
     this.name = name;
     this.description = description;
     this.duration = duration;
@@ -32,7 +32,9 @@ export class Movie {
     this.genre = genre;
     this.languages = languages;
     this.image_url = image_url;
-    this.mvoie_rated=movie_rated;
+    this.movie_rated=movie_rated;
+    this.releaseDate = releaseDate;
+    this.likes = likes;
   }
 }
 

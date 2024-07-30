@@ -21,4 +21,7 @@ export class MovieService {
     return this.http.get<Movie[]>(this.apiUrl+'/movies',this.httpHeader)
     .pipe(catchError(httpError));
   }
+  getFilteredMovies(queryParams: string): Observable<Movie[]> {
+    return this.http.get<Movie[]>(`${this.apiUrl}/movies?${queryParams}`,this.httpHeader);
+  }
 }

@@ -16,7 +16,7 @@ const showSchema = new Schema({
     city:{type:String,required:true},
     language:{type:String,required:true},
     format:{type:String,required:true},
-    seat: { type: [seatSchema], required: true },
+    seat_info: { type: [seatSchema], required: true },
 }, { timestamps: true });
 
 const Show = mongoose.model('shows', showSchema);

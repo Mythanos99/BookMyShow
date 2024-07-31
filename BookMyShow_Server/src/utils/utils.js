@@ -17,6 +17,8 @@ const comparePassword = async (candidatePassword, hashedPassword) => {
   }
 };
 
+
+
 module.exports = {
   hashPassword,
   comparePassword

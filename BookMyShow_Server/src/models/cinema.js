@@ -12,7 +12,8 @@ const cinemaSchema = new Schema({
   name: { type: String, required: true },
   city: { type: String, required: true },
   location: { type: addressSchema, required: true },
-  screens: { type: Number, required: true }
+  screens: { type: Number, required: true },
+  food_service : { type: Boolean, default: false }
 }, { timestamps: true });
 
 const Cinema = mongoose.model('cinemas', cinemaSchema);

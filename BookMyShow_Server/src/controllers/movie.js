@@ -13,7 +13,6 @@ async function getAllMovies(req, res) {
 async function getFilteredMovies(req, res) {
     try {
         const filters = req.query;
-        console.log(filters);
         const movies = await movie_service.getFilteredResult(filters);
         res.status(200).json(movies);
     } catch (error) {
@@ -21,4 +20,32 @@ async function getFilteredMovies(req, res) {
     }
 }
 
-module.exports = { getAllMovies,getFilteredMovies };
+async function getMovieById(req, res) {
+    try {
+        const movie = await movie_service.getById(req.params.id);
+        res.status(200).json(movie);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+async function getUpcomingMovies(req, res) {
+    try {
+        const filters = req.query;
+        const movies = await movie_service.getUpcoming(filters);
+        res.status(200).json(movies);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+async function getMovieFilters(req, res) {
+    try {
+        var location=req.query.location;
+        const filters = await movie_service.getFilters(location);
+        res.status(200).json(filters);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+module.exports = { getAllMovies,getFilteredMovies ,getMovieById,getUpcomingMovies,getMovieFilters};

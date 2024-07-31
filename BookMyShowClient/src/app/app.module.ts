@@ -28,6 +28,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
 import { SearchComponent } from './components/banner/search/search.component';
+import { MovieDetailsComponent } from './components/content/movies/movie-details/movie-details.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { SearchComponent } from './components/banner/search/search.component';
     PageNotFoundComponent,
     AuthComponent,
     RegisterComponent,
-    SearchComponent
+    SearchComponent,
+    MovieDetailsComponent
   ],
   imports: [
     BrowserModule,

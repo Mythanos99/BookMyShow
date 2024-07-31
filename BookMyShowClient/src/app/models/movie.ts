@@ -15,8 +15,8 @@ export class Movie {
     name: string,
     description: string,
     duration: number,
-    movie_rated:string='U',
     releaseDate: Date,
+    movie_rated:string='U',
     rating: number = 0,
     ratedby: number = 0,
     genre: string[] = [],
@@ -35,6 +35,17 @@ export class Movie {
     this.movie_rated=movie_rated;
     this.releaseDate = releaseDate;
     this.likes = likes;
+  }
+}
+
+export class Filters{
+  languages: string[];
+  genres: string[];
+  formats: string[];
+  constructor(languages: string[], genres: string[], formats: string[]){
+    this.languages = languages;
+    this.genres = genres;
+    this.formats = formats;
   }
 }
 

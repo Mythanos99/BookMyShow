@@ -40,3 +40,9 @@ $BookMyShowClient-theme: mat.define-light-theme((
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.btn-custom, .btn-custom:hover, .btn-custom:active, .btn-custom:visited {
+  background-color: #E35E64;
+  color: white;
+  border: none;
+}

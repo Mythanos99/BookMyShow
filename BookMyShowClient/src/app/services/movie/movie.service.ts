@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { httpError } from '../utils/utils';
 import { catchError, Observable } from 'rxjs';
-import { Movie } from 'src/app/models/movie';
+import { Filters, Movie } from 'src/app/models/movie';
 
 @Injectable({
   providedIn: 'root'
@@ -23,5 +23,16 @@ export class MovieService {
   }
   getFilteredMovies(queryParams: string): Observable<Movie[]> {
     return this.http.get<Movie[]>(`${this.apiUrl}/movies?${queryParams}`,this.httpHeader);
+  }
+  getMovieById(id: string): Observable<Movie> {
+    return this.http.get<Movie>(`${this.apiUrl}/movies/${id}`,this.httpHeader)
+    .pipe(catchError(httpError));
+  }
+  getMovieFilters(queryParams: string): Observable<Filters> {
+    return this.http.get<Filters>(`${this.apiUrl}/movies/filters?${queryParams}`,this.httpHeader);
+  }
+  getUpcomingMovies(queryParams: string): Observable<Movie[]> {
+    return this.http.get<Movie[]>(`${this.apiUrl}/movies/upcoming?${queryParams}`,this.httpHeader)
+    .pipe(catchError(httpError));
   }
 }

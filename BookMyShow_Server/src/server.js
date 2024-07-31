@@ -9,6 +9,7 @@ const userRouter = require("./routers/user");
 const authRouter = require("./routers/auth");
 const movieRouter = require("./routers/movies");
 const cinemaRouter = require("./routers/cinema");
+const showRouter = require("./routers/show");
 const search_controller = require("./controllers/search");
 
 app.use(cors({
@@ -24,6 +25,7 @@ app.use('/users', userRouter);
 app.use('/login', authRouter);
 app.use('/movies', movieRouter);
 app.use('/cinemas', cinemaRouter);
-app.get("/search", search_controller.getSearchResult); // Use app.get instead of router.get
+app.use("/shows", showRouter); 
+app.get("/search", search_controller.getSearchResult); // Use app.get instead of router.
 
 const server = app.listen(port, () => console.log(`Server listening on port ${port}!`));

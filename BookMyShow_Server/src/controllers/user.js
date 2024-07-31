@@ -4,7 +4,7 @@ function createUser(req, res) {
   res.setHeader('Content-Type', 'application/json');
 
   const userData = req.body;
-  console.log(userData);
+  // console.log(userData);
   user_service.ifUserExists(userData.username)
     .then((exists) => {
       if (exists) {

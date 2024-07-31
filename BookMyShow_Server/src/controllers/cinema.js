@@ -20,4 +20,6 @@ async function getAllcinemas(req, res) {
     }
 }
 
+
+
 module.exports = { getAllcinemasByCity , getAllcinemas};

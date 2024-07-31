@@ -1,0 +1,25 @@
+<!-- movie-details.component.html -->
+<div class="movie-details-container">
+    <!-- Movie Poster -->
+    <div class="movie-poster">
+      <img src="../../../../../assets/images/sample_wide_poster.png" alt="{{ movie.name }} Poster">
+    </div>
+  
+    <!-- Movie Information -->
+    <div class="movie-info">
+      <h1>{{ movie.name }}</h1>
+      <p class="movie-description">{{ movie.description }}</p>
+      <div class="movie-details">
+        <p><strong>Genre:</strong> {{ movie.genre.join(', ') }}</p>
+        <p><strong>Languages:</strong> {{ movie.languages.join(', ') }}</p>
+        <p><strong>Rating:</strong> {{ movie.rating }}</p>
+        <p><strong>Release Date:</strong> {{ movie.releaseDate | date }}</p>
+      </div>
+    </div>
+  
+    <!-- Book Tickets Button -->
+    <div class="book-tickets">
+      <button class="btn btn-primary" (click)="bookTickets()">Book Tickets</button>
+    </div>
+  </div>
+  

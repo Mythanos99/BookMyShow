@@ -1,0 +1,39 @@
+/* book-tickets.component.scss */
+
+.seats-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap; /* Prevent wrapping */
+  }
+  
+  .seat-wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px; 
+    height: 30px; 
+    margin-right: 5px; /* Default spacing between seats */
+  }
+  
+  .seat-wrapper span {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .seat-wrapper.space {
+    width: 10px; /* Space width */
+    background-color: transparent; /* No background color for spaces */
+    margin-right: 5px; /* Space between seats */
+  }
+  
+  .seat-wrapper.selected {
+    background-color: green;
+    color: white;
+  }
+  
+  .seat-wrapper.unavailable {
+    background-color: grey;
+    color: white;
+  }
+  

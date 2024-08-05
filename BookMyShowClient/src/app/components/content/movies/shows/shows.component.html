@@ -1,0 +1,21 @@
+<div *ngFor="let dateGroup of dateGroups" class="date-section">
+    <h3>{{ dateGroup.date | date: 'fullDate' }}</h3>
+  
+    <div *ngFor="let cinema of dateGroup.cinemas" class="cinema-section">
+      <div class="cinema-details">
+        <h4>{{ cinema.cinema_name }}</h4>
+        <p>{{ cinema.location.house_no }} {{ cinema.location.street }}, {{ cinema.location.area }}, {{ cinema.location.pincode }}</p>
+      </div>
+      <div class="shows-container">
+        <button *ngFor="let show of cinema.shows"
+                mat-raised-button
+                [matTooltip]="getSeatInfo(show)"
+                matTooltipPosition="above"
+                aria-label="Button displaying show timings and seat information" (click)="onShowSelect(show)">
+          {{ show.start_time | date: 'shortTime' }}
+          
+        </button>
+      </div>
+    </div>
+  </div>
+  

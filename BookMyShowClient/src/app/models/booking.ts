@@ -31,5 +31,7 @@ export class Booking {
       this.time = time;
     }
   }
+
+  // #TODO- implement transactions in a atomic fashion.
   
   

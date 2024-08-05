@@ -188,7 +188,6 @@ export class MoviesComponent implements OnInit {
     this.applyFilters();
   }
   fetchMovieDetails(movie: any): void {
-    console.log('Navigating to movie details for ID:', movie._id); // Debugging
     this.router.navigate([`/movies/${movie._id}`]);
   }
   changeViewMode(mode:string):void{
@@ -196,5 +195,8 @@ export class MoviesComponent implements OnInit {
   }
   
 
+  // TODO - make a helper function to build query params
+  // [x]- clean the code
+  // BUG - fix the issue with the upcoming movies
 
 }

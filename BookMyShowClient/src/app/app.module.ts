@@ -29,6 +29,12 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
 import { SearchComponent } from './components/banner/search/search.component';
 import { MovieDetailsComponent } from './components/content/movies/movie-details/movie-details.component';
+import { ShowsComponent } from './components/content/movies/shows/shows.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { BookSeatsComponent } from './components/content/movies/book-seats/book-seats.component';
+import { SplitPipe } from './pipes/split.pipe';
+import { FormsModule } from '@angular/forms';
+import { SelectSeatsNumberComponent } from './components/content/movies/dialog/select-seats-number/select-seats-number.component';
 
 @NgModule({
   declarations: [
@@ -48,14 +54,19 @@ import { MovieDetailsComponent } from './components/content/movies/movie-details
     AuthComponent,
     RegisterComponent,
     SearchComponent,
-    MovieDetailsComponent
+    MovieDetailsComponent,
+    ShowsComponent,
+    BookSeatsComponent,
+    SplitPipe,
+    SelectSeatsNumberComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
     BrowserAnimationsModule,
-    MatTabsModule,MatCardModule,MatDialogModule,MatFormFieldModule,ReactiveFormsModule,MatButtonModule,HttpClientModule
+    MatTabsModule,MatCardModule,MatDialogModule,MatFormFieldModule,ReactiveFormsModule,MatButtonModule,HttpClientModule,
+    MatTooltipModule,FormsModule
   ],
   providers: [
     // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

@@ -8,6 +8,8 @@ import { ActivitiesComponent } from './components/content/activities/activities.
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { PlaysComponent } from './components/content/plays/plays.component';
 import { MovieDetailsComponent } from './components/content/movies/movie-details/movie-details.component';
+import { ShowsComponent } from './components/content/movies/shows/shows.component';
+import { BookSeatsComponent } from './components/content/movies/book-seats/book-seats.component';
 
 const routes: Routes = [
   // #TODO change it to location and add lazy loading. Individual routing for features like movies
@@ -20,6 +22,8 @@ const routes: Routes = [
   { path: 'activities', component: ActivitiesComponent },
   { path: 'plays', component: PlaysComponent },
   { path: '404', component: PageNotFoundComponent },
+  { path: 'shows/:id', component: ShowsComponent},
+  { path: 'book-tickets/:id', component: BookSeatsComponent},
   { path: '**', redirectTo: '404' }
 ];
 

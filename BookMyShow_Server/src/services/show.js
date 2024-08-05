@@ -64,6 +64,16 @@ async function getAvailableShowsByFormat(id, format, location) {
       throw new Error("Error fetching available shows");
     }
   }
+
+  async function getById(id) {  
+   try{
+    const show= await Show.findOne({_id:id});
+    return show;
+   } catch(error){
+    throw new Error("Error fetching show by id");
+   }
+  }
+  // #FIXME- get only the shows that have date grater than today.
   
   
   
@@ -72,5 +82,5 @@ async function getAvailableShowsByFormat(id, format, location) {
   
 
 module.exports={
-    getAvailableShowsByFormat
+    getAvailableShowsByFormat,getById
 }

@@ -4,7 +4,7 @@ const ObjectId = mongoose.Types.ObjectId; // Import ObjectId
 
 const seatSchema = new Schema({
     type: { type: String, required: true },
-    status: { type: String,required:true },
+    status: { type: [String],required:true },
     price: { type: Number, required: true },
 });
 const showSchema = new Schema({

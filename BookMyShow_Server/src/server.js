@@ -26,6 +26,6 @@ app.use('/login', authRouter);
 app.use('/movies', movieRouter);
 app.use('/cinemas', cinemaRouter);
 app.use("/shows", showRouter); 
-app.get("/search", search_controller.getSearchResult); // Use app.get instead of router.
+app.get("/search", search_controller.getSearchResult); 
 
 const server = app.listen(port, () => console.log(`Server listening on port ${port}!`));

@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>Select the number of Seats</h1>
+<div mat-dialog-content>
+  <div *ngFor="let count of seatOptions" class="form-check">
+    <input class="form-check-input" type="radio" name="seatOptions" id="seat{{count}}" [value]="count" [(ngModel)]="selectedSeats">
+    <label class="form-check-label" for="seat{{count}}">
+      {{count}}
+    </label>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button (click)="selectSeats()">Select Seats</button>
+</div>

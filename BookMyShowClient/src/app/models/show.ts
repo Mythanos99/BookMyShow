@@ -38,11 +38,11 @@ export class Show {
   }
 export class Seat{
     type:string;
-    status:string
+    status:string[]
     price:number;
     constructor(
         type:string='',
-        status:string='',
+        status:string[]=[],
         price:number=0
     ){
         this.type=type;
@@ -50,4 +50,6 @@ export class Seat{
         this.price=price;
     }
 }
+
+// #TODO- add screen number option in show model.
   

@@ -12,4 +12,14 @@ async function getShowByMovieId(req,res){
     }
 }
 
-module.exports={getShowByMovieId};
+async function getShowById(req,res){
+    try {
+        const id = req.params.id;
+        const show = await show_service.getById(id);
+        res.status(200).json(show);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+module.exports={getShowByMovieId,getShowById};

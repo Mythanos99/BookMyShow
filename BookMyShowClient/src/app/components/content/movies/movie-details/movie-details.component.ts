@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MovieService } from 'src/app/services/movie/movie.service';
 import { Movie } from 'src/app/models/movie';
+import { LocationService } from 'src/app/sharedservice/location.service';
 
 @Component({
   selector: 'app-movie-details',
@@ -10,13 +11,15 @@ import { Movie } from 'src/app/models/movie';
 })
 export class MovieDetailsComponent implements OnInit {
   movie: Movie= new Movie('','',0,new Date());
-
-  constructor(private route: ActivatedRoute, private movieService: MovieService, private router: Router) {}
+  movieId: string| null= null;
+  selectedFormat: string | null = 'IMAX';
+  location: string | null = null;
+  constructor(private route: ActivatedRoute, private movieService: MovieService, private router: Router,private locationService:LocationService) {}
 
   ngOnInit(): void {
-    const movieId = this.route.snapshot.paramMap.get('id');
-    if (movieId) {
-      this.movieService.getMovieById(movieId).subscribe(
+    this.movieId = this.route.snapshot.paramMap.get('id');
+    if (this.movieId) {
+      this.movieService.getMovieById(this.movieId).subscribe(
         (movie) => {
           this.movie = movie;
         },
@@ -25,11 +28,18 @@ export class MovieDetailsComponent implements OnInit {
         }
       );
     }
+    this.locationService.cityName$.subscribe(city => {
+      this.location = city;
+    });
   }
 
   bookTickets(): void {
-    // if (this.movie) {
-    //   this.router.navigate(['/book', this.movie.id]); // Adjust the route as needed
-    // }
+    if (this.movie) {
+      const queryParams = {
+        format: this.selectedFormat,
+        location: this.location,
+      };
+      this.router.navigate(['/shows', this.movieId], { queryParams });
+    }
   }
 }

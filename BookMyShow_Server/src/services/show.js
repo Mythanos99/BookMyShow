@@ -75,12 +75,22 @@ async function getAvailableShowsByFormat(id, format, location) {
   }
   // #FIXME- get only the shows that have date grater than today.
   
-  
+  async function updateSeat(showId,seat_info){
+    try{
+      const show=await Show.findOne({_id:showId});
+      show.seat_info=seat_info;
+      const result=await show.save(); 
+      // #FIXME- check if this is the right method for updating the database.
+      return result;
+    }catch(error){
+      throw new Error("Error updating show seat info");
+    }
+  } 
   
 
 //   #FIXME- need to check the working of this by getting more data.
   
 
 module.exports={
-    getAvailableShowsByFormat,getById
+    getAvailableShowsByFormat,getById,updateSeat
 }

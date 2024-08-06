@@ -121,7 +121,6 @@ async function getUpcoming(filters) {
         query.genre = { $in: filters.genre.split("|") };
         }
         // #TODO- make a split filter utils function that splits the  filters on the basis of the particular word.
-        console.log(query);
         const movies = await Movie.aggregate([
             { $match: query }, // Match the provided query
             {

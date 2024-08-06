@@ -1,10 +1,17 @@
+interface Booking {
+  categoryId: number;
+  rowId: number;
+  seatName: string;
+  seatId: number;
+}
+
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ObjectId } from 'mongodb';
-import { Show } from 'src/app/models/show';
 import { ShowService } from 'src/app/services/show/show.service';
 import { SelectSeatsNumberComponent } from '../dialog/select-seats-number/select-seats-number.component';
 import { MatDialog } from '@angular/material/dialog';
+import { BookingService } from 'src/app/services/booking/booking.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -12,6 +19,7 @@ import { MatDialog } from '@angular/material/dialog';
   templateUrl: './book-seats.component.html',
   styleUrls: ['./book-seats.component.scss']
 })
+
 export class BookSeatsComponent implements OnInit {
   
   show: any = null;
@@ -25,8 +33,12 @@ export class BookSeatsComponent implements OnInit {
   last_seat_number=0;
   row_number_tracker=0;
   seatOptions: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; 
+  showPaymentGateway: boolean = false;
+  Booking_details: Booking[] = [];
   
-  constructor(private dialog: MatDialog,private showService: ShowService, private route: ActivatedRoute) {}
+  constructor(private dialog: MatDialog,private showService: ShowService, private route: ActivatedRoute,
+    private bookingService: BookingService,private _snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.showId = this.route.snapshot.paramMap.get('id');
@@ -123,12 +135,53 @@ export class BookSeatsComponent implements OnInit {
       }
     }
     bookSeats(): void {
-      this.selectedSeats.forEach(seat => {
-        var j=this.rowMap.get(seat[0]+seat[1]);
-        var p=this.seatsmap.get(seat);
-        console.log(`Booking seat ${j}${p}`);
-      });
+        const booking:Booking[]=[];
+        this.selectedSeats.forEach(seat => {
+            console.log(seat);
+            
+            const categoryId = this.getRowNumber(seat[0]);
+            const rowId = this.getRowNumber(seat[1]);
+            const seatNumber = this.seatsmap.get(seat);
+            
+            let seatId = parseInt(seat[2], 10);
+            if (seat[3]) {
+                seatId = seatId * 10 + parseInt(seat[3], 10);
+            }
+            seatId = seatId - 1;
+            
+            const rowName = this.getRowName(categoryId, rowId);
+            const seatName = `${rowName}${seatNumber}`;
+            
+            const obj = { categoryId, rowId, seatName, seatId };
+            booking.push(obj);
+            
+            console.log(seatName, categoryId, rowId, seatId);
+            // this._snackBar.open(`Booking seat ${seatName}`, 'Close');
+        });
+        
+        const bookingData={ userId: '60b9b3b3b3b3b3b3b3b3b3b3', booking: booking };
+    if (this.showId) {
+        this.bookingService.VerifyBookingDetails(this.showId, bookingData).subscribe(
+            response => {
+                console.log(response.message);
+                this.Booking_details=booking;
+                this.showPaymentGateway = true;
+
+
+            },
+            // TODO- dont display message in snack bar use proper dialog box
+            error => {
+                if (error.error.message === "One or more seats are already booked") {
+                    this._snackBar.open('One or more seats are already booked', 'Close');
+                } else {
+                    this._snackBar.open('An error occurred during booking', 'Close');
+                }
+                this.selectedSeats.clear();
+                this.requiredSeats = this.noOfTickets;
+            }
+        );
     }
+  }
     openSeatSelectionDialog(): void {
       const dialogRef = this.dialog.open(SelectSeatsNumberComponent, {
         width: '300px',
@@ -144,7 +197,8 @@ export class BookSeatsComponent implements OnInit {
         }
       });
     }
-    
-
 }
 
+// #FIXME- no need to show url and all in the error message.
+
+// #[x]- clean the code. Bad logic implemented.

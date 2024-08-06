@@ -18,6 +18,5 @@ async function getResults(searchQuery, cityQuery) {
     }
 }
 
-module.exports = { getResults };
 
 module.exports = { getResults };

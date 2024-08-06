@@ -10,6 +10,7 @@ const authRouter = require("./routers/auth");
 const movieRouter = require("./routers/movies");
 const cinemaRouter = require("./routers/cinema");
 const showRouter = require("./routers/show");
+const bookingRouter = require("./routers/booking");
 const search_controller = require("./controllers/search");
 
 app.use(cors({
@@ -26,6 +27,7 @@ app.use('/login', authRouter);
 app.use('/movies', movieRouter);
 app.use('/cinemas', cinemaRouter);
 app.use("/shows", showRouter); 
+app.use("/booking",bookingRouter);
 app.get("/search", search_controller.getSearchResult); 
 
 const server = app.listen(port, () => console.log(`Server listening on port ${port}!`));

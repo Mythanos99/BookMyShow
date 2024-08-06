@@ -35,6 +35,8 @@ import { BookSeatsComponent } from './components/content/movies/book-seats/book-
 import { SplitPipe } from './pipes/split.pipe';
 import { FormsModule } from '@angular/forms';
 import { SelectSeatsNumberComponent } from './components/content/movies/dialog/select-seats-number/select-seats-number.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { PaymentGatewayComponent } from './components/content/movies/payment-gateway/payment-gateway.component'; 
 
 @NgModule({
   declarations: [
@@ -58,7 +60,8 @@ import { SelectSeatsNumberComponent } from './components/content/movies/dialog/s
     ShowsComponent,
     BookSeatsComponent,
     SplitPipe,
-    SelectSeatsNumberComponent
+    SelectSeatsNumberComponent,
+    PaymentGatewayComponent
   ],
   imports: [
     BrowserModule,
@@ -66,7 +69,7 @@ import { SelectSeatsNumberComponent } from './components/content/movies/dialog/s
     NgbModule,
     BrowserAnimationsModule,
     MatTabsModule,MatCardModule,MatDialogModule,MatFormFieldModule,ReactiveFormsModule,MatButtonModule,HttpClientModule,
-    MatTooltipModule,FormsModule
+    MatTooltipModule,FormsModule,MatSnackBarModule
   ],
   providers: [
     // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

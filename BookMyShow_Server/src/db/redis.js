@@ -1,10 +1,8 @@
 const Redis = require('ioredis');
 
-// Configure Redis client
 const redis = new Redis({
-  host: 'localhost', // Redis server host
-  port: 6379,        // Redis server port
-  // password: 'your-redis-password', // Uncomment if Redis requires a password
+  host: 'localhost',
+  port: 6379,        
 });
 
 // Function to test Redis connection
@@ -26,5 +24,7 @@ async function testRedis() {
   }
 }
 
-// Run the test function
-testRedis();
+module.exports = redis;
+
+// #TODO- close the redis connection after shutdown. Close the mongoDb connection also.
+

@@ -1,0 +1,25 @@
+<div class="event-details-container">
+    <!-- Event Poster -->
+    <div class="event-poster">
+      <img [src]="event.image_url" alt="{{ event.name }} Poster">
+    </div>
+  
+    <!-- Event Information -->
+    <div class="event-info">
+      <h1>{{ event.name }}</h1>
+      <p class="event-description">{{ event.description }}</p>
+      <div class="event-details">
+        <p><strong>Genre:</strong> {{ event.genre }}</p>
+        <p><strong>Languages:</strong> {{ event.languages.join(', ') }}</p>
+        <p><strong>Rating:</strong> {{ event.rating }} ({{ event.ratedby }} votes)</p>
+        <button class="btn btn-custom" (click)="rateNow()">Rate Now</button>
+        <p><strong>Duration:</strong> {{ event.duration }} minutes</p>
+      </div>
+    </div>
+  
+    <!-- Book Tickets Button -->
+    <div class="book-tickets">
+      <button class="btn btn-primary" (click)="bookTickets()">Book Tickets</button>
+    </div>
+  </div>
+  

@@ -1,0 +1,6 @@
+export const DateGroup=['Today','This Weekend','Next Week']
+export const Language=['English','Hindi','Tamil','Telugu','Kannada','Malayalam','Bengali','Gujarati','Marathi']
+export const Event_category=['Comedy','Music','Art','Drama']
+export const Sport_category=['Cricket','Running']
+export const Play_category=['Comedy','Music','Art','Drama']
+export const Activities_category=['Wellness','Historical','Food','Drama']

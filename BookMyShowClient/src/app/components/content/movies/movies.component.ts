@@ -22,7 +22,7 @@ export class MoviesComponent implements OnInit {
   viewMode:string='current';
   private initialLoad = true;
   isDropdownOpen: { [key: string]: boolean } = {
-    language: false,
+    language: true,
     genre: false,
     format: false
   };
@@ -193,6 +193,8 @@ export class MoviesComponent implements OnInit {
   changeViewMode(mode:string):void{
     this.viewMode=mode;
   }
+
+  // #FIXME- lot of useless code present. Clean it
   
 
   // TODO - make a helper function to build query params

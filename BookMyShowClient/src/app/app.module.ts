@@ -36,7 +36,10 @@ import { SplitPipe } from './pipes/split.pipe';
 import { FormsModule } from '@angular/forms';
 import { SelectSeatsNumberComponent } from './components/content/movies/dialog/select-seats-number/select-seats-number.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { PaymentGatewayComponent } from './components/content/movies/payment-gateway/payment-gateway.component'; 
+import { PaymentGatewayComponent } from './components/content/movies/payment-gateway/payment-gateway.component';
+import { RatingDialogComponent } from './components/shared/rating-dialog/rating-dialog.component'; 
+import {MatSliderModule} from '@angular/material/slider';
+import { EventDetailsComponent } from './components/content/events/event-details/event-details.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +64,9 @@ import { PaymentGatewayComponent } from './components/content/movies/payment-gat
     BookSeatsComponent,
     SplitPipe,
     SelectSeatsNumberComponent,
-    PaymentGatewayComponent
+    PaymentGatewayComponent,
+    RatingDialogComponent,
+    EventDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -69,7 +74,7 @@ import { PaymentGatewayComponent } from './components/content/movies/payment-gat
     NgbModule,
     BrowserAnimationsModule,
     MatTabsModule,MatCardModule,MatDialogModule,MatFormFieldModule,ReactiveFormsModule,MatButtonModule,HttpClientModule,
-    MatTooltipModule,FormsModule,MatSnackBarModule
+    MatTooltipModule,FormsModule,MatSnackBarModule,MatSliderModule
   ],
   providers: [
     // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

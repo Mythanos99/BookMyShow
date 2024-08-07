@@ -5,10 +5,8 @@ export class Sport {
   duration: number;
   rating: number;
   ratedby: number;
-  genre: string;
-  languages: string[];
+  category: string;
   image_url: string;
-  public_url: string;
 
   constructor(
     id: string,
@@ -17,7 +15,7 @@ export class Sport {
     duration: number,
     rating: number = 0,
     ratedby: number = 0,
-    genre: string = '',
+    category: string = '',
     languages: string[] = [],
     image_url: string = '',
     public_url: string = ''
@@ -28,9 +26,7 @@ export class Sport {
     this.duration = duration;
     this.rating = rating;
     this.ratedby = ratedby;
-    this.genre = genre;
-    this.languages = languages;
+    this.category = category;
     this.image_url = image_url;
-    this.public_url = public_url;
   }
 }

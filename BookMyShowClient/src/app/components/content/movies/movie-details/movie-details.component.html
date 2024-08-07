@@ -12,7 +12,8 @@
       <div class="movie-details">
         <p><strong>Genre:</strong> {{ movie.genre.join(', ') }}</p>
         <p><strong>Languages:</strong> {{ movie.languages.join(', ') }}</p>
-        <p><strong>Rating:</strong> {{ movie.rating }}</p>
+        <p><strong>Rating:</strong> {{ movie.rating }} ({{movie.ratedby}} votes)</p>
+        <button class="btn btn-custom" (click)="rateNow()">Rate Now</button>
         <p><strong>Release Date:</strong> {{ movie.releaseDate | date }}</p>
       </div>
     </div>

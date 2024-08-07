@@ -1,5 +1,7 @@
-export class Event {
-  id: string;
+import { Review } from "./review";
+
+export class Events {
+  id?: string;
   name: string;
   description: string;
   duration: number;
@@ -8,10 +10,9 @@ export class Event {
   genre: string;
   languages: string[];
   image_url: string;
-  public_url: string;
+  reviews: Review[];
 
   constructor(
-    id: string,
     name: string,
     description: string,
     duration: number,
@@ -20,9 +21,8 @@ export class Event {
     genre: string = '',
     languages: string[] = [],
     image_url: string = '',
-    public_url: string = ''
+    reviews: Review[] = [] 
   ) {
-    this.id = id;
     this.name = name;
     this.description = description;
     this.duration = duration;
@@ -31,6 +31,8 @@ export class Event {
     this.genre = genre;
     this.languages = languages;
     this.image_url = image_url;
-    this.public_url = public_url;
+    this.reviews = reviews;
   }
 }
+// #TODO- in this model check if _id is needed to be defined.
+// #TODO- I think it will be better to have separate model for eventResponse and EventRequest

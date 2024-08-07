@@ -49,3 +49,5 @@ async function getMovieFilters(req, res) {
     }
 }
 module.exports = { getAllMovies,getFilteredMovies ,getMovieById,getUpcomingMovies,getMovieFilters};
+
+// .#FIXME- res.set header not added to all. Maintain code consistentcy.

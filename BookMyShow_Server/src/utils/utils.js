@@ -1,4 +1,9 @@
 const bcrypt = require('bcryptjs');
+const Movie = require('../models/movie');
+const Event = require('../models/event');
+const Play = require('../models/play');
+const Sport = require('../models/sport');
+const Activity = require('../models/activity');
 
 const hashPassword = async (password) => {
   try {
@@ -50,11 +55,43 @@ function getDayGroupInfo(DayGroup) {
 }
 // #BUG- if multiple dayGroups then nothing is considered.
 
+/**
+ * Get the Mongoose model based on the entity type.
+ * @param {string} entity - The type of entity (MOV, EVE, PLY, SPO, ACT).
+ * @returns {Model} The Mongoose model for the entity.
+ */
+function getModelName(entity) {
+  let model;
+
+  switch (entity) {
+    case 'MOV':
+      model = Movie;
+      break;
+    case 'EVE':
+      model = Event;
+      break;
+    case 'PLY':
+      model = Play;
+      break;
+    case 'SPO':
+      model = Sport;
+      break;
+    case 'ACT':
+      model = Activity;
+      break;
+    default:
+      console.error(`Unknown entity type: ${entity}`);
+      throw new Error('Invalid entity type');
+  }
+
+  return model;
+}
 
 
 
 module.exports = {
   hashPassword,
   comparePassword,
-  getDayGroupInfo
+  getDayGroupInfo,
+  getModelName
 };

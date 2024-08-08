@@ -40,6 +40,7 @@ import { PaymentGatewayComponent } from './components/content/movies/payment-gat
 import { RatingDialogComponent } from './components/shared/rating-dialog/rating-dialog.component'; 
 import {MatSliderModule} from '@angular/material/slider';
 import { EventDetailsComponent } from './components/content/events/event-details/event-details.component';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,7 @@ import { EventDetailsComponent } from './components/content/events/event-details
     NgbModule,
     BrowserAnimationsModule,
     MatTabsModule,MatCardModule,MatDialogModule,MatFormFieldModule,ReactiveFormsModule,MatButtonModule,HttpClientModule,
-    MatTooltipModule,FormsModule,MatSnackBarModule,MatSliderModule
+    MatTooltipModule,FormsModule,MatSnackBarModule,MatSliderModule,MatInputModule
   ],
   providers: [
     // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

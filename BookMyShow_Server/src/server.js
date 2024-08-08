@@ -2,7 +2,10 @@ const express = require('express');
 require('dotenv').config();
 const port = process.env.PORT || 3000;
 const app = express();
+
 require("./db/mongoose");
+require('./cronjob');
+
 const cors = require('cors');
 
 const userRouter = require("./routers/user");
@@ -17,7 +20,7 @@ const playRouter = require("./routers/play");
 const activityRouter = require("./routers/activity");
 const unifiedShowsRouter = require("./routers/unifiedShows")
 const search_controller = require("./controllers/search");
-
+const rating_controller = require("./controllers/rating");
 app.use(cors({
     // origin: 'http://localhost:4200',   #FIXME: Change this to the frontend URL when deploying
     origin: '*',
@@ -39,6 +42,7 @@ app.use("/sports", sportRouter);
 app.use("/plays", playRouter);
 app.use("/activities", activityRouter);
 app.use("/unifiedShows", unifiedShowsRouter)
+app.post("/add-rating",rating_controller.addRating);
 
 
 

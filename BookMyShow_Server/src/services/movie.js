@@ -79,7 +79,7 @@ async function getFilters(location) {
           }
         },
       ]);
-      console.log(result);
+      // console.log(result);
       
       if (result.length > 0) {
         return {

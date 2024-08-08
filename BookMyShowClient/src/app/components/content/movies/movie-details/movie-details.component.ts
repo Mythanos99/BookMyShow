@@ -5,6 +5,7 @@ import { Movie } from 'src/app/models/movie';
 import { LocationService } from 'src/app/sharedservice/location.service';
 import { MatDialog } from '@angular/material/dialog';
 import { RatingDialogComponent } from 'src/app/components/shared/rating-dialog/rating-dialog.component';
+import { RatingService } from 'src/app/services/rating/rating.service';
 
 @Component({
   selector: 'app-movie-details',
@@ -18,7 +19,7 @@ export class MovieDetailsComponent implements OnInit {
   location: string | null = null;
   constructor(private route: ActivatedRoute, private movieService: MovieService, private router: Router,
     private locationService:LocationService,
-    public dialog: MatDialog
+    public dialog: MatDialog, private ratingService:RatingService
   ) {}
 
   ngOnInit(): void {
@@ -57,10 +58,15 @@ export class MovieDetailsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log('Rating:', result.rating);
-        console.log('Review:', result.review);
-        // You can send this data to your server here
-      }
-    });
+        const payload={entity:"MOV",userId:"66a0a30bea454966838c2793",entityId:this.movieId,rating:result.rating,review:result.review};
+        this.ratingService.rateEntity(payload).subscribe(
+          (response: any) => {
+            console.log('Rating submitted successfully', response);
+          },
+          (error:any) => {
+            console.error('Error submitting rating', error);
+          }
+        );
+    }});
   }
 }

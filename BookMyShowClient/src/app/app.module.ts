@@ -41,6 +41,9 @@ import { RatingDialogComponent } from './components/shared/rating-dialog/rating-
 import {MatSliderModule} from '@angular/material/slider';
 import { EventDetailsComponent } from './components/content/events/event-details/event-details.component';
 import { MatInputModule } from '@angular/material/input';
+import { UserProfileComponent } from './components/user/user-profile/user-profile.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -67,7 +70,8 @@ import { MatInputModule } from '@angular/material/input';
     SelectSeatsNumberComponent,
     PaymentGatewayComponent,
     RatingDialogComponent,
-    EventDetailsComponent
+    EventDetailsComponent,
+    UserProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -75,7 +79,7 @@ import { MatInputModule } from '@angular/material/input';
     NgbModule,
     BrowserAnimationsModule,
     MatTabsModule,MatCardModule,MatDialogModule,MatFormFieldModule,ReactiveFormsModule,MatButtonModule,HttpClientModule,
-    MatTooltipModule,FormsModule,MatSnackBarModule,MatSliderModule,MatInputModule
+    MatTooltipModule,FormsModule,MatSnackBarModule,MatSliderModule,MatInputModule,MatDatepickerModule,MatNativeDateModule
   ],
   providers: [
     // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

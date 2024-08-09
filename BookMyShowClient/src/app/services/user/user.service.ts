@@ -21,4 +21,8 @@ export class UserService {
     return this.http.post<Response>(this.apiUrl+'/users',payload,this.httpHeader)
     .pipe(catchError(httpError));;
   }
+  getUserById(id: string): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/users/${id}`,this.httpHeader)
+    .pipe(catchError(httpError));
+  }
 }

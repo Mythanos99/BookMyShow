@@ -5,6 +5,7 @@ const user_controller = require("../controllers/user");
 //Create a User
 router.post("/",user_controller.createUser);
 router.get("/:id",user_controller.getUserById);
+router.put("/:id",user_controller.updateUserById);
 
 // #TODO- add a middleware to check if the user is authenticated
 

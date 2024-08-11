@@ -1,6 +1,8 @@
 const booking_service = require("../services/booking");
 const payment_service = require("../services/payment");
 const show_service = require("../services/show");
+
+
 async function bookShow(req, res) {
   res.setHeader("Content-Type", "application/json");
   try {
@@ -44,13 +46,14 @@ async function bookSeat(req, res) {
     const {Payment,Booking,seat_info}=req.body;
     const showId=Payment.show_id;
     const paymentid= await payment_service.makePayment(Payment);
-    console.log(paymentid);
+    // console.log(paymentid);
     if(paymentid){
       const updatedBooking = { ...Booking, transaction_id: paymentid };
-      console.log(updatedBooking);
+      // console.log(updatedBooking);
       const result= await booking_service.createBooking(updatedBooking);
-      console.log(result);
-      if(result){
+      const recentBooking=await booking_service.AddRecentBooking(updatedBooking);
+      // console.log(result);
+      if(result && recentBooking){
         const updateSeat=await show_service.updateSeat(showId,seat_info);
         return res.status(200).json({message:"Seats Booked Successfully"});
       }
@@ -65,7 +68,32 @@ async function bookSeat(req, res) {
     res.status(500).json({ message: "Internal Server Error. Could Not Book Seat" });
   }
 }
-module.exports = { bookShow ,bookSeat};
+
+async function getAllBookingsForUser(req, res) {
+  res.setHeader("Content-Type", "application/json");
+  try{
+    const userId = req.params.id;
+    const bookings = await booking_service.getAllBookingsForUser(userId);
+    return res.status(200).json(bookings);
+  }catch(error){
+    console.error('Error getting all bookings for user:', error);
+    res.status(500).json({ message: "Internal Server Error. Could Not Get Bookings" });
+  }
+}
+
+async function getRecentBookings(req, res) {
+  res.setHeader("Content-Type", "application/json");
+  try{
+    const userId = req.params.id;
+    const bookings = await booking_service.getRecentBookingsForUser(userId);
+    return res.status(200).json(bookings);
+  }catch(error){
+    console.error('Error getting all bookings for user:', error);
+    res.status(500).json({ message: "Internal Server Error. Could Not Get Bookings" });
+  }
+}
+
+module.exports = { bookShow ,bookSeat,getAllBookingsForUser,getRecentBookings};
 
 // #TODO- check if thise res.json needed to be written in the separate utils functions or same funciton
 

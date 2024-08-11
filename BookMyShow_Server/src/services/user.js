@@ -30,4 +30,26 @@ async function ifUserExists(username) {
     });
 }
 
-module.exports = { createUser , ifUserExists};
+async function getById(id) {
+  try {
+    const user = await User.findById(id, { password: 0, createdAt: 0, updatedAt: 0 ,__v:0});
+    return user;
+  } catch (error) {
+    throw new Error('Error getting user');
+  }
+}
+async function updateById(id,data) {
+  try{
+    const user=await User.updateOne({_id:id},data);
+    return user; 
+    // #TODO- here see what we need to return. A successful message may be
+  } catch (error) {
+    throw new Error('Error updating user');
+  }
+}
+
+
+
+module.exports = { createUser , ifUserExists,getById,updateById};
+// #FIXME- change the .then .catch to async await
+// #

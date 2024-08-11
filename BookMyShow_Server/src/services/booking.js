@@ -1,6 +1,8 @@
 const redis=require('../db/redis');
 const show_service=require('../services/show');
 const Booking=require('../models/booking');
+const RecentBooking=require('../models/recentBooking');
+
 async function isSeatAvaialble(showKey){
     try{
         const seats=await redis.get(showKey);
@@ -46,6 +48,45 @@ async function createBooking(booking){
     }
 }
 
+async function AddRecentBooking(booking){
+    try{
+        const userId=booking.user_id;
+        const recentBooking=await RecentBooking.findOne({user_id:userId});
+        if(!recentBooking){
+            const newRecentBooking=new RecentBooking({user_id:userId,last_bookings:[booking]});
+            const result=await newRecentBooking.save();
+            return result;
+        }
+        if(recentBooking.last_bookings.length===3){
+            recentBooking.last_bookings.shift();
+        }
+        recentBooking.last_bookings.push(booking);
+        const result=await recentBooking.save();
+        return result;
+    } catch(error){
+        console.error('Error Adding Recent Booking',error);
+    }
+}
+
+async function getAllBookingsForUser(userId){
+    try{
+        const bookings=await Booking.find({user_id:userId},{__v:0,createdAt:0,updatedAt:0});
+        return bookings;
+    }catch(error){
+        console.error('Error Getting All Bookings For User',error);
+    }
+}
+
+async function getRecentBookingsForUser(userId){
+    try{
+        const bookings=await RecentBooking.find({user_id:userId},{__v:0,createdAt:0,updatedAt:0});
+        return bookings;
+    }catch(error){
+        console.error('Error Getting Recent Bookings For User',error);
+    }
+}
 
 
-module.exports={isSeatAvaialble,ReserveSeat,isBooked,createBooking};
+module.exports={isSeatAvaialble,ReserveSeat,isBooked,createBooking,getAllBookingsForUser,getRecentBookingsForUser,
+    AddRecentBooking
+};

@@ -12,6 +12,7 @@ import { ShowsComponent } from './components/content/movies/shows/shows.componen
 import { BookSeatsComponent } from './components/content/movies/book-seats/book-seats.component';
 import { EventDetailsComponent } from './components/content/events/event-details/event-details.component';
 import { UserProfileComponent } from './components/user/user-profile/user-profile.component';
+import { UserBookingsComponent } from './components/user/user-bookings/user-bookings.component';
 
 const routes: Routes = [
   // #TODO change it to location and add lazy loading. Individual routing for features like movies
@@ -28,6 +29,7 @@ const routes: Routes = [
   { path: 'shows/:id', component: ShowsComponent},
   { path: 'book-tickets/:id', component: BookSeatsComponent},
   { path: 'my-profile', component:UserProfileComponent},
+  { path: 'my-bookings', component:UserBookingsComponent},
   { path: '**', redirectTo: '404' }
 ];
 

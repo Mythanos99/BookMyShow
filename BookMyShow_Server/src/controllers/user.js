@@ -29,22 +29,31 @@ function createUser(req, res) {
       //#TODO- in this case, we should log the error to a file. Also take help of a logger library like winston. Take help of acknowledgement flag from the db
     });
 }
-function getUserById(req, res) {
+async function getUserById(req, res) {
   res.setHeader('Content-Type', 'application/json');
-  const userId = req.params.id;
-  user_service.getUserById(userId)
-    .then(user => {
-      if (!user) {
-        return res.status(404).json({ message: "User not found" });
-      }
-      res.status(200).json({
-        
-      });
-    })
-    .catch(error => {
-      console.error("Error processing request:", error);
-      res.status(500).json({ message: "Internal server error" });
-    });
+  try{
+    const id=req.params.id;
+    const user=await user_service.getById(id);
+    return res.status(200).json(user);
+  } catch (error) {
+    console.error("Error getting user:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
 }
 
-module.exports = { createUser , getUserById};
+async function updateUserById(req, res) {
+  res.setHeader('Content-Type', 'application/json');
+  try{
+    const id=req.params.id;
+    const data=req.body;
+    const user=await user_service.updateById(id,data);
+    return res.status(200).json(user);
+  } catch (error) {
+    console.error("Error updating user:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+module.exports = { createUser , getUserById,updateUserById};
+
+// #FIXME- change the .then .catch to async await

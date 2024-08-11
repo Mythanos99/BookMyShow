@@ -44,6 +44,7 @@ import { MatInputModule } from '@angular/material/input';
 import { UserProfileComponent } from './components/user/user-profile/user-profile.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
+import { UserBookingsComponent } from './components/user/user-bookings/user-bookings.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import {MatNativeDateModule} from '@angular/material/core';
     PaymentGatewayComponent,
     RatingDialogComponent,
     EventDetailsComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    UserBookingsComponent
   ],
   imports: [
     BrowserModule,

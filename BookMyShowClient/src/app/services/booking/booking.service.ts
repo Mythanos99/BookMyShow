@@ -22,6 +22,13 @@ export class BookingService {
   BookTickets(bookingDetails:any):Observable<any>{
     return this.http.post<any>(this.apiUrl+'/booking',bookingDetails,this.httpHeader)
   }
+  getRecentBookingsOfUser(id:string):Observable<any>{
+    return this.http.get<any>(this.apiUrl+'/booking/recent/'+id,this.httpHeader)
+  }
+  getAllBookingsOfUser(id:string):Observable<any>{
+    return this.http.get<any>(this.apiUrl+'/booking/user/'+id,this.httpHeader)
+  }
+
 }
 
 // #FIXME- convert these response and request to correct types.

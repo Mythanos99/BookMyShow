@@ -71,3 +71,5 @@ export class MovieDetailsComponent implements OnInit {
     // #FIXME- UserId hardcoded
   }
 }
+
+// #TODO- add a warning if movie is A rated.

@@ -25,4 +25,8 @@ export class UserService {
     return this.http.get<User>(`${this.apiUrl}/users/${id}`,this.httpHeader)
     .pipe(catchError(httpError));
   }
+  updateUserById(id: string, payload: User): Observable<Response> {
+    return this.http.put<Response>(`${this.apiUrl}/users/${id}`, payload, this.httpHeader)
+    .pipe(catchError(httpError));
+  }
 }

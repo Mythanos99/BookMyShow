@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { User } from 'src/app/models/user';
+import { UserService } from 'src/app/services/user/user.service';
+import { formattedDob } from 'src/app/utils/util';
 
 @Component({
   selector: 'app-user-profile',
@@ -7,81 +10,84 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./user-profile.component.scss']
 })
 export class UserProfileComponent implements OnInit {
-  profileForm: FormGroup= new FormGroup({});
+  profileForm: FormGroup;
+  currUser: User = new User('', '', '');
+  user_id: string = '';
 
-  user = {
-    _id: '66a0a30bea454966838c2793',
-    username: 'user1@example.com',
-    mobile_no: '1234567890',
-    role: 'user',
-    address: {
-      houseno: '123',
-      street: '',
-      city: '',
-      state: '',
-      pincode: '222222'
-    },
-    personal_details: {
-      name: '',
-      dob: new Date('2024-07-24T06:45:31.575Z')
-    },
-    created_at: new Date('2024-07-24T06:45:31.575Z'),
-    booking_ids: []
-  };
-
-  constructor(private fb: FormBuilder) {}
-
-  ngOnInit(): void {
+  constructor(private fb: FormBuilder, private userService: UserService) {
     this.profileForm = this.fb.group({
-      username: [{ value: this.user.username, disabled: true }, Validators.required],
-      mobile_no: [this.user.mobile_no, [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+      username: [{ value: '', disabled: true }, Validators.required],
+      mobile_no: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
       address: this.fb.group({
-        houseno: [this.user.address.houseno],
-        street: [this.user.address.street],
-        city: [this.user.address.city],
-        state: [this.user.address.state],
-        pincode: [this.user.address.pincode, [Validators.pattern('^[0-9]{6}$')]]
+        houseno: [''],
+        street: [''],
+        city: [''],
+        state: [''],
+        pincode: ['', [Validators.pattern('^[0-9]{6}$')]]
       }),
       personal_details: this.fb.group({
-        name: [this.user.personal_details.name, Validators.required],
-        dob: [this.user.personal_details.dob, Validators.required]
+        name: ['', Validators.required],
+        dob: ['', Validators.required]
       })
     });
-    console.log(this.profileForm.value);
   }
-  
+
+  ngOnInit(): void {
+    this.userService.getUserById('66a0dc4935083e1b6e4a96a6').subscribe(user => {
+      this.currUser = user;
+      this.populateForm();
+    });
+  }
+
+  populateForm() {
+    
+
+    this.profileForm.setValue({
+      username: this.currUser.username,
+      mobile_no: this.currUser.mobile_no,
+      address: {
+        houseno: this.currUser.address.houseno,
+        street: this.currUser.address.street,
+        city: this.currUser.address.city,
+        state: this.currUser.address.state,
+        pincode: this.currUser.address.pincode
+      },
+      personal_details: {
+        name: this.currUser.personal_details.name,
+        dob: formattedDob(this.currUser.personal_details.dob)
+      }
+    });
+  }
 
   onSubmit() {
     if (this.profileForm.valid) {
       const updatedUser = {
-        ...this.user,
+        ...this.currUser,
         ...this.profileForm.value,
-        address: {
-          ...this.profileForm.value.address
-        },
-        personal_details: {
-          ...this.profileForm.value.personal_details
-        }
+        address: { ...this.profileForm.value.address },
+        personal_details: { ...this.profileForm.value.personal_details }
       };
-      console.log('User profile updated:', updatedUser);
-      // Save the updated user profile to the backend here
+      this.userService.updateUserById('66a0dc4935083e1b6e4a96a6', updatedUser).subscribe(Response => {
+        console.log('User Updated:', Response); 
+      }); 
+      // #FIXME- UserId hardcoded. Show success message if acknowledged true or some error message if not successful.
     }
   }
 
   onCancel() {
     this.profileForm.reset({
-      username: this.user.username,
-      mobile_no: this.user.mobile_no,
+      username: this.currUser.username,
+      mobile_no: this.currUser.mobile_no,
       address: {
-        houseno: this.user.address.houseno,
-        street: this.user.address.street,
-        city: this.user.address.city,
-        state: this.user.address.state,
-        pincode: this.user.address.pincode
+        houseno: this.currUser.address.houseno,
+        street: this.currUser.address.street,
+        city: this.currUser.address.city,
+        state: this.currUser.address.state,
+        pincode: this.currUser.address.pincode
       },
       personal_details: {
-        name: this.user.personal_details.name,
-        dob: this.user.personal_details.dob
+        name: this.currUser.personal_details.name,
+        dob: formattedDob(this.currUser.personal_details.dob)
       }
     });
   }

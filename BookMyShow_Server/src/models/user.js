@@ -22,7 +22,6 @@ const userSchema = new Schema({
   role: { type: String, default: 'user' },
   address: { type: addressSchema, default: {} },
   personal_details: { type: personalDetailsSchema, default: {} },
-  booking_ids: { type: [String], default: [] }
 },{ timestamps: true });
 
 const User = mongoose.model('users', userSchema)

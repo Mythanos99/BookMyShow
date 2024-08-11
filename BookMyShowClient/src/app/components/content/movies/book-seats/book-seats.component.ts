@@ -184,7 +184,7 @@ export class BookSeatsComponent implements OnInit {
   }
     openSeatSelectionDialog(): void {
       const dialogRef = this.dialog.open(SelectSeatsNumberComponent, {
-        width: '300px',
+        width: '500px',
         data: { currentSelectedNoSeats: this.noOfTickets }
       });
     

@@ -19,4 +19,5 @@ const BookingSchema = new Schema({
 
 
 const Booking = mongoose.model('bookings', BookingSchema);
+// module.exports = { schema: foodSchema };
 module.exports = Booking;

@@ -45,6 +45,9 @@ import { UserProfileComponent } from './components/user/user-profile/user-profil
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import { UserBookingsComponent } from './components/user/user-bookings/user-bookings.component';
+import { BrowseByCinemaComponent } from './components/content/movies/browse-by-cinema/browse-by-cinema.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { BuyTicketsComponent } from './components/content/movies/browse-by-cinema/buy-tickets/buy-tickets.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +76,9 @@ import { UserBookingsComponent } from './components/user/user-bookings/user-book
     RatingDialogComponent,
     EventDetailsComponent,
     UserProfileComponent,
-    UserBookingsComponent
+    UserBookingsComponent,
+    BrowseByCinemaComponent,
+    BuyTicketsComponent
   ],
   imports: [
     BrowserModule,
@@ -81,7 +86,8 @@ import { UserBookingsComponent } from './components/user/user-bookings/user-book
     NgbModule,
     BrowserAnimationsModule,
     MatTabsModule,MatCardModule,MatDialogModule,MatFormFieldModule,ReactiveFormsModule,MatButtonModule,HttpClientModule,
-    MatTooltipModule,FormsModule,MatSnackBarModule,MatSliderModule,MatInputModule,MatDatepickerModule,MatNativeDateModule
+    MatTooltipModule,FormsModule,MatSnackBarModule,MatSliderModule,MatInputModule,MatDatepickerModule,MatNativeDateModule,
+    MatPaginatorModule
   ],
   providers: [
     // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

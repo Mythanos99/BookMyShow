@@ -193,6 +193,9 @@ export class MoviesComponent implements OnInit {
   changeViewMode(mode:string):void{
     this.viewMode=mode;
   }
+  browseByCinema():void{
+    this.router.navigate(['/cinemas']);
+  }
 
   // #FIXME- lot of useless code present. Clean it
   

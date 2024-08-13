@@ -16,12 +16,16 @@ export class CinemaService {
   }
   constructor(private http: HttpClient) { }
 
-  getAllCinemasByLocation(city:string):Observable<Cinema[]>{
-    return this.http.get<Cinema[]>(this.apiUrl+'/cinemas'+'/'+city,this.httpHeader)
+  getAllCinemasByLocation(city:string,page:number,limit:number):Observable<Cinema[]>{
+    return this.http.get<Cinema[]>(`${this.apiUrl}/cinemas/${city}?page=${page}&limit=${limit}`, this.httpHeader)
     .pipe(catchError(httpError));
   }
   getCinemaById(id:string):Observable<Cinema>{
     return this.http.get<Cinema>(this.apiUrl+'/cinemas/'+id,this.httpHeader)
+    .pipe(catchError(httpError));
+  }
+  getMoviesByCinemaId(id:string):Observable<any>{
+    return this.http.get<any>(this.apiUrl+'/cinemas/get-shows-by-cinema/'+id,this.httpHeader)
     .pipe(catchError(httpError));
   }
 }

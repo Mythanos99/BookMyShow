@@ -13,6 +13,8 @@ import { BookSeatsComponent } from './components/content/movies/book-seats/book-
 import { EventDetailsComponent } from './components/content/events/event-details/event-details.component';
 import { UserProfileComponent } from './components/user/user-profile/user-profile.component';
 import { UserBookingsComponent } from './components/user/user-bookings/user-bookings.component';
+import { BrowseByCinemaComponent } from './components/content/movies/browse-by-cinema/browse-by-cinema.component';
+import { BuyTicketsComponent } from './components/content/movies/browse-by-cinema/buy-tickets/buy-tickets.component';
 
 const routes: Routes = [
   // #TODO change it to location and add lazy loading. Individual routing for features like movies
@@ -25,6 +27,8 @@ const routes: Routes = [
   { path: 'sports', component: SportsComponent },
   { path: 'activities', component: ActivitiesComponent },
   { path: 'plays', component: PlaysComponent },
+  { path: 'cinemas', component: BrowseByCinemaComponent},
+  { path: 'buyticketsByCinema/:id', component: BuyTicketsComponent},
   { path: '404', component: PageNotFoundComponent },
   { path: 'shows/:id', component: ShowsComponent},
   { path: 'book-tickets/:id', component: BookSeatsComponent},

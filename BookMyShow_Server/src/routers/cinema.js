@@ -4,5 +4,7 @@ const cinema_controller = require("../controllers/cinema.js");
 
 router.get("/", cinema_controller.getAllcinemas);
 router.get("/:city", cinema_controller.getAllcinemasByCity);
+router.get("/get-shows-by-cinema/:cinemaId", cinema_controller.getShowsByCinema);
+router.get("/cinemaDetails/:cinemaId", cinema_controller.getCinemaDetails);
 
 module.exports = router;

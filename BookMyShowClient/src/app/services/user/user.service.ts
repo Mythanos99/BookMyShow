@@ -15,6 +15,10 @@ export class UserService {
       'Content-Type':'application/json'
     })
   }
+  httpOptions ={
+    headers: this.httpHeader.headers,
+    withCredentials:true
+  }
   constructor(private http: HttpClient) { }
 
   register(payload:User):Observable<Response>{
@@ -22,7 +26,7 @@ export class UserService {
     .pipe(catchError(httpError));;
   }
   getUserById(id: string): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/users/${id}`,this.httpHeader)
+    return this.http.get<User>(`${this.apiUrl}/users/${id}`,this.httpOptions)
     .pipe(catchError(httpError));
   }
   updateUserById(id: string, payload: User): Observable<Response> {

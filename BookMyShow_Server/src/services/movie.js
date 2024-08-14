@@ -43,7 +43,7 @@ async function getFilteredResult(filters) {
       { $unwind: "$movieDetails" },
       {
         $project: {
-          movie_name: "$movieDetails.name",
+          name: "$movieDetails.name",
           rating: "$movieDetails.rating",
           ratedby: "$movieDetails.ratedby",
           image_url: "$movieDetails.image_url",

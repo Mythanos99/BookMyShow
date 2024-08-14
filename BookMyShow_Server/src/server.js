@@ -2,7 +2,7 @@ const express = require('express');
 require('dotenv').config();
 const port = process.env.PORT || 3000;
 const app = express();
-
+const cookieParser = require('cookie-parser');
 require("./db/mongoose");
 require('./cronjob');
 
@@ -22,12 +22,11 @@ const unifiedShowsRouter = require("./routers/unifiedShows")
 const search_controller = require("./controllers/search");
 const rating_controller = require("./controllers/rating");
 app.use(cors({
-    // origin: 'http://localhost:4200',   #FIXME: Change this to the frontend URL when deploying
-    origin: '*',
+    origin: 'http://localhost:4200',   //#FIXME: Change this to the frontend URL when deploying
     optionsSuccessStatus: 200, 
     credentials: true
 }));
-
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use('/users', userRouter);

@@ -26,7 +26,7 @@ interface Movie {
 }
 
 interface DateGroup {
-  _id: string; // Date in ISO format
+  _id: string; // Ensure it is a string after processing
   movies: Movie[];
 }
 
@@ -47,15 +47,20 @@ export class BuyTicketsComponent implements OnInit {
     this.fetchCinemaDetails();
   }
 
+
+  
+  // In your component
   fetchCinemaDetails(): void {
     const cinemaId = this.route.snapshot.paramMap.get('id');
     if (cinemaId) {
-      this.cinemaService
-        .getMoviesByCinemaId(cinemaId)
-        .subscribe((data: DateGroup[]) => {
-          this.dateGroups = data;
-          console.log(this.dateGroups);
-        });
+      this.cinemaService.getMoviesByCinemaId(cinemaId).subscribe((data: DateGroup[]) => {
+        // Default invalid/null dates to a placeholder string
+        this.dateGroups = data.map(group => ({
+          ...group,
+          _id: group._id || 'Invalid Date' // Provide a fallback value
+        }));
+        console.log(this.dateGroups);
+      });
     }
   }
 

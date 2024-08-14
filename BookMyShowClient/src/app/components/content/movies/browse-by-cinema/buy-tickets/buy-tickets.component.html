@@ -1,23 +1,23 @@
 <div *ngFor="let dateGroup of dateGroups" class="date-section">
-    <h3>{{ dateGroup._id | date: 'fullDate' }}</h3>
-  
+    <h3 class="date-header">{{ dateGroup._id | date: 'fullDate' }}</h3>
+    
     <div *ngFor="let movie of dateGroup.movies" class="movie-section">
-      <h4>Movie ID: {{ movie.movie_id }}</h4>
+      <h4 class="movie-title">Movie ID: {{ movie.movie_id }}</h4>
+  
       <div class="shows-container">
-        <div *ngFor="let show of movie.shows">
+        <div *ngFor="let show of movie.shows" class="show-time">
           <button
             mat-raised-button
+            class="show-button"
             [matTooltip]="getSeatInfo(show)"
             matTooltipPosition="above"
             aria-label="Button displaying show timings and seat information"
             (click)="onShowSelect(show)"
           >
-          {{ show.start_time | date: 'shortTime' }}
+            {{ show.start_time | date: 'shortTime' }}
           </button>
         </div>
       </div>
     </div>
   </div>
-
-  <!-- #XXX- If we want to optimise it further then we can only get the data for the particular date and adjust the API accordingly. -->
   

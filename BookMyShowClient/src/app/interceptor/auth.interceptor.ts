@@ -15,11 +15,16 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private dialog: MatDialog) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    return next.handle(request).pipe(
+    // Clone the request and add the `withCredentials` option
+    const clonedRequest = request.clone({
+      withCredentials: true // Ensures cookies are included with the request
+    });
+    console.log(clonedRequest);
+    return next.handle(clonedRequest).pipe(
       catchError(err => {
         if (err.status === 401) {
-          // Token expired or unauthorized access - dont do this directly show a popup showing the session has expired. Kindlly login again to continue.
-          this.dialog.open(LoginComponent);
+          // Token expired or unauthorized access - show a popup showing the session has expired.
+          // this.dialog.open(LoginComponent);
         }
         return throwError(err);
       })

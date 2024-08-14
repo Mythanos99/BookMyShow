@@ -1,18 +1,23 @@
-const utils=require('../utility/utils')
 const jwt = require('jsonwebtoken');
 
-function authenticateToken(req, res, next) {
-    const token = req.cookies.jwtToken;
-    if (token == null) return res.sendStatus(401).send({message:"Authentication token missing"});
-  
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-      if (err) return res.sendStatus(401).send({message:"Invalid token"});
-      req.user = user;
-      next();
-    });
+function authenticateToken(req, res, next) { 
+  res.setHeader('Content-Type', 'application/json');
+  // console.log(req);
+  // console.log(req.cookies);
+  const token = req.cookies.jwtToken;
+  if (token == null) {
+    return res.status(401).json({ message: "Authentication token missing" });
   }
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (err) {
+      console.log(err);
+      return res.status(401).json({ message: "Invalid token" });
+    }
+    req.user = user;
+    next();
+  });
+}
 
-module.exports = {authenticateToken}
+module.exports = { authenticateToken };
 
 // #TODO check the status code for the errors and give accordingly.
-// #TODO verify that the jwt token is working correctly.

@@ -43,7 +43,7 @@ export class EventDetailsComponent implements OnInit {
       const queryParams = {
         location: this.location,
       };
-      this.router.navigate(['/tickets', this.eventId], { queryParams });
+      this.router.navigate(['/book-event', this.eventId], { queryParams });
     }
   }
 

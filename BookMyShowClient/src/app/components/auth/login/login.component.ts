@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { MatDialogRef } from '@angular/material/dialog'; // Import MatDialogRef if needed for dialog
+import { AuthServiceService } from 'src/app/sharedservice/auth-service.service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private dialogRef: MatDialogRef<LoginComponent> // Inject MatDialogRef if you are using Angular Material dialog
+    private dialogRef: MatDialogRef<LoginComponent>, // Inject MatDialogRef if you are using Angular Material dialog
+    private sharedAuthService:AuthServiceService
   ) {
     this.myForm = this.fb.group({
       username: ['', [Validators.required, Validators.email]],
@@ -38,10 +40,10 @@ export class LoginComponent implements OnInit {
     if (myForm.valid) {
       console.log(myForm.value);
       this.authService.login(myForm.value).subscribe({
-        next: (data) => {
+        next: (data:any) => {
           console.log('Login successful:', data);
-          // Close the dialog on successful login
           this.dialogRef.close();
+          this.sharedAuthService.setUserId(data.user.id);
         },
         error: (err) => {
           console.error('Login failed:', err);

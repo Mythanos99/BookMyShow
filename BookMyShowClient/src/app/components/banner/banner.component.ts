@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { SearchComponent } from './search/search.component';
 import { LocationService } from 'src/app/sharedservice/location.service';
 import { LocationComponent } from '../shared/location/location.component';
+import { AuthServiceService } from 'src/app/sharedservice/auth-service.service';
 
 @Component({
   selector: 'app-banner',
@@ -14,13 +15,24 @@ import { LocationComponent } from '../shared/location/location.component';
 export class BannerComponent implements OnInit {
   isOffcanvasOpen = false;
   location: string | null = null;
-  constructor(public dialog: MatDialog,private router: Router,private locationService:LocationService) {
+  userId: string | null = null;
+  isLoggedIn: boolean = false;
+
+  constructor(public dialog: MatDialog,private router: Router,private locationService:LocationService,
+    private sharedAuthService:AuthServiceService
+  ) {
     this.locationService.cityName$.subscribe(city => {
       this.location = city;
    });
+   this.sharedAuthService.getUserId().subscribe((id: string | null) => {
+    this.userId = id;
+    this.isLoggedIn = !!this.userId;
+  });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+  }
 
   toggleOffcanvas(event: Event): void {
     event.stopPropagation();
@@ -72,15 +84,15 @@ export class BannerComponent implements OnInit {
     } else if (window.innerWidth <= 960) {
       return '70vw'; // 70% of the viewport width for medium screens
     } else {
-      return '40vw'; // 50% of the viewport width for larger screens
+      return '50vw'; // 50% of the viewport width for larger screens
     }
   }
   
   private getDialogHeight(): string {
     if (window.innerHeight <= 600) {
-      return '50vw'; // 80% of the viewport height for small screens
+      return '60vw'; // 80% of the viewport height for small screens
     } else {
-      return '40vh'; // 70% of the viewport height for larger screens
+      return '60vh'; // 70% of the viewport height for larger screens
     }
   }
   openSearch() {
@@ -89,6 +101,12 @@ export class BannerComponent implements OnInit {
       height: '80vh',
       panelClass: 'full-screen-dialog'
     });
+  }
+  signOut(): void {
+    this.userId = null;
+    this.isLoggedIn = false;
+    this.router.navigate(['/']);
+    // this.sharedAuthService.signOut(); // Implement this method in AuthServiceService
   }
 
   

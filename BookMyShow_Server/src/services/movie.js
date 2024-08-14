@@ -155,4 +155,15 @@ async function getUpcoming(filters) {
   }
 }
 
-module.exports = { getAll, getFilteredResult, getById, getUpcoming ,getFilters};
+async function addMovie(movie){
+  try{
+    const newMovie = new Movie(movie);
+    console.log(newMovie);
+    await newMovie.save();
+    return newMovie;
+  } catch (error) {
+    throw new Error("Error adding movie");
+  }
+}
+
+module.exports = { getAll, getFilteredResult, getById, getUpcoming ,getFilters,addMovie};

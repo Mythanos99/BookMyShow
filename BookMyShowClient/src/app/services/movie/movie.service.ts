@@ -36,4 +36,8 @@ export class MovieService {
     return this.http.get<Movie[]>(`${this.apiUrl}/movies/upcoming?${queryParams}`,this.httpHeader)
     .pipe(catchError(httpError));
   }
+  UploadMovie(formData: FormData): Observable<any> {
+    return this.http.post(`${this.apiUrl}/movies`, formData)
+    .pipe(catchError(httpError));
+  }
 }

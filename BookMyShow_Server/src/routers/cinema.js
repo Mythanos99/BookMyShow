@@ -7,4 +7,6 @@ router.get("/:city", cinema_controller.getAllcinemasByCity);
 router.get("/get-shows-by-cinema/:cinemaId", cinema_controller.getShowsByCinema);
 router.get("/cinemaDetails/:cinemaId", cinema_controller.getCinemaDetails);
 
+router.post("/", cinema_controller.addCinema);
+
 module.exports = router;

@@ -1,4 +1,5 @@
 const movie_service = require('../services/movie');
+const upload = require("../utils/imgUpload");
 
 async function getAllMovies(req, res) {
     res.setHeader('Content-Type', 'application/json');
@@ -48,6 +49,26 @@ async function getMovieFilters(req, res) {
         res.status(500).json({ message: error.message });
     }
 }
-module.exports = { getAllMovies,getFilteredMovies ,getMovieById,getUpcomingMovies,getMovieFilters};
+
+async function addMovie(req, res) {
+    upload(req, res, async (err) => {
+        if (err) {
+          return res.status(400).json({ error: err });
+        }
+    
+        try {
+          const movieData = {
+            ...req.body,
+            image_url: req.file ? req.file.path : ''
+          };
+    
+          const newMovie = await movie_service.addMovie(movieData);
+          return res.status(201).json(newMovie);
+        } catch (error) {
+          return res.status(500).json({ message: error.message });
+        }
+      });
+}
+module.exports = { getAllMovies,getFilteredMovies ,getMovieById,getUpcomingMovies,getMovieFilters,addMovie};
 
 // .#FIXME- res.set header not added to all. Maintain code consistentcy.

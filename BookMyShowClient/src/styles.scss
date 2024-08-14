@@ -46,6 +46,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   color: white;
   border: none;
 }
+.btn-custom:disabled {
+  background-color: #E35E64; /* Keep the same background color */
+  color: white; /* Keep the text color white */
+  opacity: 0.5; 
+  cursor: not-allowed; /* Change cursor to indicate disabled state */
+}
 
 .content{
   background-color: #F5F5F5;

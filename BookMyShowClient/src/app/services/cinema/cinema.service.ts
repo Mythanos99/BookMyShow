@@ -28,4 +28,8 @@ export class CinemaService {
     return this.http.get<any>(this.apiUrl+'/cinemas/get-shows-by-cinema/'+id,this.httpHeader)
     .pipe(catchError(httpError));
   }
+  AddCinema(cinema:any):Observable<any>{
+    return this.http.post(this.apiUrl+'/cinemas',cinema,this.httpHeader)
+    .pipe(catchError(httpError));
+  }
 }

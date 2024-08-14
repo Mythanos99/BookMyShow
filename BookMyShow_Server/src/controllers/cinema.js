@@ -44,4 +44,13 @@ async function getCinemaDetails(req, res) {
     }
 }
 
-module.exports = { getAllcinemasByCity , getAllcinemas,getShowsByCinema,getCinemaDetails};
+async function addCinema(req, res) {
+    try {
+        const cinemaData = req.body;
+        const cinema = await cinema_service.addCinema(cinemaData);
+        res.status(200).json(cinema);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+module.exports = { getAllcinemasByCity , getAllcinemas,getShowsByCinema,getCinemaDetails,addCinema};

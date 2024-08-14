@@ -1,0 +1,76 @@
+<div class="form-container my-2">
+    <form [formGroup]="cinemaForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="name">Cinema Name</label>
+        <input id="name" formControlName="name" type="text" placeholder="Enter cinema name" />
+        <div *ngIf="formControls['name'].touched && formControls['name'].invalid" class="error-message">
+          <small *ngIf="formControls['name'].errors?.['required']">Cinema name is required.</small>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="city">City</label>
+        <input id="city" formControlName="city" type="text" placeholder="Enter city" />
+        <div *ngIf="formControls['city'].touched && formControls['city'].invalid" class="error-message">
+          <small *ngIf="formControls['city'].errors?.['required']">City is required.</small>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="houseNo">House No</label>
+        <input id="houseNo" formControlName="houseNo" type="text" placeholder="Enter house number" />
+        <div *ngIf="formControls['houseNo'].touched && formControls['houseNo'].invalid" class="error-message">
+          <small *ngIf="formControls['houseNo'].errors?.['required']">House number is required.</small>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="street">Street</label>
+        <input id="street" formControlName="street" type="text" placeholder="Enter street" />
+        <div *ngIf="formControls['street'].touched && formControls['street'].invalid" class="error-message">
+          <small *ngIf="formControls['street'].errors?.['required']">Street is required.</small>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="area">Area</label>
+        <input id="area" formControlName="area" type="text" placeholder="Enter area" />
+        <div *ngIf="formControls['area'].touched && formControls['area'].invalid" class="error-message">
+          <small *ngIf="formControls['area'].errors?.['required']">Area is required.</small>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="pincode">Pincode</label>
+        <input id="pincode" formControlName="pincode" type="text" placeholder="Enter pincode" />
+        <div *ngIf="formControls['pincode'].touched && formControls['pincode'].invalid" class="error-message">
+          <small *ngIf="formControls['pincode'].errors?.['required']">Pincode is required.</small>
+          <small *ngIf="formControls['pincode'].errors?.['pattern']">Pincode must be a 6-digit number.</small>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="screens">Number of Screens</label>
+        <input id="screens" formControlName="screens" type="number" placeholder="Enter number of screens" />
+        <div *ngIf="formControls['screens'].touched && formControls['screens'].invalid" class="error-message">
+          <small *ngIf="formControls['screens'].errors?.['required']">Number of screens is required.</small>
+          <small *ngIf="formControls['screens'].errors?.['min']">Number of screens must be at least 1.</small>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label>Food Service Available</label>
+        <mat-radio-group id="foodService" formControlName="foodService">
+          <mat-radio-button value="true">Yes</mat-radio-button>
+          <mat-radio-button value="false">No</mat-radio-button>
+        </mat-radio-group>
+        <div *ngIf="formControls['foodService'].touched && formControls['foodService'].invalid" class="error-message">
+          <small *ngIf="formControls['foodService'].errors?.['required']">Please select if food service is available.</small>
+        </div>
+      </div>
+  
+      <button class="btn btn-custom w-100" type="submit" [disabled]="cinemaForm.invalid">Submit</button>
+    </form>
+  </div>
+  
+<!-- #TODO- maybe check for duplicated cinema name -->

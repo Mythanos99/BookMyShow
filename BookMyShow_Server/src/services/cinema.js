@@ -87,4 +87,13 @@ async function getCinemaDetails(cinemaId) {
         throw new Error("Error fetching cinema details");
     }
 }
-module.exports = { getAllByCity,getAll,getShowsByCinemaGrouped, getCinemaDetails};
+async function addCinema(cinemaData) {
+    try {
+        const cinema = new Cinema(cinemaData);
+        await cinema.save();
+        return cinema;
+    } catch (error) {
+        throw new Error("Error adding cinema");
+    }
+}
+module.exports = { getAllByCity,getAll,getShowsByCinemaGrouped, getCinemaDetails,addCinema};

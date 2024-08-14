@@ -48,6 +48,12 @@ import { UserBookingsComponent } from './components/user/user-bookings/user-book
 import { BrowseByCinemaComponent } from './components/content/movies/browse-by-cinema/browse-by-cinema.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { BuyTicketsComponent } from './components/content/movies/browse-by-cinema/buy-tickets/buy-tickets.component';
+import { ListYourShowComponent } from './components/content/list-your-show/list-your-show.component';
+import { ListMovieComponent } from './components/content/list-your-show/list-movie/list-movie.component';
+import {MatSelectModule} from '@angular/material/select';
+import { ListCinemaComponent } from './components/content/list-your-show/list-cinema/list-cinema.component';
+import {MatRadioModule} from '@angular/material/radio';
+import { ListShowsComponent } from './components/content/list-your-show/list-shows/list-shows.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +84,11 @@ import { BuyTicketsComponent } from './components/content/movies/browse-by-cinem
     UserProfileComponent,
     UserBookingsComponent,
     BrowseByCinemaComponent,
-    BuyTicketsComponent
+    BuyTicketsComponent,
+    ListYourShowComponent,
+    ListMovieComponent,
+    ListCinemaComponent,
+    ListShowsComponent
   ],
   imports: [
     BrowserModule,
@@ -87,7 +97,7 @@ import { BuyTicketsComponent } from './components/content/movies/browse-by-cinem
     BrowserAnimationsModule,
     MatTabsModule,MatCardModule,MatDialogModule,MatFormFieldModule,ReactiveFormsModule,MatButtonModule,HttpClientModule,
     MatTooltipModule,FormsModule,MatSnackBarModule,MatSliderModule,MatInputModule,MatDatepickerModule,MatNativeDateModule,
-    MatPaginatorModule
+    MatPaginatorModule,MatSelectModule,MatRadioModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

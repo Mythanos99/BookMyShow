@@ -15,6 +15,10 @@ import { UserProfileComponent } from './components/user/user-profile/user-profil
 import { UserBookingsComponent } from './components/user/user-bookings/user-bookings.component';
 import { BrowseByCinemaComponent } from './components/content/movies/browse-by-cinema/browse-by-cinema.component';
 import { BuyTicketsComponent } from './components/content/movies/browse-by-cinema/buy-tickets/buy-tickets.component';
+import { ListYourShowComponent } from './components/content/list-your-show/list-your-show.component';
+import { ListMovieComponent } from './components/content/list-your-show/list-movie/list-movie.component';
+import { ListCinemaComponent } from './components/content/list-your-show/list-cinema/list-cinema.component';
+import { ListShowsComponent } from './components/content/list-your-show/list-shows/list-shows.component';
 
 const routes: Routes = [
   // #TODO change it to location and add lazy loading. Individual routing for features like movies
@@ -34,8 +38,16 @@ const routes: Routes = [
   { path: 'book-tickets/:id', component: BookSeatsComponent},
   { path: 'my-profile', component:UserProfileComponent},
   { path: 'my-bookings', component:UserBookingsComponent},
+  { path: 'list-shows', component:ListYourShowComponent},
+  { path: 'list-shows/movie', component:ListMovieComponent},
+  { path: 'list-shows/cinema', component:ListCinemaComponent},
+  { path: 'list-shows/shows', component:ListShowsComponent},
+
+
+
   { path: '**', redirectTo: '404' }
 ];
+// #TODO- add route guards to these routes.
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

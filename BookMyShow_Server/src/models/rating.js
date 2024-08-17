@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ObjectId = mongoose.Types.ObjectId; 
 const ratingSchema = new Schema({
-    entity: { type: String, required: true },
     userId: { type: ObjectId, required: true },
-    entityId: { type: ObjectId, required: true },
+    movieId: { type: ObjectId, required: true },
+    username:{type:String,required:true,default:"Anonymous"},
     rating: { type: Number, required: true },
     review: { type: String, required: false }
 },({timestamps:true}));

@@ -9,7 +9,7 @@ const foodSchema=new Schema({
 })
 
 const lastBookingSchema = new Schema({
-    // entity: { type: String, required: true },
+    // entity: { type: String, required: true }, // entity is either MOV or EVE
     show_id: { type: ObjectId, required: true },
     seats: { type: [String], required: true },
     food: { type: [foodSchema], required: false },

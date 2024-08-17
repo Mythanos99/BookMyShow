@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ObjectId = mongoose.Types.ObjectId; 
 const foodSchema=new Schema({
-    id:{type:String,required:false}, // This is the id of the food item. 
     name:{type:String,required:true},
     price:{type:Number,required:true},
     quantity:{type:Number,required:true}

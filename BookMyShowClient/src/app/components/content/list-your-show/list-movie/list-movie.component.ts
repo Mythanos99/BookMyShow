@@ -52,7 +52,7 @@ export class ListMovieComponent implements OnInit {
       formData.append('image_url', this.selectedFile);
       formData.append('movie_rated', this.movieForm.get('movieRated')?.value);
       formData.append('release_date', this.movieForm.get('releaseDate')?.value);
-
+      
       this.movieService.UploadMovie(formData).subscribe(
         (response: any )=> {
           console.log('Upload successful', response);

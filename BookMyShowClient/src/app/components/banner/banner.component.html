@@ -24,7 +24,8 @@
               <span class="dropdown-arrow mx-1">&#9662;</span>
           </div>                       
           <button *ngIf="!isLoggedIn" class="btn btn-primary btn-sm mx-2 d-none d-lg-inline" (click)="openAuthDialog()">Sign In</button>
-          <button *ngIf="isLoggedIn" class="btn btn-primary btn-sm mx-2 d-none d-lg-inline" (click)="signOut()">Sign Out</button>
+          <span *ngIf="isLoggedIn" [routerLink]="['/my-profile']" class="mx-2 d-none d-lg-inline"><i  class="fa fa-user" aria-hidden="true"></i></span>
+          <!-- <button *ngIf="isLoggedIn" class="btn btn-primary btn-sm mx-2 d-none d-lg-inline" (click)="signOut()">Sign Out</button> -->
           <!-- Menu Icon -->
           <span class="navbar-toggler-icon mx-4" (click)="toggleOffcanvas($event)"></span>
       </div>
@@ -41,8 +42,8 @@
       </button>
   </div>
   <div class="offcanvas-body">
-      <ul class="list-unstyled">
-          <li class="mb-3" *ngIf="!isLoggedIn"><a href="#!" class="text-decoration-none">Login</a></li>
+      <ul class="list-unstyled" (click)="closeOffcanvas()">
+          <li class="mb-3" *ngIf="!isLoggedIn"><a (click)="openAuthDialog()" class="text-decoration-none">Login</a></li>
           <li class="mb-3"><a [routerLink]="['/my-bookings']" class="text-decoration-none">View Your Orders</a></li>
           <li class="mb-3"><a [routerLink]="['/my-profile']" class="text-decoration-none">View Your Profile</a></li>
           <li class="mb-3"><a href="#!" class="text-decoration-none">Contact Us</a></li>
@@ -55,10 +56,7 @@
 <nav mat-tab-nav-bar class="custom-tab-nav-bar">
   <div class="left-tabs">
       <a mat-tab-link [routerLink]="['/movies']" routerLinkActive="mat-accent">Movies</a>
-      <!-- <a mat-tab-link [routerLink]="['/plays']" routerLinkActive="mat-accent">Plays</a> -->
-      <!-- <a mat-tab-link [routerLink]="['/sports']" routerLinkActive="mat-accent">Sports</a> -->
       <a mat-tab-link [routerLink]="['/events']" routerLinkActive="mat-accent">Events</a>
-      <!-- <a mat-tab-link [routerLink]="['/activities']" routerLinkActive="mat-accent">Activities</a> -->
   </div>
   <div class="right-tab">
       <a mat-tab-link [routerLink]="['/list-shows']" routerLinkActive="mat-accent">List Your Shows</a>
@@ -67,4 +65,3 @@
 
 
 <!-- #FIXME -search icon is shown in center. Fix it to the right in mobile version. -->
- <!-- #FIXME- the sidenav doesnt close on clicking a link -->

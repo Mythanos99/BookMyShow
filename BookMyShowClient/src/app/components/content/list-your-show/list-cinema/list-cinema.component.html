@@ -1,76 +1,110 @@
 <div class="form-container my-2">
-    <form [formGroup]="cinemaForm" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="name">Cinema Name</label>
-        <input id="name" formControlName="name" type="text" placeholder="Enter cinema name" />
-        <div *ngIf="formControls['name'].touched && formControls['name'].invalid" class="error-message">
-          <small *ngIf="formControls['name'].errors?.['required']">Cinema name is required.</small>
+  <form [formGroup]="cinemaForm" (ngSubmit)="submit(cinemaForm)">
+    <mat-horizontal-stepper linear>
+      <!-- Step 1: Initial Information -->
+      <mat-step label="Initial Information">
+        <mat-form-field appearance="fill">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="name" placeholder="Enter cinema name">
+          <mat-error *ngIf="cinemaForm.get('name')?.hasError('required')">Name is required.</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>City</mat-label>
+          <input matInput formControlName="city" placeholder="Enter city">
+          <mat-error *ngIf="cinemaForm.get('city')?.hasError('required')">City is required.</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>House No</mat-label>
+          <input matInput formControlName="house_no" placeholder="Enter house number">
+          <mat-error *ngIf="cinemaForm.get('house_no')?.hasError('required')">House No is required.</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Street</mat-label>
+          <input matInput formControlName="street" placeholder="Enter street">
+          <mat-error *ngIf="cinemaForm.get('street')?.hasError('required')">Street is required.</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Area</mat-label>
+          <input matInput formControlName="area" placeholder="Enter area">
+          <mat-error *ngIf="cinemaForm.get('area')?.hasError('required')">Area is required.</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Pincode</mat-label>
+          <input matInput formControlName="pincode" placeholder="Enter pincode">
+          <mat-error *ngIf="cinemaForm.get('pincode')?.hasError('required')">Pincode is required.</mat-error>
+          <mat-error *ngIf="cinemaForm.get('pincode')?.hasError('pattern')">Pincode must be a 6-digit number.</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Number of Screens</mat-label>
+          <input matInput type="number" formControlName="screens" placeholder="Enter number of screens">
+          <mat-error *ngIf="cinemaForm.get('screens')?.hasError('required')">Number of screens is required.</mat-error>
+          <mat-error *ngIf="cinemaForm.get('screens')?.hasError('min')">Number of screens must be at least 1.</mat-error>
+        </mat-form-field>
+        <mat-checkbox formControlName="food_service">Food Service Available</mat-checkbox>
+      </mat-step>
+
+   <!-- Step 2: Seating Arrangement -->
+      <mat-step label="Seating Arrangement">
+        <div formArrayName="seating_arrangement">
+          <mat-horizontal-stepper linear>
+            <mat-step *ngFor="let arrangement of seating_arrangement.controls; let i = index" [label]="'Seating Arrangement ' + (i + 1)">
+              <div [formGroupName]="i">
+                <mat-form-field appearance="fill">
+                  <mat-label>Screens No</mat-label>
+                  <input matInput formControlName="screens_no" placeholder="Enter screen numbers (comma separated)">
+                  <mat-error *ngIf="arrangement.get('screens_no')?.hasError('required')">Screens No is required.</mat-error>
+                </mat-form-field>
+
+                <div formArrayName="seats">
+                  <div *ngFor="let seat of getSeats(arrangement).controls; let j = index" [formGroupName]="j">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Type</mat-label>
+                      <input matInput formControlName="type" placeholder="Enter seat type">
+                      <mat-error *ngIf="seat.get('type')?.hasError('required')">Seat type is required.</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                      <mat-label>Price</mat-label>
+                      <input matInput formControlName="price" placeholder="Enter price">
+                      <mat-error *ngIf="seat.get('price')?.hasError('required')">Price is required.</mat-error>
+                      <mat-error *ngIf="seat.get('price')?.hasError('pattern')">Enter a valid price.</mat-error>
+                    </mat-form-field>
+
+                    <div formArrayName="status">
+                      <div *ngFor="let status of getStatus(seat).controls; let k = index">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Status {{ k + 1 }}</mat-label>
+                          <input matInput [formControlName]="k" placeholder="Enter status">
+                          <mat-error *ngIf="status?.hasError('required')">Status is required.</mat-error>
+                        </mat-form-field>
+                        <button mat-raised-button color="warn" class="remove-status-btn" (click)="removeStatus(seat, k)">Remove Status</button>
+                      </div>
+                      <button mat-raised-button color="primary" class="add-status-btn" (click)="addStatus(seat)">Add Status</button>
+                    </div>
+                    <button mat-raised-button color="warn" class="remove-seat-btn" (click)="removeSeat(arrangement, j)">Remove Seat</button>
+                  </div>
+                  <button mat-raised-button color="primary" class="add-seat-btn" (click)="addSeat(arrangement)">Add Seat</button>
+                </div>
+                <button mat-raised-button color="warn" class="remove-arrangement-btn" (click)="removeSeatingArrangement(i)">Remove Seating Arrangement</button>
+              </div>
+            </mat-step>
+          </mat-horizontal-stepper>
+
+          <button mat-raised-button color="primary" class="add-arrangement-btn" (click)="addNewSeatingArrangement()">Add Seating Arrangement</button>
         </div>
-      </div>
-  
-      <div class="form-group">
-        <label for="city">City</label>
-        <input id="city" formControlName="city" type="text" placeholder="Enter city" />
-        <div *ngIf="formControls['city'].touched && formControls['city'].invalid" class="error-message">
-          <small *ngIf="formControls['city'].errors?.['required']">City is required.</small>
+      </mat-step>
+
+      <!-- Step 3: Review and Submit -->
+      <mat-step label="Review and Submit">
+        <div *ngIf="cinemaForm.valid">
+          <h3>Review Your Information</h3>
+          <pre>{{ cinemaForm.value | json }}</pre>
         </div>
-      </div>
-  
-      <div class="form-group">
-        <label for="houseNo">House No</label>
-        <input id="houseNo" formControlName="houseNo" type="text" placeholder="Enter house number" />
-        <div *ngIf="formControls['houseNo'].touched && formControls['houseNo'].invalid" class="error-message">
-          <small *ngIf="formControls['houseNo'].errors?.['required']">House number is required.</small>
+        <div *ngIf="!cinemaForm.valid">
+          <p>Please complete all required fields before submitting.</p>
         </div>
-      </div>
-  
-      <div class="form-group">
-        <label for="street">Street</label>
-        <input id="street" formControlName="street" type="text" placeholder="Enter street" />
-        <div *ngIf="formControls['street'].touched && formControls['street'].invalid" class="error-message">
-          <small *ngIf="formControls['street'].errors?.['required']">Street is required.</small>
-        </div>
-      </div>
-  
-      <div class="form-group">
-        <label for="area">Area</label>
-        <input id="area" formControlName="area" type="text" placeholder="Enter area" />
-        <div *ngIf="formControls['area'].touched && formControls['area'].invalid" class="error-message">
-          <small *ngIf="formControls['area'].errors?.['required']">Area is required.</small>
-        </div>
-      </div>
-  
-      <div class="form-group">
-        <label for="pincode">Pincode</label>
-        <input id="pincode" formControlName="pincode" type="text" placeholder="Enter pincode" />
-        <div *ngIf="formControls['pincode'].touched && formControls['pincode'].invalid" class="error-message">
-          <small *ngIf="formControls['pincode'].errors?.['required']">Pincode is required.</small>
-          <small *ngIf="formControls['pincode'].errors?.['pattern']">Pincode must be a 6-digit number.</small>
-        </div>
-      </div>
-  
-      <div class="form-group">
-        <label for="screens">Number of Screens</label>
-        <input id="screens" formControlName="screens" type="number" placeholder="Enter number of screens" />
-        <div *ngIf="formControls['screens'].touched && formControls['screens'].invalid" class="error-message">
-          <small *ngIf="formControls['screens'].errors?.['required']">Number of screens is required.</small>
-          <small *ngIf="formControls['screens'].errors?.['min']">Number of screens must be at least 1.</small>
-        </div>
-      </div>
-  
-      <div class="form-group">
-        <label>Food Service Available</label>
-        <mat-radio-group id="foodService" formControlName="foodService">
-          <mat-radio-button value="true">Yes</mat-radio-button>
-          <mat-radio-button value="false">No</mat-radio-button>
-        </mat-radio-group>
-        <div *ngIf="formControls['foodService'].touched && formControls['foodService'].invalid" class="error-message">
-          <small *ngIf="formControls['foodService'].errors?.['required']">Please select if food service is available.</small>
-        </div>
-      </div>
-  
-      <button class="btn btn-custom w-100" type="submit" [disabled]="cinemaForm.invalid">Submit</button>
-    </form>
-  </div>
-  
-<!-- #TODO- maybe check for duplicated cinema name -->
+      </mat-step>
+    </mat-horizontal-stepper>
+
+    <button mat-raised-button color="primary" type="submit">Submit</button>
+  </form>
+</div>

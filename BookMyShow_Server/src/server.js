@@ -2,9 +2,10 @@ const express = require('express');
 require('dotenv').config();
 const port = process.env.PORT || 3000;
 const app = express();
+const path = require('path');
 const cookieParser = require('cookie-parser');
 require("./db/mongoose");
-require('./cronjob');
+// require('./cronjob');
 
 const cors = require('cors');
 
@@ -20,12 +21,14 @@ const playRouter = require("./routers/play");
 const activityRouter = require("./routers/activity");
 const unifiedShowsRouter = require("./routers/unifiedShows")
 const search_controller = require("./controllers/search");
-const rating_controller = require("./controllers/rating");
+const ratingRouter = require("./routers/rating");
 app.use(cors({
     origin: 'http://localhost:4200',   //#FIXME: Change this to the frontend URL when deploying
     optionsSuccessStatus: 200, 
     credentials: true
 }));
+
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -37,12 +40,8 @@ app.use("/shows", showRouter);
 app.use("/booking",bookingRouter);
 app.get("/search", search_controller.getSearchResult); 
 app.use("/events", eventRouter);
-app.use("/sports", sportRouter);
-app.use("/plays", playRouter);
-app.use("/activities", activityRouter);
 app.use("/unifiedShows", unifiedShowsRouter)
-app.post("/add-rating",rating_controller.addRating);
-
+app.use("/rating",ratingRouter);
 
 
 const server = app.listen(port, () => console.log(`Server listening on port ${port}!`));

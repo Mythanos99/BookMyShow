@@ -99,15 +99,23 @@
         </div>
         <div class="col-md-4 col-sm-4 mb-4" *ngFor="let movie of filteredMovies">
           <div class="card h-100" (click)="fetchMovieDetails(movie)">
-            <img src="../../../../assets/images/sample_movie_poster.jpeg" class="card-img-top" [alt]="movie.name" />
-            <div class="card-body">
+            <img *ngIf="movie.image_url!=''" [src]="getimageurl(movie.image_url)" class="card-img-top" [alt]="movie.name"/>
+            <img *ngIf="movie.image_url==''" src="../../../../assets/images/sample_movie_poster.jpeg" class="card-img-top" [alt]="movie.name" />
+            
+            <div class="card-body movie-details">
               <h5 class="card-title">{{ movie.name }}</h5>
+              <p class="movie-certification">{{ movie.movie_rated }}</p>
               <p class="card-text">{{ movie.description }}</p>
-              <p><strong>Rating:</strong> {{ movie.rating }}</p>
-              <p><strong>Genre:</strong> {{ movie.genre.join(', ') }}</p>
+              <p class="rating-info">
+                <span *ngIf="viewMode === 'current'"><strong>Rating:</strong> {{ movie.rating }} ({{ movie.rating }} {{movie.ratedby}} Votes)</span>
+               
+                <span *ngIf="viewMode !== 'current'">{{ movie.likes }} Likes</span>
+              </p>
+              <p *ngIf="viewMode !== 'current'">Releasing on <strong>{{movie.release_date | date}}</strong> </p>
+              <p> {{ movie.genre.join(', ') }}</p>
             </div>
           </div>
-        </div>
+        </div>        
       </div>
     </div>
   </div>

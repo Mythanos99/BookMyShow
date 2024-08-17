@@ -47,10 +47,21 @@ async function getCinemaDetails(req, res) {
 async function addCinema(req, res) {
     try {
         const cinemaData = req.body;
-        const cinema = await cinema_service.addCinema(cinemaData);
+        const cinema = await cinema_service.add(cinemaData);
         res.status(200).json(cinema);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 }
-module.exports = { getAllcinemasByCity , getAllcinemas,getShowsByCinema,getCinemaDetails,addCinema};
+
+async function updateCinema(req, res) {
+    try {
+        const id = req.params.id;
+        const cinemaData = req.body;
+        const cinema = await cinema_service.update(id, cinemaData);
+        res.status(200).json(cinema);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+module.exports = { getAllcinemasByCity , getAllcinemas,getShowsByCinema,getCinemaDetails,addCinema,updateCinema};

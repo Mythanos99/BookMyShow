@@ -10,12 +10,17 @@ export class AuthServiceService {
   constructor() { }
 
   getUserId(): Observable<string | null> {
+    var localId=localStorage.getItem('userId');
+    if(localId){
+      this.userIdSubject.next(localId);
+    }
     return this.userIdSubject.asObservable();
   }
 
   // Update the userId and notify all subscribers
   setUserId(userId: string): void {
     this.userIdSubject.next(userId);
+    localStorage.setItem('userId', userId);
     console.log('User ID set:', userId);
   }
   
@@ -23,6 +28,11 @@ export class AuthServiceService {
     return this.userIdSubject.value;
   }
   signout(){
+    localStorage.removeItem('userId');
+    this.clearCookie('jwtToken');
     this.userIdSubject.next(null);
+  }
+  private clearCookie(name: string) {
+    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
   }
 }

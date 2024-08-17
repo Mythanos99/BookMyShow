@@ -19,7 +19,11 @@ export class RatingService {
 
   rateEntity(payload:any):Observable<any>{
     // console.log(payload);
-    return this.http.post<any>(this.apiUrl+'/add-rating',payload,this.httpHeader)
+    return this.http.post<any>(this.apiUrl+'rating/add-rating',payload,this.httpHeader)
+    .pipe(catchError(httpError));
+  }
+  fetchMovieReviews(movieId:string,page:number=0,limit:number=5):Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/rating/movie/${movieId}?limit=${limit}&page=${page}`,this.httpHeader)
     .pipe(catchError(httpError));
   }
 }

@@ -4,21 +4,26 @@ ObjectId = require('mongodb').ObjectId;
 
 async function getAvailableShowsByFormat(id, format, location) {
     try {
+      const currentDate = new Date();
+      currentDate.setHours(0, 0, 0, 0); // Set the time to 12 AM
+
       const results = await Show.aggregate([
         {
           $match: {
-            content_id: new ObjectId(id),
+            movie_id: new ObjectId(id),
             format: format,
             city: location,
+            show_date: { $gte: currentDate }  // TODO- uncomment this later
           }
         },
         {
           $group: {
-            _id: { date: "$date", cinema_id: "$location_id" },
+            _id: { date: "$show_date", cinema_id: "$cinema_id" },
             shows: {
               $push: {
                 _id: "$_id",
                 start_time: "$start_time",
+                seat_info: "$seat_info"
               }
             }
           }
@@ -42,6 +47,7 @@ async function getAvailableShowsByFormat(id, format, location) {
                 cinema_id: "$cinemaDetails._id",
                 cinema_name: "$cinemaDetails.name",
                 location: "$cinemaDetails.location",
+                food_service: "$cinemaDetails.food_service",
                 shows: "$shows"
               }
             }
@@ -89,8 +95,44 @@ async function getAvailableShowsByFormat(id, format, location) {
   
 
 //   #FIXME- need to check the working of this by getting more data.
-  
+async function getSlots(id, date) {
+  try {
+      // Convert the date to a string in YYYY-MM-DD format for exact matching
+      // Query the database for shows matching the cinema ID and exact date
+      const shows = await Show.aggregate([
+        {
+            $match: {
+                cinema_id: new ObjectId(id), // Ensure this matches the type in your database
+                // show_date: date
+            }
+        },
+        {
+            $group: {
+                _id: "$screen",
+                shows: {
+                    $push: {
+                        start_time: "$start_time",
+                        end_time: "$end_time"
+                    }
+                }
+            }
+        },
+        {
+            $project: {
+                _id: 0,
+                screen: "$_id",
+                shows: 1
+            }
+        }
+    ]);
+      return shows;
+  } catch (error) {
+      console.error("Error fetching slots:", error);
+      throw new Error("Error fetching slots");
+  }
+}
+
 
 module.exports={
-    getAvailableShowsByFormat,getById,updateSeat
+    getAvailableShowsByFormat,getById,updateSeat,getSlots
 }

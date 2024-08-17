@@ -1,54 +1,94 @@
+/* Event Details Container */
 .event-details-container {
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    background-color: #f9f9f9;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Event Title */
+.event-title {
+  font-size: 2rem;
+  font-weight: bold;
+
+  margin-bottom: 1rem;
+}
+
+/* Event Description */
+.event-description {
+  margin-top: 1rem;
+ /* Set description color to black */
+}
+
+/* Info Box for Location */
+.info-box {
+  background-color: white;
+  color: black;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+}
+
+/* Event Date and Time Tags */
+.event-date-time {
+  margin-bottom: 1rem;
+}
+
+.event-tag {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 50%;
+  background-color: #007bff; /* Background color of tags */
+  color: white; /* Text color inside tags */
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+/* Ticket Information */
+.ticket-info {
+  margin-top: 1rem;
+}
+
+.ticket-info ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.ticket-info li {
+  margin-bottom: 0.5rem;
+}
+
+/* Background Image */
+.bg-image {
+  background-image: url('/assets/Caraosal/bg-movie.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: black; /* Set text color to black in background section */
+}
+/* Event Date and Time Tags */
+.event-date-time {
+  margin-bottom: 1rem;
+}
+
+.event-tag {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 5px; /* Small rounded corners */
+  background-color: #007bff; /* Background color of tags */
+  color: white; /* Text color inside tags */
+  font-size: 16px;
+  margin-right: 10px;
+  text-align: center; /* Center text inside the tag */
+}
+
+
+/* Responsive Design */
+@media (max-width: 767px) {
+  .bg-image {
+    padding: 10px;
   }
-  
-  .event-poster {
-    text-align: center;
-    margin-bottom: 20px;
+
+  .info-box {
+    padding: 8px;
   }
-  
-  .event-poster img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-  }
-  
-  .event-info {
-    margin-bottom: 20px;
-  }
-  
-  .event-info h1 {
-    margin-bottom: 10px;
-    font-size: 2em;
-  }
-  
-  .event-description {
-    margin-top: 10px;
-    font-size: 1.1em;
-  }
-  
-  .event-details p {
-    margin: 5px 0;
-  }
-  
-  .book-tickets {
-    text-align: center;
-  }
-  
-  .btn-primary {
-    background-color: #E35E64;
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    font-size: 1em;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .btn-primary:hover {
-    background-color: #d1485f;
-  }
-  
+}

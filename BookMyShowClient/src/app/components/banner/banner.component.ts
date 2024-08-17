@@ -82,17 +82,17 @@ export class BannerComponent implements OnInit {
     if (window.innerWidth <= 600) {
       return '90vw'; 
     } else if (window.innerWidth <= 960) {
-      return '70vw'; // 70% of the viewport width for medium screens
+      return '70vw'; 
     } else {
-      return '50vw'; // 50% of the viewport width for larger screens
+      return '50vw'; 
     }
   }
   
   private getDialogHeight(): string {
     if (window.innerHeight <= 600) {
-      return '60vw'; // 80% of the viewport height for small screens
+      return '60vw'; 
     } else {
-      return '60vh'; // 70% of the viewport height for larger screens
+      return '60vh'; 
     }
   }
   openSearch() {
@@ -106,7 +106,7 @@ export class BannerComponent implements OnInit {
     this.userId = null;
     this.isLoggedIn = false;
     this.router.navigate(['/']);
-    // this.sharedAuthService.signOut(); // Implement this method in AuthServiceService
+    this.sharedAuthService.signout();
   }
 
   

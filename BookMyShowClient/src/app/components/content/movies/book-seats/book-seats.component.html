@@ -1,41 +1,49 @@
 <div *ngIf="show && !showPaymentGateway" class="book-seats-container">
   <div class="header">
-    <h2 class="show-title">Deadpool,A</h2>
+    <h2 class="show-title">Deadpool, A</h2>
     <p class="location">PVR Orion Uptown, Bengaluru</p>
   </div>
+
   <div class="show-details">
-    <p><strong>Start Time:</strong> {{ show.start_time | date: 'short' }}</p>
-    <p><strong>End Time:</strong> {{ show.end_time | date: 'short' }}</p>
-    <p><strong>Language:</strong> {{ show.language }}</p>
-    <p><strong>Format:</strong> {{ show.format }}</p>  
+    <p><span class="time-tag">{{ show.start_time | date: 'shortTime' }}</span></p>
+    <p><span class="language-tag">{{ show.language }}</span></p>
+    <p><strong>Format:</strong> {{ show.format }}</p>
     <button class="btn btn-custom" (click)="openSeatSelectionDialog()">{{ noOfTickets }} Tickets</button>
   </div>
-
-  <h3 class="seat-availability-title">Seat Availability</h3>
+  <hr>
 
   <div class="seat-selection-container">
-    <div *ngFor="let seatInfo of show.seat_info; let categoryindex = index" class="seat-category">
-      <div class="seat-category-header">{{ seatInfo.type }} - {{ seatInfo.price | currency: 'INR'}}</div>
-      <hr>
-      
-      <div *ngFor="let seat_row of seatInfo.status; let rowindex = index" class="seats-row">
-        <div class="row-label">{{ getRowName(categoryindex, rowindex) }}:</div>
-        <div class="seat-row-content">
-          <div *ngFor="let seat of seat_row | split; let seatIndex = index"
-               class="seat-wrapper"
-               [ngStyle]="getSeatStyle(seat, categoryindex, rowindex, seatIndex)"
-               (click)="toggleSeat(seat, categoryindex, rowindex, seatIndex)">
-            <span *ngIf="seat !== '_'">{{ getContinousSeatNumber(categoryindex, rowindex, seatIndex)}}</span>
-            <span *ngIf="seat === ' '">&nbsp;</span>
+    <div class="seats-wrapper">
+      <div *ngFor="let seatInfo of show.seat_info; let categoryindex = index" class="seat-category">
+        <div class="seat-category-header">{{ seatInfo.type }} - {{ seatInfo.price | currency: 'INR' }}</div>
+        <hr class="full-width-hr" />
+
+        <div *ngFor="let seat_row of seatInfo.status; let rowindex = index" class="seats-row">
+          <div class="row-content">
+            <div class="row-label">{{ getRowName(categoryindex, rowindex) }}:</div>
+            <div class="seat-row-content">
+              <div *ngFor="let seat of seat_row | split; let seatIndex = index"
+                   class="seat-wrapper"
+                   [ngStyle]="getSeatStyle(seat, categoryindex, rowindex, seatIndex)"
+                   (click)="toggleSeat(seat, categoryindex, rowindex, seatIndex)">
+                <span *ngIf="seat !== '_'">{{ getContinousSeatNumber(categoryindex, rowindex, seatIndex) }}</span>
+                <span *ngIf="seat === ' '">&nbsp;</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <br>
+    </div>
+    <!-- "Screen this way" message -->
+    <div class="screen-message">Screen this way</div>
+    
+    <!-- Combined button and payable amount -->
+    <div *ngIf="requiredSeats === 0" class="sticky-footer">
+      <button class="btn btn-primary full-width-button" (click)="bookSeats()">
+        Pay {{ payableAmount | currency: 'INR' }}
+      </button>
     </div>
   </div>
-
-  <div *ngIf="requiredSeats === 0" class="payable-amount">{{payableAmount | currency: 'INR'}}</div>
-  <button *ngIf="requiredSeats === 0" class="btn btn-primary full-width-button" (click)="bookSeats()">Book Seats</button>
 </div>
 
 <!-- PaymentGatewayComponent content -->

@@ -87,13 +87,27 @@ async function getCinemaDetails(cinemaId) {
         throw new Error("Error fetching cinema details");
     }
 }
-async function addCinema(cinemaData) {
-    try {
-        const cinema = new Cinema(cinemaData);
-        await cinema.save();
-        return cinema;
-    } catch (error) {
-        throw new Error("Error adding cinema");
-    }
+async function add(cinemaData) {
+  try {
+      console.log(cinemaData);
+      const cinema = new Cinema(cinemaData);
+      console.log(cinema);
+      await cinema.save();
+      return cinema;
+  } catch (error) {
+      console.error("Error details:", error);
+      throw new Error("Error adding cinema: " + error.message);
+  }
 }
-module.exports = { getAllByCity,getAll,getShowsByCinemaGrouped, getCinemaDetails,addCinema};
+
+async function update(id, cinemaData) {
+    try {
+        const cinema = await Cinema.findByIdAndUpdate(id, cinemaData, { new: true });
+        return cinema;
+    }
+    catch (error) {
+        throw new Error("Error updating cinema");
+    } 
+}
+
+module.exports = { getAllByCity,getAll,getShowsByCinemaGrouped, getCinemaDetails,update,add};

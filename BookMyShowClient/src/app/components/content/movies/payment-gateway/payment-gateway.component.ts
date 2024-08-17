@@ -43,6 +43,7 @@ export class PaymentGatewayComponent implements OnInit {
     this.payment={
       user_id:'60b9f1b3b3b3b00015f3b3b3', // #FIXME- hardcoded
       show_id:this.Show._id,
+      identity:'MOV',
       seats:seat,
       amount:this.TotalAmount,
       status:'success',

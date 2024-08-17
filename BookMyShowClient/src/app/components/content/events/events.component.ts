@@ -12,8 +12,8 @@ import { Language, Event_category, DateGroup } from 'src/app/constants/filters';
 })
 export class EventsComponent implements OnInit {
   location: string | null = null;
-  Events: unifiedShows[] = [];
-  filteredEvents: unifiedShows[] = [];
+  Events: any[] = [];
+  filteredEvents: any[] = [];
   selectedCategories: string[] = [];
   selectedLanguages: string[] = [];
   selectedDateGroup: string[] = [];
@@ -158,7 +158,7 @@ export class EventsComponent implements OnInit {
   }
 
   fetchEventDetails(event: any): void {
-    this.router.navigate([`/events/${event.eventId}`]);
+    this.router.navigate([`/events/${event._id}`]);
   }
 
   getDateGroupValue(value: string): string {

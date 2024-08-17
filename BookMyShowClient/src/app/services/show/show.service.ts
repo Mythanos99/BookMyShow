@@ -26,7 +26,14 @@ export class ShowService {
     return this.http.get<Show>(`${this.apiUrl}/shows/seat-info/${id}`,this.httpHeader)
     .pipe(catchError(httpError));
   }
-
+  addShow(show:any):Observable<any>{
+    return this.http.post(this.apiUrl+'/show',show,this.httpHeader)
+    .pipe(catchError(httpError));
+  }
+  getShowTimeSlots(id:string,date:string):Observable<any>{
+    return this.http.post(`${this.apiUrl}/shows/${id}`,date,this.httpHeader)
+    .pipe(catchError(httpError));
+  }
 }
 
 // #FIXME in the respose data not all Show data will be sent. threfore see if a new model is needed to be created for the response data

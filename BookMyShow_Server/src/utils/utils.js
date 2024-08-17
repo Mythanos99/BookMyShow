@@ -1,9 +1,6 @@
 const bcrypt = require('bcryptjs');
 const Movie = require('../models/movie');
 const Event = require('../models/event');
-const Play = require('../models/play');
-const Sport = require('../models/sport');
-const Activity = require('../models/activity');
 
 const hashPassword = async (password) => {
   try {

@@ -1,77 +1,68 @@
-/* movie-details.component.scss */
+.bg-image {
+  background-image: url('/assets/Caraosal/bg-movie.jpg'); /* Background image path */
+  background-size: cover; /* Ensures the background image covers the element */
+  background-position: center; /* Centers the background image */
+  background-repeat: no-repeat; /* Prevents repeating the background image */
+  background-attachment: fixed; /* Keeps the background image fixed during scrolling */
+  color: white; /* Sets text color to white */
+}
+
 .movie-details-container {
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    background-color: #f9f9f9;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.movie-title {
+  font-size: 2rem; 
+  margin-bottom: 1rem; 
+}
+
+.info-box {
+  background-color: white; /* Black background */
+  color: black; /* White text */
+  padding: 10px; /* Padding inside the box */
+  border-radius: 5px; /* Rounded corners */
+}
+
+.movie-description {
+  margin-top: 1rem; /* Adds margin above the description */
+}
+
+@media (max-width: 767px) {
+  .bg-image {
+    padding: 10px; /* Adjust padding on smaller screens */
   }
-  
-  .movie-poster {
-    text-align: center;
-    margin-bottom: 20px;
+
+  .info-box {
+    padding: 8px; /* Adjust padding on smaller screens */
   }
-  
-  .movie-poster img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-  }
-  
-  .movie-info {
-    margin-bottom: 20px;
-  }
-  
-  .movie-info h1 {
-    margin-bottom: 10px;
-    font-size: 2em;
-  }
-  
-  .movie-tagline {
-    font-style: italic;
-    color: #777;
-  }
-  
-  .movie-description {
-    margin-top: 10px;
-    font-size: 1.1em;
-  }
-  
-  .movie-details p {
-    margin: 5px 0;
-  }
-  
-  .showtimes {
-    margin-bottom: 20px;
-  }
-  
-  .showtimes h2 {
-    margin-bottom: 10px;
-  }
-  
-  .showtimes ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .showtimes li {
-    margin-bottom: 5px;
-  }
-  
-  .book-tickets {
-    text-align: center;
-  }
-  
-  .btn-primary {
-    background-color: #E35E64;
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    font-size: 1em;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .btn-primary:hover {
-    background-color: #d1485f;
-  }
-  
+}
+.rating-item {
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+}
+
+.rating-item i.fa-user-circle {
+  color: #007bff;
+}
+
+.username {
+  font-weight: bold;
+}
+
+.review {
+  font-style: italic;
+}
+
+.mat-paginator {
+  margin: 1rem 0;
+}
+
+.bg-image {
+  background-image: url('/assets/Caraosal/bg-movie.jpg');
+  background-size: cover;
+  background-position: center;
+}
+

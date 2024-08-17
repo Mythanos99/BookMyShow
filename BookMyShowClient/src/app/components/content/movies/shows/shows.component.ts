@@ -6,7 +6,7 @@ import { LocationService } from 'src/app/sharedservice/location.service';
 interface Show {
   _id: string;
   start_time: string;
-  seat_info?: { type: string; status:string[];price: number }[]; // Assuming seat info is an array of objects
+  seat_info?: { type: string; status: string[]; price: number }[];
 }
 
 interface Cinema {
@@ -18,6 +18,7 @@ interface Cinema {
     area: string;
     pincode: string;
   };
+  food_service: boolean;
   shows: Show[];
 }
 
@@ -33,9 +34,16 @@ interface DateGroup {
 })
 export class ShowsComponent implements OnInit {
   format: string = '2D';
+  movieName: string = 'Movie Name'; // You should set this dynamically
+  genre: string = 'Genre'; // You should set this dynamically
+  languages: string[] = ['Hindi', 'English', 'Tamil', 'Telugu'];
+  formats: string[] = ['2D', '3D', 'IMAX'];
+  selectedLanguage: string = 'Hindi';
+  selectedDateIndex: number = 0;
   location: string | null = '';
   movieID: string | null = null;
   dateGroups: DateGroup[] = [];
+  selectedDateGroup: DateGroup | null = null;
 
   constructor(
     private showService: ShowService,
@@ -58,7 +66,7 @@ export class ShowsComponent implements OnInit {
       this.locationService.cityName$.subscribe((city) => {
         this.location = city;
         this.updateURL();
-        this.fetchShows(); // Fetch shows after setting the location
+        this.fetchShows();
       });
     } else {
       this.fetchShows();
@@ -68,30 +76,50 @@ export class ShowsComponent implements OnInit {
   fetchShows(): void {
     if (this.movieID) {
       const queryParams = `?format=${this.format}&location=${this.location}`;
-      this.showService.getShowsByMovieId(this.movieID, queryParams).subscribe((response: any) => {
-        this.dateGroups = response.map((group: any) => ({
-          date: group.date,
-          cinemas: group.cinemas.map((cinema: any) => ({
-            cinema_id: cinema.cinema_id,
-            cinema_name: cinema.cinema_name,
-            location: cinema.location,
-            shows: cinema.shows.map((show: any) => ({
-              _id: show._id,
-              start_time: show.start_time,
-              seat_info: show.seat_info 
-            }))
-          }))
-        }));
-        console.log(this.dateGroups);
-      });
+      this.showService
+        .getShowsByMovieId(this.movieID, queryParams)
+        .subscribe((response: any) => {
+          this.dateGroups = response.map((group: any) => ({
+            date: group.date,
+            cinemas: group.cinemas.map((cinema: any) => ({
+              cinema_id: cinema.cinema_id,
+              cinema_name: cinema.cinema_name,
+              location: cinema.location,
+              food_service: cinema.food_service,
+              shows: cinema.shows.map((show: any) => ({
+                _id: show._id,
+                start_time: show.start_time,
+                seat_info: show.seat_info,
+              })),
+            })),
+          }));
+          this.selectDate(0); // Default to the first date
+          console.log(this.dateGroups);
+        });
     }
   }
 
+  selectDate(index: number): void {
+    this.selectedDateIndex = index;
+    this.selectedDateGroup = this.dateGroups[index];
+  }
+
   getSeatInfo(show: Show): string {
-    console.log(show);
     return show.seat_info
-      ? show.seat_info.map(seat => `${seat.type}: ${seat.price}`).join('\n')
+      ? show.seat_info
+          .map((seat) => `${seat.type}: ${seat.price}`)
+          .join('\n')
       : 'No seat information available';
+  }
+
+  onLanguageChange(event: any): void {
+    // Handle language change logic
+    console.log('Language changed:', event.value);
+  }
+
+  onFormatChange(event: any): void {
+    // Handle format change logic
+    console.log('Format changed:', event.value);
   }
 
   updateURL(): void {
@@ -101,8 +129,8 @@ export class ShowsComponent implements OnInit {
     };
     this.router.navigate([], { queryParams });
   }
+
   onShowSelect(show: any): void {
     this.router.navigate(['/book-tickets', show._id]);
   }
-  // #BUG- The data returned from the shows data does not feature seat_info
 }

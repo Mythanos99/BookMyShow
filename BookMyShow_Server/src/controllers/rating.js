@@ -18,4 +18,17 @@ async function addRating(req, res) {
   }
 }
 
-module.exports = { addRating };
+async function getRatingByMovieId(req, res) {
+  res.setHeader("Content-Type", "application/json");
+  try {
+    const movieId = req.params.id;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 5;
+    const rating = await rating_service.getRatingByMovieId(movieId,page,limit);
+    res.status(200).json(rating);
+  } catch (error) {
+    console.error("Error fetching rating:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+module.exports = { addRating ,getRatingByMovieId };

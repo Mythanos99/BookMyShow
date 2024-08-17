@@ -22,4 +22,14 @@ async function getShowById(req,res){
     }
 }
 
-module.exports={getShowByMovieId,getShowById};
+async function getTimeSlots(req,res){
+    try {
+        const id = req.params.id;
+        const date=req.body.date
+        const show = await show_service.getSlots(id,date);
+        res.status(200).json(show);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+module.exports={getShowByMovieId,getShowById,getTimeSlots};

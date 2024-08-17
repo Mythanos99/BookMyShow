@@ -25,4 +25,12 @@ export class EventService {
     return this.http.get<Events>(`${this.apiUrl}/events/${id}`,this.httpHeader)
     .pipe(catchError(httpError));
   }
+  getEventTicketInfo(id: string): Observable<any> {
+    return this.http.get<Events>(`${this.apiUrl}/events/ticket/${id}`,this.httpHeader)
+    .pipe(catchError(httpError));
+  }
+  addEvent(formData: FormData):Observable<any>{
+    return this.http.post(this.apiUrl+'/events',formData)
+    .pipe(catchError(httpError));
+  }
 }

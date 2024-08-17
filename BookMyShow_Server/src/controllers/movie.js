@@ -69,6 +69,27 @@ async function addMovie(req, res) {
         }
       });
 }
-module.exports = { getAllMovies,getFilteredMovies ,getMovieById,getUpcomingMovies,getMovieFilters,addMovie};
+
+async function updateMovie(req, res) {
+    upload(req, res, async (err) => {
+        if (err) {
+          return res.status(400).json({ error: err });
+        }
+    
+        try {
+          const movieData = {
+            ...req.body,
+            image_url: req.file ? req.file.path : ''
+          };
+    
+          const updatedMovie = await movie_service.update(req.params.id, movieData);
+          return res.status(200).json(updatedMovie);
+        } catch (error) {
+          return res.status(500).json({ message: error.message });
+        }
+      });
+}
+
+module.exports = { getAllMovies,getFilteredMovies ,getMovieById,getUpcomingMovies,getMovieFilters,addMovie,updateMovie};
 
 // .#FIXME- res.set header not added to all. Maintain code consistentcy.

@@ -2,9 +2,6 @@ const ratingsBatch = {};
 const Movie = require('../models/movie'); 
 const Rating = require('../models/rating'); 
 const Event = require('../models/event'); 
-const Play = require('../models/play'); 
-const Sport = require('../models/sport'); 
-const Activity = require('../models/activity'); 
 const utils=require('../utils/utils');
 /**
  * Add a rating to the batch.
@@ -83,9 +80,23 @@ async function updateEntityRatings(ratingsBatch) {
  }
 }
 
+async function getRatingByMovieId(movieId,page,limit){
+    try{
+        const totalRatingsCount = await Rating.countDocuments({ movieId: movieId });
+        const ratings = await Rating.find({movieId:movieId},{username:1,rating:1,review:1,_id:0,createdAt:1})
+        .sort({createdAt:-1})
+        .skip((page-1)*limit)
+        .limit(limit);
+        return {ratings,totalRatingsCount};
+    } catch (error) {
+        console.error("Error fetching rating:", error);
+        return [];
+    }
+}
 module.exports = {
     addRatingToBatch,
   getAndClearRatingsBatch,
   addIndividualRating,
-  updateEntityRatings
+  updateEntityRatings,
+  getRatingByMovieId
 };

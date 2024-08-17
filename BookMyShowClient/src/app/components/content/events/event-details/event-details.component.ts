@@ -5,6 +5,7 @@ import { LocationService } from 'src/app/sharedservice/location.service';
 import { MatDialog } from '@angular/material/dialog';
 import { RatingDialogComponent } from 'src/app/components/shared/rating-dialog/rating-dialog.component';
 import { Events } from 'src/app/models/event';
+import { getimageURl } from 'src/app/utils/util';
 
 @Component({
   selector: 'app-event-details',
@@ -12,7 +13,7 @@ import { Events } from 'src/app/models/event';
   styleUrls: ['./event-details.component.scss']
 })
 export class EventDetailsComponent implements OnInit {
-  event: Events = new Events('',',',0);
+  event: any
   eventId: string | null = null;
   location: string | null = null;
 
@@ -43,17 +44,19 @@ export class EventDetailsComponent implements OnInit {
       const queryParams = {
         location: this.location,
       };
-      this.router.navigate(['/book-event', this.eventId], { queryParams });
+      this.router.navigate(['/book-event-tickets', this.eventId],);
     }
   }
-
+  showImage(image: string): string {
+    return getimageURl('uploads/image_url-1723714703491.jpg');
+  }
   rateNow(): void {
     console.log('Rate now clicked');
     const dialogRef = this.dialog.open(RatingDialogComponent, {
       width: '400px',
       data: { event: this.event }
     });
-
+    
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log('Rating:', result.rating);

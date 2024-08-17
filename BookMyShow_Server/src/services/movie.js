@@ -13,7 +13,7 @@ async function getFilteredResult(filters) {
   try {
     const query = {};
     const today = new Date();
-    query.date = { $gte: today };
+    query.start_time = { $gte: today }; 
     if (filters.location) {
       query.city = filters.location;
     }
@@ -26,11 +26,11 @@ async function getFilteredResult(filters) {
     }
 
     if (filters.genre) {
-      query.genre = { $in: filters.genre.split("|") };
+      query.genre = { $elemMatch: { $in: filters.genre.split("|") } };
     }
     const shows = await Show.aggregate([
       { $match: query },
-      { $group: { _id: "$content_id", count: { $sum: 1 } } },
+      { $group: { _id: "$movie_id", count: { $sum: 1 } } },
       { $sort: { count: -1 } },
       {
         $lookup: {
@@ -41,6 +41,7 @@ async function getFilteredResult(filters) {
         },
       },
       { $unwind: "$movieDetails" },
+      
       {
         $project: {
           name: "$movieDetails.name",
@@ -64,18 +65,30 @@ async function getFilters(location) {
       const today = new Date();
       const result = await Show.aggregate([
         {
-            $match: {
-                city: location,
-                date: { $gte: today },
-            }
+          $match: {
+            city: location,
+            start_time: { $gte: today },
+          }
         },
-        { $unwind: "$genre" }, 
+        {
+          $lookup: {
+            from: "movies",
+            let: { movieId: "$movie_id" },
+            pipeline: [
+              { $match: { $expr: { $eq: ["$_id", "$$movieId"] } } },
+              { $project: { genre: 1, _id: 0 } }
+            ],
+            as: "movieDetails",
+          }
+        },
+        { $unwind: "$movieDetails" }, 
+        { $unwind: "$movieDetails.genre" }, 
         {
           $group: {
             _id: null,
             languages: { $addToSet: "$language" },
             formats: { $addToSet: "$format" },
-            genres: { $addToSet: "$genre" }
+            genres: { $addToSet: "$movieDetails.genre" }
           }
         },
       ]);
@@ -99,20 +112,20 @@ async function getFilters(location) {
 
 async function getById(id) {
   try {
-    const movie = await Movie.findById(id);
+    const movie = await Movie.findById(id,{__v:0,createdAt:0,updatedAt:0});
     return movie;
   } catch (error) {
     throw new Error("Error fetching movie");
   }
 }
 
-async function getUpcoming(filters) {
+async function getUpcoming(filters=null) {
     try {
         const query = {};
         const today = new Date();
-        query.releaseDate = { $gte: today };
+        query.release_date = { $gte: today };
         if (filters.languages) {
-        query.language = { $in: filters.languages.split("|") };
+        query.languages = { $in: filters.languages.split("|") };
         }
         if (filters.format) {
         query.format = { $in: filters.format.split("|") };
@@ -127,7 +140,7 @@ async function getUpcoming(filters) {
                 $lookup: {
                     from: "shows",
                     localField: "_id",
-                    foreignField: "content_id",
+                    foreignField: "movie_id",
                     as: "showDetails",
                 },
             },
@@ -142,7 +155,7 @@ async function getUpcoming(filters) {
                     _id: 1,
                     name: 1,
                     image_url: 1,
-                    releaseDate: 1,
+                    release_date: 1,
                     likes: 1,
                     genre: 1,
                 }
@@ -166,4 +179,14 @@ async function addMovie(movie){
   }
 }
 
-module.exports = { getAll, getFilteredResult, getById, getUpcoming ,getFilters,addMovie};
+async function updateMovie(id,movie){
+  try{
+    const updatedMovie = await Movie.findByIdAndUpdate(id,movie,{new:true});
+    return updatedMovie; // #TODO- check if updated Movie is needed to be returned or not.
+  }
+  catch(error){
+    throw new Error("Error updating movie");
+  }
+}
+
+module.exports = { getAll, getFilteredResult, getById, getUpcoming ,getFilters,addMovie,updateMovie};

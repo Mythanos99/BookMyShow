@@ -13,9 +13,6 @@ import { HomeComponent } from './components/content/home/home.component';
 import {MatTabsModule} from '@angular/material/tabs';
 import { MoviesComponent } from './components/content/movies/movies.component';
 import { EventsComponent } from './components/content/events/events.component';
-import { ActivitiesComponent } from './components/content/activities/activities.component';
-import { SportsComponent } from './components/content/sports/sports.component';
-import { PlaysComponent } from './components/content/plays/plays.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { AuthComponent } from './components/auth/auth.component';
 import { RegisterComponent } from './components/auth/register/register.component';
@@ -54,6 +51,14 @@ import {MatSelectModule} from '@angular/material/select';
 import { ListCinemaComponent } from './components/content/list-your-show/list-cinema/list-cinema.component';
 import {MatRadioModule} from '@angular/material/radio';
 import { ListShowsComponent } from './components/content/list-your-show/list-shows/list-shows.component';
+import { TimeagoModule } from 'ngx-timeago';
+import {MatIconModule} from '@angular/material/icon';
+import { BookTicketsComponent } from './components/content/events/book-tickets/book-tickets.component';
+import { PaymentGatewayEventComponent } from './components/content/events/payment-gateway-event/payment-gateway-event.component';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { ListEventsComponent } from './components/content/list-your-show/list-events/list-events.component';
+import {MatChipsModule} from '@angular/material/chips';
 
 @NgModule({
   declarations: [
@@ -66,9 +71,6 @@ import { ListShowsComponent } from './components/content/list-your-show/list-sho
     HomeComponent,
     MoviesComponent,
     EventsComponent,
-    ActivitiesComponent,
-    SportsComponent,
-    PlaysComponent,
     PageNotFoundComponent,
     AuthComponent,
     RegisterComponent,
@@ -88,7 +90,10 @@ import { ListShowsComponent } from './components/content/list-your-show/list-sho
     ListYourShowComponent,
     ListMovieComponent,
     ListCinemaComponent,
-    ListShowsComponent
+    ListShowsComponent,
+    BookTicketsComponent,
+    PaymentGatewayEventComponent,
+    ListEventsComponent
   ],
   imports: [
     BrowserModule,
@@ -97,7 +102,7 @@ import { ListShowsComponent } from './components/content/list-your-show/list-sho
     BrowserAnimationsModule,
     MatTabsModule,MatCardModule,MatDialogModule,MatFormFieldModule,ReactiveFormsModule,MatButtonModule,HttpClientModule,
     MatTooltipModule,FormsModule,MatSnackBarModule,MatSliderModule,MatInputModule,MatDatepickerModule,MatNativeDateModule,
-    MatPaginatorModule,MatSelectModule,MatRadioModule
+    MatPaginatorModule,MatSelectModule,MatRadioModule,TimeagoModule.forRoot(),MatIconModule,MatStepperModule,MatCheckboxModule,MatChipsModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

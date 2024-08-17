@@ -10,7 +10,7 @@ function login(req, res) {
       // Set cookie with JWT token
       res.cookie("jwtToken", token, {
         httpOnly: false, // Ensures the cookie is sent only in HTTP(S) requests
-        sameSite: "None", 
+        sameSite: "Lax", 
         secure: false, // Set to false for local development
         expires: new Date(Date.now() + 3600000), // Cookie expiration
         path: '/', // Ensures the cookie is accessible throughout the application

@@ -19,7 +19,6 @@ export class AuthInterceptor implements HttpInterceptor {
     const clonedRequest = request.clone({
       withCredentials: true // Ensures cookies are included with the request
     });
-    console.log(clonedRequest);
     return next.handle(clonedRequest).pipe(
       catchError(err => {
         if (err.status === 401) {

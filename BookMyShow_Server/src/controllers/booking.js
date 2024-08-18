@@ -93,7 +93,16 @@ async function getRecentBookings(req, res) {
   }
 }
 
-module.exports = { bookShow ,bookSeat,getAllBookingsForUser,getRecentBookings};
+async function bookEvent(req, res) {
+  // res.setHeader("Content-Type", "application/json");
+  // try{
+  //   const {Payment,Booking,Seat}=req.body;
+  //   const seatavialble=await booking_service.isEventSeatAvailable(Seat);
+    
+  // }
+}
+
+module.exports = { bookShow ,bookSeat,getAllBookingsForUser,getRecentBookings,bookEvent};
 
 // #TODO- check if thise res.json needed to be written in the separate utils functions or same funciton
 

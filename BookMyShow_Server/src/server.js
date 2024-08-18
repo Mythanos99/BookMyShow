@@ -16,9 +16,7 @@ const cinemaRouter = require("./routers/cinema");
 const showRouter = require("./routers/show");
 const bookingRouter = require("./routers/booking");
 const eventRouter = require("./routers/event");
-const sportRouter = require("./routers/sport");
-const playRouter = require("./routers/play");
-const activityRouter = require("./routers/activity");
+const businessRouter = require("./routers/business.js");
 const unifiedShowsRouter = require("./routers/unifiedShows")
 const search_controller = require("./controllers/search");
 const ratingRouter = require("./routers/rating");
@@ -33,6 +31,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use('/users', userRouter);
+app.use('/business', businessRouter);
 app.use('/login', authRouter);
 app.use('/movies', movieRouter);
 app.use('/cinemas', cinemaRouter);

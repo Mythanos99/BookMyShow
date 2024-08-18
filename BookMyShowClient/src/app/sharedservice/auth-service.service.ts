@@ -6,7 +6,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class AuthServiceService {
   private userIdSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
-
+  private BusinessIdSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
   constructor() { }
 
   getUserId(): Observable<string | null> {
@@ -34,5 +34,23 @@ export class AuthServiceService {
   }
   private clearCookie(name: string) {
     document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+  }
+  getBusinessId(): Observable<string | null> {
+    var localId=localStorage.getItem('businessId');
+    if(localId){
+      this.BusinessIdSubject.next(localId);
+    }
+    return this.BusinessIdSubject.asObservable();
+  }
+
+  setBusinessId(businessId: string): void {
+    this.BusinessIdSubject.next(businessId);
+    localStorage.setItem('businessId', businessId);
+    console.log('Business ID set:', businessId);
+  }
+  signoutBusiness(){
+    localStorage.removeItem('businessId');
+    this.clearCookie('jwtTokenBusiness');
+    this.BusinessIdSubject.next(null);
   }
 }

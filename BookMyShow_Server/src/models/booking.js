@@ -9,6 +9,7 @@ const foodSchema=new Schema({
 const BookingSchema = new Schema({
     user_id: { type: ObjectId, required: true },
     show_id: { type: ObjectId, required: true },
+    identity: { type: String, required: true },
     transaction_id: { type: ObjectId, required: true },
     amount: { type: Number, required: true },
     seats: { type: [String], required: true },

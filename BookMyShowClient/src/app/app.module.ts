@@ -59,7 +59,10 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ListEventsComponent } from './components/content/list-your-show/list-events/list-events.component';
 import {MatChipsModule} from '@angular/material/chips';
-
+import { MainPageComponent } from './components/content/list-your-show/main-page/main-page.component';
+import { AdminComponent } from './components/content/admin/admin.component';
+import { MatTableModule } from '@angular/material/table';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 @NgModule({
   declarations: [
     AppComponent,
@@ -93,7 +96,9 @@ import {MatChipsModule} from '@angular/material/chips';
     ListShowsComponent,
     BookTicketsComponent,
     PaymentGatewayEventComponent,
-    ListEventsComponent
+    ListEventsComponent,
+    MainPageComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,
@@ -102,7 +107,8 @@ import {MatChipsModule} from '@angular/material/chips';
     BrowserAnimationsModule,
     MatTabsModule,MatCardModule,MatDialogModule,MatFormFieldModule,ReactiveFormsModule,MatButtonModule,HttpClientModule,
     MatTooltipModule,FormsModule,MatSnackBarModule,MatSliderModule,MatInputModule,MatDatepickerModule,MatNativeDateModule,
-    MatPaginatorModule,MatSelectModule,MatRadioModule,TimeagoModule.forRoot(),MatIconModule,MatStepperModule,MatCheckboxModule,MatChipsModule
+    MatPaginatorModule,MatSelectModule,MatRadioModule,TimeagoModule.forRoot(),MatIconModule,MatStepperModule,MatCheckboxModule,MatChipsModule,
+    MatTableModule,MatSlideToggleModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

@@ -24,6 +24,10 @@ export class AuthService {
     return this.http.post<Response>(this.apiUrl+'/login',payload,this.httpOptions)
     .pipe(catchError(httpError));
   }
+  loginBusiness(payload:any): Observable<Response>{
+    return this.http.post<Response>(this.apiUrl+'/login/business',payload,this.httpOptions)
+    .pipe(catchError(httpError));
+  }
 
   // #TODO- fix the deprecated error of throw Error
 }

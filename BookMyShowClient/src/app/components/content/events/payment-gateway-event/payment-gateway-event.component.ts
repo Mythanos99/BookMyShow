@@ -6,6 +6,7 @@ interface PaymentDetails {
   showTime: Date;
   showLocation: string;
   totalAmount: number;
+  show_id: string;
 }
 @Component({
   selector: 'app-payment-gateway-event',
@@ -18,7 +19,7 @@ export class PaymentGatewayEventComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
-
+  
   proceedToPay(): void {
     // Logic to proceed to the payment gateway or complete payment
     console.log('Proceeding to pay:', this.paymentDetails.totalAmount);

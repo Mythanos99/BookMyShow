@@ -15,6 +15,7 @@ interface PaymentDetails {
   showTime: Date;
   showLocation: string;
   totalAmount: number;
+  show_id: string;
 }
 
 @Component({
@@ -74,6 +75,7 @@ export class BookTicketsComponent implements OnInit {
         showTime: new Date(),  // Replace with actual show time if available
         showLocation: 'PVR Orion Uptown, Bengaluru',  // Replace with actual show location if available
         totalAmount: this.totalAmount,
+        show_id: this.eventId || ''
       };
 
       this.showPaymentGateway = true;

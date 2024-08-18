@@ -1,5 +1,6 @@
 const redis=require('../db/redis');
 const show_service=require('../services/show');
+const event_Service=require('../services/event');
 const Booking=require('../models/booking');
 const RecentBooking=require('../models/recentBooking');
 
@@ -86,7 +87,18 @@ async function getRecentBookingsForUser(userId){
     }
 }
 
+async function isEventSeatAvailable(eventId,seat){
+    // try{
+    //     const event=await event_Service.getById(eventId);
+    //     const seats=event.seat_info;
+    //     seat.forEach(s=>{
+    //         if(){
+    //             return false;
+    //         }
+    //     });
+    // }
+}
 
 module.exports={isSeatAvaialble,ReserveSeat,isBooked,createBooking,getAllBookingsForUser,getRecentBookingsForUser,
-    AddRecentBooking
+    AddRecentBooking,isEventSeatAvailable
 };

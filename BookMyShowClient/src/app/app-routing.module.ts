@@ -18,11 +18,14 @@ import { ListCinemaComponent } from './components/content/list-your-show/list-ci
 import { ListShowsComponent } from './components/content/list-your-show/list-shows/list-shows.component';
 import { BookTicketsComponent } from './components/content/events/book-tickets/book-tickets.component';
 import { ListEventsComponent } from './components/content/list-your-show/list-events/list-events.component';
+import { MainPageComponent } from './components/content/list-your-show/main-page/main-page.component';
+import { AdminComponent } from './components/content/admin/admin.component';
 
 const routes: Routes = [
   // #TODO change it to location and add lazy loading. Individual routing for features like movies
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
+  { path: 'admin', component: AdminComponent },
   { path: 'movies', component: MoviesComponent},
   { path: 'movies/:id', component: MovieDetailsComponent},
   { path: 'events', component: EventsComponent },
@@ -40,6 +43,9 @@ const routes: Routes = [
   { path: 'list-shows/cinema', component:ListCinemaComponent},
   { path: 'list-shows/shows', component:ListShowsComponent},
   { path: 'list-shows/events', component:ListEventsComponent},
+  { path: 'list-shows/home', component:MainPageComponent},
+
+
 
 
 

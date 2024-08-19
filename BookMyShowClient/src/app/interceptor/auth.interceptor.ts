@@ -8,11 +8,16 @@ import {
 import { catchError, Observable, throwError } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from '../components/auth/login/login.component';
+import { AuthServiceService } from '../sharedservice/auth-service.service';
+import { ToasterService } from '../sharedservice/toaster.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog,
+    private authService: AuthServiceService,
+    private toasterService:ToasterService
+  ) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     // Clone the request and add the `withCredentials` option
@@ -22,8 +27,10 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(clonedRequest).pipe(
       catchError(err => {
         if (err.status === 401) {
-          // Token expired or unauthorized access - show a popup showing the session has expired.
-          // this.dialog.open(LoginComponent);
+          console.log('Session expired');
+          this.authService.signout();
+          this.dialog.open(LoginComponent);
+          this.toasterService.showError('Session Expired .Login again');
         }
         return throwError(err);
       })

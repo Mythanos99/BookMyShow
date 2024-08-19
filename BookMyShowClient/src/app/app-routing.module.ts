@@ -20,12 +20,13 @@ import { BookTicketsComponent } from './components/content/events/book-tickets/b
 import { ListEventsComponent } from './components/content/list-your-show/list-events/list-events.component';
 import { MainPageComponent } from './components/content/list-your-show/main-page/main-page.component';
 import { AdminComponent } from './components/content/admin/admin.component';
+import { LoginGuard } from './guard/admin.guard';
 
 const routes: Routes = [
   // #TODO change it to location and add lazy loading. Individual routing for features like movies
   { path: '', component: MoviesComponent },
   { path: 'home', component: MoviesComponent },
-  { path: 'admin', component: AdminComponent },
+  { path: 'admin', component: AdminComponent ,canActivate:[LoginGuard]},
   { path: 'movies', component: MoviesComponent},
   { path: 'movies/:id', component: MovieDetailsComponent},
   { path: 'events', component: EventsComponent },
@@ -36,8 +37,8 @@ const routes: Routes = [
   { path: 'shows/:id', component: ShowsComponent},
   { path: 'book-tickets/:id', component: BookSeatsComponent},
   { path: 'book-event-tickets/:id', component: BookTicketsComponent},
-  { path: 'my-profile', component:UserProfileComponent},
-  { path: 'my-bookings', component:UserBookingsComponent},
+  { path: 'my-profile', component:UserProfileComponent,canActivate:[LoginGuard]},
+  { path: 'my-bookings', component:UserBookingsComponent,canActivate:[LoginGuard]},
   { path: 'list-shows', component:ListYourShowComponent},
   { path: 'list-shows/movie', component:ListMovieComponent},
   { path: 'list-shows/cinema', component:ListCinemaComponent},

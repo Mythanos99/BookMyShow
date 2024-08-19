@@ -2,6 +2,11 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { BusinessService } from 'src/app/services/business/business.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { AuthServiceService } from 'src/app/sharedservice/auth-service.service';
+import { UserService } from 'src/app/services/user/user.service';
+import { ToasterService } from 'src/app/sharedservice/toaster.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
@@ -11,6 +16,8 @@ import { BusinessService } from 'src/app/services/business/business.service';
 export class AdminComponent implements OnInit {
   displayedColumns: string[] = ['username', 'name', 'mov', 'eve', 'sho', 'cin', 'actions'];
   dataSource = new MatTableDataSource<any>([]);
+  access:boolean = false;
+  userId: string|null = null;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   // Pagination Variables
@@ -18,10 +25,38 @@ export class AdminComponent implements OnInit {
   limit = 10;
   totalItems = 10;
 
-  constructor(private businessService: BusinessService) { }
+  constructor(private businessService: BusinessService,
+    private SharedAuthService: AuthServiceService,
+    private userService: UserService,
+    private toasterService: ToasterService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
-    this.loadBusinesses();
+    this.SharedAuthService.getUserId().subscribe(userId => {
+      this.userId = userId;
+      if(this.userId===null){
+        this.toasterService.showError('You are not authorized to access this page');
+        this.router.navigate(['/']);
+      }
+      this.userService.getUserById(this.userId||'').subscribe((data:any)=>{
+        if(data.role === 'admin'){
+          this.access = true;
+          this.loadBusinesses();
+        }
+        else{
+          this.access = false;
+          this.toasterService.showError('You are not authorized to access this page');
+          this.router.navigate(['/']);
+
+        }
+      },(error)=>{
+        this.toasterService.showError('You are not authorized to access this page');
+        this.router.navigate(['/']);
+      })
+    });
+
+
   }
 
   loadBusinesses(): void {

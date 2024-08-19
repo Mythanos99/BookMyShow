@@ -29,7 +29,9 @@ export class AuthServiceService {
     localStorage.setItem('userId', userId);
     console.log('User ID set:', userId);
   }
-
+  getCurrentBusinessId(): string | null {
+    return this.BusinessIdSubject.value;
+  }
   getCurrentUserId(): string | null {
     return this.userIdSubject.value;
   }

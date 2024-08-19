@@ -7,6 +7,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { RatingDialogComponent } from 'src/app/components/shared/rating-dialog/rating-dialog.component';
 import { getimageURl } from 'src/app/utils/util';
 import { PageEvent } from '@angular/material/paginator';
+import { AuthServiceService } from 'src/app/sharedservice/auth-service.service';
+import { SelectFormatComponent } from '../dialog/select-format/select-format.component';
+import { WarningDialogComponent } from '../dialog/warning-dialog/warning-dialog.component';
+import { Rating } from 'src/app/models/review';
 
 @Component({
   selector: 'app-movie-details',
@@ -16,7 +20,7 @@ import { PageEvent } from '@angular/material/paginator';
 export class MovieDetailsComponent implements OnInit {
   movie: any;
   movieId: string | null = null;
-  selectedFormat: string | null = 'IMAX';
+  selectedFormat: string | null = null;
   location: string | null = null;
   reviews: any[] = [];
   showRatings: boolean = false;
@@ -25,6 +29,7 @@ export class MovieDetailsComponent implements OnInit {
   ratingsPerPage: number = 5;
   totalRatingsCount: number = 0;
   page: number = 1; // Default page number
+  userId: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -32,10 +37,15 @@ export class MovieDetailsComponent implements OnInit {
     private router: Router,
     private locationService: LocationService,
     public dialog: MatDialog,
-    private ratingService: RatingService
+    private ratingService: RatingService,
+    private authService: AuthServiceService
   ) {}
 
   ngOnInit(): void {
+    this.authService.getUserId().subscribe((userId) => {
+      this.userId = userId;
+    });
+
     this.movieId = this.route.snapshot.paramMap.get('id');
     if (this.movieId) {
       this.movieService.getMovieById(this.movieId).subscribe(
@@ -47,21 +57,49 @@ export class MovieDetailsComponent implements OnInit {
         }
       );
     }
-    this.locationService.cityName$.subscribe(city => {
+    this.locationService.cityName$.subscribe((city) => {
       this.location = city;
     });
   }
 
   bookTickets(): void {
     if (this.movie) {
-      const queryParams = {
-        format: this.selectedFormat,
-        location: this.location,
-      };
-      this.router.navigate(['/shows', this.movieId], { queryParams });
+      const dialogRef = this.dialog.open(SelectFormatComponent, {
+        width: '300px',
+        data: { formats: this.movie.formats || [] } // Pass the available formats to the dialog
+      });
+
+      dialogRef.afterClosed().subscribe((selectedFormat) => {
+        if (selectedFormat) {
+          this.selectedFormat = selectedFormat;
+          if (this.movie.rating === 'A') {
+            // Show warning dialog for A-rated movies
+            const warningDialogRef = this.dialog.open(WarningDialogComponent, {
+              width: '400px'
+            });
+
+            warningDialogRef.afterClosed().subscribe((confirmed) => {
+              if (confirmed) {
+                this.navigateToShowtimes();
+              }
+            });
+          } else {
+            this.navigateToShowtimes();
+          }
+        }
+      });
     }
   }
 
+  navigateToShowtimes(): void {
+    const queryParams = {
+      format: this.selectedFormat,
+      location: this.location,
+    };
+    this.router.navigate(['/shows', this.movieId], { queryParams });
+  }
+
+ 
   rateNow(): void {
     const dialogRef = this.dialog.open(RatingDialogComponent, {
       width: '400px',
@@ -70,17 +108,16 @@ export class MovieDetailsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        const payload = {
+        const payload :Rating= {
           entity: 'MOV',
-          userId: '66a0a30bea454966838c2793', // #TODO: Replace with dynamic userId
-          entityId: this.movieId,
+          userId: this.userId||'',
+          entityId: this.movieId||'',
           rating: result.rating,
           review: result.review
         };
         this.ratingService.rateEntity(payload).subscribe(
           (response: any) => {
             console.log('Rating submitted successfully', response);
-            this.fetchRating(); // Refresh ratings after submitting
           },
           (error: any) => {
             console.error('Error submitting rating', error);
@@ -122,12 +159,12 @@ export class MovieDetailsComponent implements OnInit {
   toggleRatings(): void {
     this.showRatings = !this.showRatings;
     if (this.showRatings) {
-      this.fetchRating(); // Fetch ratings when showing them
+      this.fetchRating(); 
     }
   }
 
   onPageChange(event: PageEvent): void {
-    this.page = event.pageIndex + 1; // Angular Material paginator uses zero-based index
+    this.page = event.pageIndex + 1; 
     this.ratingsPerPage = event.pageSize;
     this.fetchRating(this.page, this.ratingsPerPage);
   }
@@ -139,5 +176,3 @@ export class MovieDetailsComponent implements OnInit {
   }
 }
 
-  
-// #TODO- add a warning if movie is A rated.

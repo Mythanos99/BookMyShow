@@ -1,16 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, AbstractControl, Validators } from '@angular/forms';
 import { CinemaService } from 'src/app/services/cinema/cinema.service';
+import { BusinessService } from 'src/app/services/business/business.service';
+import { AuthServiceService } from 'src/app/sharedservice/auth-service.service';
+import { ToasterService } from 'src/app/sharedservice/toaster.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-cinema',
   templateUrl: './list-cinema.component.html',
   styleUrls: ['./list-cinema.component.scss']
 })
-export class ListCinemaComponent {
+export class ListCinemaComponent implements OnInit {
   cinemaForm: FormGroup;
+  Business: any;
+  BusinessId: string | null = null;
 
-  constructor(private fb: FormBuilder,private cinemaService:CinemaService) {
+  constructor(
+    private fb: FormBuilder,
+    private cinemaService: CinemaService,
+    private businessService: BusinessService,
+    private authService: AuthServiceService,
+    private toasterService: ToasterService,
+    private router: Router
+  ) {
     // Initialize the form with validators
     this.cinemaForm = this.fb.group({
       name: ['', Validators.required],
@@ -22,6 +35,17 @@ export class ListCinemaComponent {
       screens: [0, [Validators.required, Validators.min(1)]],
       food_service: [false],
       seating_arrangement: this.fb.array([], Validators.required) // Ensure at least one seating arrangement
+    });
+  }
+
+  ngOnInit(): void {
+    // Fetch the BusinessId from the AuthService
+    this.authService.getBusinessId().subscribe((userId) => {
+      this.BusinessId = userId;
+      // Fetch Business details using the fetched BusinessId
+      this.businessService.fetchBusinessById(this.BusinessId || '').subscribe((data) => {
+        this.Business = data;
+      });
     });
   }
 
@@ -86,45 +110,57 @@ export class ListCinemaComponent {
     this.seating_arrangement.removeAt(index);
   }
 
- // Method to handle form submission
- submit(cinemaForm: FormGroup): void {
-  if (cinemaForm.valid) {
-    // Construct the location object
-    const location = {
-      house_no: cinemaForm.get('house_no')?.value,
-      street: cinemaForm.get('street')?.value,
-      area: cinemaForm.get('area')?.value,
-      pincode: cinemaForm.get('pincode')?.value
-    };
-    const seatingArrangements = this.seating_arrangement.value.map((arrangement: any) => {
-      return {
-        ...arrangement,
-        screens_no: typeof arrangement.screens_no === 'string'
-          ? arrangement.screens_no.split(',').map((screen: string) => screen.trim())
-          : arrangement.screens_no
+  // Method to handle form submission
+  submit(cinemaForm: FormGroup): void {
+    if (cinemaForm.valid) {
+      // Construct the location object
+      const location = {
+        house_no: cinemaForm.get('house_no')?.value,
+        street: cinemaForm.get('street')?.value,
+        area: cinemaForm.get('area')?.value,
+        pincode: cinemaForm.get('pincode')?.value
       };
-    });
-    console.log(seatingArrangements);
-    // Construct the final cinema data with the location object
-    const cinemaData = {
-      ...cinemaForm.value,
-      location,
-      seating_arrangement: seatingArrangements,
-      house_no: undefined, // Remove redundant fields
-      street: undefined,
-      area: undefined,
-      pincode: undefined
-    };
-    console.log('Cinema data:', cinemaData);
-    // Call the service to submit the data
-    this.cinemaService.AddCinema(cinemaData).subscribe((response) => {
-      console.log('Cinema added successfully:', response);
-    });
-  } else {
-    console.log('Form is invalid');
-    this.markAllAsTouched(this.cinemaForm);
+      const seatingArrangements = this.seating_arrangement.value.map((arrangement: any) => {
+        return {
+          ...arrangement,
+          screens_no: typeof arrangement.screens_no === 'string'
+            ? arrangement.screens_no.split(',').map((screen: string) => screen.trim())
+            : arrangement.screens_no
+        };
+      });
+
+      // Construct the final cinema data with the location object
+      const cinemaData = {
+        ...cinemaForm.value,
+        location,
+        seating_arrangement: seatingArrangements,
+        house_no: undefined, // Remove redundant fields
+        street: undefined,
+        area: undefined,
+        pincode: undefined
+      };
+
+      // Call the service to submit the data
+      this.cinemaService.AddCinema(cinemaData).subscribe(
+        (response: any) => {
+          console.log('Cinema added successfully:', response);
+          // Add the cinema ID to the Business entity
+          this.Business.Cinitems.push({id: response._id, name: response.name});
+          this.businessService.updateBusiness(this.BusinessId || '', this.Business).subscribe((data) => {
+            // Show a success message and navigate to the home page
+            this.toasterService.showSuccess('Cinema added successfully!');
+            this.router.navigate(['list-shows/home']);
+          });
+        },
+        (error: any) => {
+          console.error('Failed to add cinema:', error);
+          this.toasterService.showError('Failed to add cinema. Please try again.');
+        }
+      );
+    } else {
+
+    }
   }
-}
 
   // Method to mark all controls as touched to show validation errors
   markAllAsTouched(formGroup: FormGroup): void {

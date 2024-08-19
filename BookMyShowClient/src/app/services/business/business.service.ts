@@ -36,4 +36,12 @@ export class BusinessService {
     return this.http.put(this.apiUrl+'/business/update-access/'+id,access,this.httpHeader)
     .pipe(catchError(httpError));
   }
+  fetchBusinessById(id:string):Observable<any>{
+    return this.http.get(this.apiUrl+'/business/'+id,this.httpHeader)
+    .pipe(catchError(httpError));
+  }
+  updateBusiness(id:string,business:any):Observable<any>{
+    return this.http.put(this.apiUrl+'/business/'+id,business,this.httpHeader)
+    .pipe(catchError(httpError));
+  }
 }

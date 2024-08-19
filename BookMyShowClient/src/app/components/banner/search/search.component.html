@@ -5,7 +5,7 @@
         <input
           class="form-control"
           type="search"
-          placeholder="Search for Movies, Plays, Sports, and Activities"
+          placeholder="Search for Movies, Plays, Events and More.."
           aria-label="Search"
           (input)="onSearch($event)"
         />
@@ -17,7 +17,9 @@
       <mat-tab *ngIf="arrMovies.length > 0" label="Movies">
         <div class="search-results">
           <ul class="results-list">
-            <li *ngFor="let movie of arrMovies" class="result-item">{{ movie.name }}</li>
+            <li *ngFor="let movie of arrMovies" class="result-item" (click)="navigateToDetails('movie', movie._id)">
+              {{ movie.name }}
+            </li>
           </ul>
         </div>
       </mat-tab>
@@ -25,7 +27,19 @@
       <mat-tab *ngIf="arrCinemas.length > 0" label="Cinemas">
         <div class="search-results">
           <ul class="results-list">
-            <li *ngFor="let cinema of arrCinemas" class="result-item">{{ cinema.name }}</li>
+            <li *ngFor="let cinema of arrCinemas" class="result-item" (click)="navigateToDetails('cinema', cinema._id)">
+              {{ cinema.name }}
+            </li>
+          </ul>
+        </div>
+      </mat-tab>
+  
+      <mat-tab *ngIf="arrEvents.length > 0" label="Events">
+        <div class="search-results">
+          <ul class="results-list">
+            <li *ngFor="let event of arrEvents" class="result-item" (click)="navigateToDetails('event', event._id)">
+              {{ event.name }}
+            </li>
           </ul>
         </div>
       </mat-tab>
@@ -34,27 +48,6 @@
     <!-- Display a message if no results are found and a search has been performed -->
     <div *ngIf="!hasData && searchQuery.length > 1 && !loading" class="no-results-message">
       Sorry, nothing matches your search.
-    </div>
-  </div>
-
-  <!-- Trending Movies and Events Section -->
-  <div class="trending-section my-3">
-    <h4 class="trending-title">
-      <span class="trending-icon">🔥</span> Trending Movies
-    </h4>
-    <div class="trending-list-container">
-      <ul class="trending-list">
-        <li *ngFor="let movie of trendingMovies" class="trending-item">{{ movie.name }}</li>
-      </ul>
-    </div>
-
-    <h4 class="trending-title">
-      <span class="trending-icon">🎉</span> Trending Events
-    </h4>
-    <div class="trending-list-container">
-      <ul class="trending-list">
-        <li *ngFor="let event of trendingEvents" class="trending-item">{{ event.name }}</li>
-      </ul>
     </div>
   </div>
 </div>

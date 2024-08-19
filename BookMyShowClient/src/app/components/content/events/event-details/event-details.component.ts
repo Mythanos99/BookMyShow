@@ -48,7 +48,7 @@ export class EventDetailsComponent implements OnInit {
     }
   }
   showImage(image: string): string {
-    return getimageURl('uploads/image_url-1723714703491.jpg');
+    return getimageURl(image);
   }
   rateNow(): void {
     console.log('Rate now clicked');

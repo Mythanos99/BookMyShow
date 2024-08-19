@@ -23,8 +23,8 @@ import { AdminComponent } from './components/content/admin/admin.component';
 
 const routes: Routes = [
   // #TODO change it to location and add lazy loading. Individual routing for features like movies
-  { path: '', component: HomeComponent },
-  { path: 'home', component: HomeComponent },
+  { path: '', component: MoviesComponent },
+  { path: 'home', component: MoviesComponent },
   { path: 'admin', component: AdminComponent },
   { path: 'movies', component: MoviesComponent},
   { path: 'movies/:id', component: MovieDetailsComponent},

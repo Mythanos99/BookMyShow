@@ -3,7 +3,7 @@
       <div class="form-group">
         <label for="movie">Select Movie</label>
         <select id="movie" class="form-control" [(ngModel)]="selectedMovieId" name="movieId" required>
-          <option *ngFor="let movie of movies" [value]="movie.id">{{ movie.title }}</option>
+          <option *ngFor="let movie of movies" [value]="movie._id">{{ movie.name }}</option>
         </select>
       </div>
   
@@ -61,7 +61,13 @@
             <option *ngFor="let lang of languages" [value]="lang">{{ lang }}</option>
           </select>
         </div>
-  
+
+        <div class="form-group">
+          <label for="format">Select Format</label>
+          <select id="format" class="form-control" [(ngModel)]="selectedFormat" name="format">
+            <option *ngFor="let format of formats" [value]="format">{{ format }}</option>
+          </select>
+        </div>
   
         <button type="submit" class="btn btn-primary">Save Show</button>
       </form>

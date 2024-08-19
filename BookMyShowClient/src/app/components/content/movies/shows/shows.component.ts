@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MovieService } from 'src/app/services/movie/movie.service';
 import { ShowService } from 'src/app/services/show/show.service';
 import { LocationService } from 'src/app/sharedservice/location.service';
 
@@ -34,8 +35,8 @@ interface DateGroup {
 })
 export class ShowsComponent implements OnInit {
   format: string = '2D';
-  movieName: string = 'Movie Name'; // You should set this dynamically
-  genre: string = 'Genre'; // You should set this dynamically
+  movieName: string = '';
+  genre: string = '';
   languages: string[] = ['Hindi', 'English', 'Tamil', 'Telugu'];
   formats: string[] = ['2D', '3D', 'IMAX'];
   selectedLanguage: string = 'Hindi';
@@ -49,7 +50,8 @@ export class ShowsComponent implements OnInit {
     private showService: ShowService,
     private route: ActivatedRoute,
     private router: Router,
-    private locationService: LocationService
+    private locationService: LocationService,
+    private movieService: MovieService
   ) {}
 
   ngOnInit(): void {
@@ -59,6 +61,23 @@ export class ShowsComponent implements OnInit {
       this.location = params['location'] || '';
       this.updateLocation();
     });
+    this.fetchMovieDetails();
+  }
+
+  fetchMovieDetails(): void {
+    if (this.movieID) {
+      this.movieService.getMovieById(this.movieID).subscribe(
+        (movie) => {
+          this.movieName = movie.name;
+          this.genre = movie.genre;
+          this.languages= movie.languages;
+          this.formats = movie.formats;
+        },
+        (error) => {
+          console.error('Error fetching movie details', error);
+        }
+      );
+    }
   }
 
   updateLocation(): void {
@@ -93,7 +112,7 @@ export class ShowsComponent implements OnInit {
               })),
             })),
           }));
-          this.selectDate(0); // Default to the first date
+          this.selectDate(0); 
           console.log(this.dateGroups);
         });
     }
@@ -118,8 +137,9 @@ export class ShowsComponent implements OnInit {
   }
 
   onFormatChange(event: any): void {
-    // Handle format change logic
-    console.log('Format changed:', event.value);
+    this.format = event.value;
+    this.updateURL();
+    this.fetchShows(); // Re-fetch shows based on the new format
   }
 
   updateURL(): void {

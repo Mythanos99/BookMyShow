@@ -14,8 +14,8 @@ export class BrowseByCinemaComponent implements OnInit {
   location: string | null = null;
   cinemas: Cinema[] = [];
   page: number = 1;
-  limit: number = 4; // #FIXME- change it to later on when data is there
-  totalCinemas: number = 5;
+  limit: number = 10; 
+  totalCinemas: number = 20;
 
   constructor(private locationService: LocationService, private cinemaService: CinemaService,
     private router: Router

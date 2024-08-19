@@ -55,4 +55,16 @@ export class Filters{
   }
 }
 
+export interface MovieResponse {
+  _id: string;
+  name: string;
+  image_url: string;
+  genre: string[];
+  movie_rated:string;
+  ratedby?: number;
+  rating?: number;
+  likes?: number;
+  release_date?: Date;
+}
+
 

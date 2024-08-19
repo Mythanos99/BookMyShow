@@ -1,9 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { httpError } from '../utils/utils';
+import { httpError,apiUrl, } from '../utils/utils';
 import { catchError, Observable } from 'rxjs';
 import { User } from 'src/app/models/user';
+import { loginResponse } from 'src/app/models/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -21,8 +22,8 @@ export class UserService {
   }
   constructor(private http: HttpClient) { }
 
-  register(payload:User):Observable<Response>{
-    return this.http.post<Response>(this.apiUrl+'/users',payload,this.httpHeader)
+  register(payload:User):Observable<loginResponse>{
+    return this.http.post<loginResponse>(this.apiUrl+'/users',payload,this.httpHeader)
     .pipe(catchError(httpError));;
   }
   getUserById(id: string): Observable<User> {

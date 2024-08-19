@@ -21,8 +21,8 @@ export class EventService {
     return this.http.get<unifiedShows[]>(`${this.apiUrl}/events?${queryParams}`,this.httpHeader)
     .pipe(catchError(httpError));
   }
-  getEventById(id: string): Observable<Events> {
-    return this.http.get<Events>(`${this.apiUrl}/events/${id}`,this.httpHeader)
+  getEventById(id: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/events/${id}`,this.httpHeader)
     .pipe(catchError(httpError));
   }
   getEventTicketInfo(id: string): Observable<any> {

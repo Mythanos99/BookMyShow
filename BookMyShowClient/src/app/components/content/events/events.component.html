@@ -83,7 +83,7 @@
         </div>
         <div class="col-md-4 col-sm-4 mb-4" *ngFor="let event of filteredEvents">
           <div class="card h-100" (click)="fetchEventDetails(event)">
-            <img src="../../../../assets/images/sample_movie_poster.jpeg" class="card-img-top" [alt]="event.name" />
+            <img [src]="showImage(event.image_url)" class="card-img-top" [alt]="event.name"/>
             <div class="card-body">
               <h2 class="card-title fw-bold">{{ event.name }}</h2>
               <p> {{ event.location }}</p>

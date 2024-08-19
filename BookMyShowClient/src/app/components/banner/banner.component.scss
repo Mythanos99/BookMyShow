@@ -1,9 +1,13 @@
-/* Adjust navbar height */
+
 .navbar {
-  height: 10vh;
+  height: 11vh;
 }
 
-/* Style the navbar logo for larger devices */
+.disabled {
+  pointer-events: none;
+  color: #6c757d; 
+}
+
 .navbar-logo {
   margin-left: 7vh;
   margin-right: 1vh;
@@ -11,7 +15,7 @@
   height: 120px;
 }
 
-/* Adjustments for larger devices */
+
 @media (min-width: 992px) {
   .side-right {
     margin-left: 20vw; /* Align items more to the right */
@@ -19,28 +23,34 @@
   }
 }
 
-/* Adjustments for medium devices (tablets) */
+
 @media (max-width: 992px) {
+  .navbar {
+    height: 15vh;
+  }
   .navbar-logo {
-    margin-left: 5vh; /* Reduce margin */
+    margin-left: 5vh; 
     margin-right: 1vh;
-    width: 100px; /* Adjust width */
-    height: 90px; /* Adjust height */
+    width: 100px; 
+    height: 90px; 
   }
 
   .side-right {
-    margin-left: auto; /* Align to the right */
-    margin-right: 2vw; /* Add margin-right for alignment */
+    margin-left: auto; 
+    margin-right: 2vw; 
   }
 }
 
 /* Adjustments for small devices (mobile) */
 @media (max-width: 768px) {
   .navbar-logo {
-    margin-left: 3vh; /* Further reduce margin */
+    margin-left: 3vh; 
     margin-right: 1vh;
-    width: 80px; /* Reduce width */
-    height: 70px; /* Reduce height */
+    width: 80px; 
+    height: 50px; 
+  }
+  .navbar{
+    height:15vh;
   }
 
   .form-inline {
@@ -69,14 +79,14 @@
 /* Further adjustments for very small devices */
 @media (max-width: 576px) {
   .navbar-logo {
-    width: 60px; /* Further adjust logo size */
+    width: 60px; 
     height: 50px;
-    margin-left: 2vh; /* Minimize margin */
+    margin-left: 2vh; 
     margin-right: 1vh;
   }
 
   .search-icon {
-    width: 25px; /* Slightly larger icon */
+    width: 25px; 
     height: 25px;
   }
 }
@@ -92,14 +102,14 @@
 
 /* Style for the search input */
 .form-control {
-  padding-left: 40px; /* Space for the icon */
+  padding-left: 40px;
   background: url('../../../assets/images/magnifying-glass-solid.svg') no-repeat 10px center; /* Position the icon */
-  background-size: 12px; /* Adjust size */
+  background-size: 12px; 
   font-size: 14px;
-  border-radius: 0; /* Remove border-radius if needed */
+  border-radius: 0;
 }
 
-/* Menu icon adjustments */
+
 .navbar-toggler-icon {
   display: inline-block;
   width: 1.5em;
@@ -107,7 +117,7 @@
   background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(0, 0, 0, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
 }
 
-/* Style for the location text and sign-in button */
+
 .location-text {
   margin-right: 1rem; /* Space between location and sign-in button */
 }
@@ -238,4 +248,15 @@ mat-tab-link {
 }
 .btn-signout{
   background-color: aqua;
+}
+.search-icon {
+  cursor: pointer;
+}
+
+@media (max-width: 991px) {
+  .search-icon {
+    position: absolute;
+    right: 15px; /* Adjust as needed */
+    top: 15px; /* Adjust as needed */
+  }
 }

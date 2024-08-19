@@ -44,4 +44,29 @@ async function getAll(page,limit){
         throw new Error("Error fetching businesses");
     }
 }
-module.exports={add,getAccess,reapplyAccess,updateAccess,getAll};
+
+async function getById(id){
+    try{
+        const business = await Business.findById(id,{__v:0,password:0,createdAt:0,updatedAt:0});
+        return business;
+    } catch(error){
+        throw new Error("Error fetching business");
+    }
+}
+
+async function update(id,businessData){
+    try{
+        const updateData = {
+            Movitems: businessData.Movitems,
+            Cinitems: businessData.Cinitems, 
+            Eveitems: businessData.Eveitems  
+        };
+        const business = await Business.findByIdAndUpdate(id, { $set: updateData }, { new: true });
+        return business;
+    }
+    catch(error){
+        throw new Error("Error updating business");
+    }
+}
+
+module.exports={add,getAccess,reapplyAccess,updateAccess,getAll,getById,update};

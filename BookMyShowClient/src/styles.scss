@@ -70,3 +70,22 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   color: white !important;
 }
 
+.success-toast {
+  background-color: #4caf50; // Green
+  color: #fff;
+}
+
+.error-toast {
+  background-color: #f44336; // Red
+  color: #fff;
+}
+
+.info-toast {
+  background-color: #2196f3; // Blue
+  color: #fff;
+}
+.mat-snack-bar-container {
+  z-index: 10000;  // Ensure it's above other elements
+}
+
+

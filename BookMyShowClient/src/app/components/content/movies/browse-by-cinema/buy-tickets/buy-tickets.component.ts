@@ -3,30 +3,30 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CinemaService } from 'src/app/services/cinema/cinema.service';
 import { map } from 'rxjs/operators';
 
-// Define interfaces for type safety
+interface SeatInfo {
+  type: string;
+  status: string[]; // Status is an array of strings
+  price: number;
+  _id: string;
+}
+
 interface Show {
   _id: string;
   start_time: string;
   end_time: string;
   format: string;
   language: string;
-  genre: string[];
   seat_info: SeatInfo[];
 }
 
-interface SeatInfo {
-  type: string;
-  status: string | string[];
-  price: number;
-}
-
 interface Movie {
-  movie_id: string;
-  shows: Show[];
+  movie_id: string[];
+  movie_name: string;
+  shows: Show[][];
 }
 
 interface DateGroup {
-  _id: string; // Ensure it is a string after processing
+  date: string; // The date field is now 'date' instead of '_id'
   movies: Movie[];
 }
 
@@ -40,24 +40,22 @@ export class BuyTicketsComponent implements OnInit {
 
   constructor(
     private cinemaService: CinemaService,
-    private route: ActivatedRoute, private router: Router
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.fetchCinemaDetails();
   }
 
-
-  
-  // In your component
   fetchCinemaDetails(): void {
     const cinemaId = this.route.snapshot.paramMap.get('id');
     if (cinemaId) {
       this.cinemaService.getMoviesByCinemaId(cinemaId).subscribe((data: DateGroup[]) => {
-        // Default invalid/null dates to a placeholder string
+        // Map the response to format dates properly
         this.dateGroups = data.map(group => ({
           ...group,
-          _id: group._id || 'Invalid Date' // Provide a fallback value
+          date: new Date(group.date).toString() !== 'Invalid Date' ? group.date : 'Unknown Date'
         }));
         console.log(this.dateGroups);
       });
@@ -66,6 +64,7 @@ export class BuyTicketsComponent implements OnInit {
 
   // Format seat info for tooltip display
   getSeatInfo(show: Show): string {
+    if (!show.seat_info || show.seat_info.length === 0) return 'No seat info available';
     return show.seat_info
       .map((seat) => `${seat.type}: Rs ${seat.price}`)
       .join(', ');
@@ -75,3 +74,4 @@ export class BuyTicketsComponent implements OnInit {
     this.router.navigate(['/book-tickets', show._id]);
   }
 }
+

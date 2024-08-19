@@ -7,7 +7,6 @@ async function addRating(req, res) {
     if (!entity || !entityId || !rating || isNaN(rating)) {
       return res.status(400).json({ error: "Invalid input parameters" });
     }
-
     rating_service.addIndividualRating(req.body);  
     rating_service.addRatingToBatch(entity, entityId, rating);
 
@@ -24,7 +23,7 @@ async function getRatingByMovieId(req, res) {
     const movieId = req.params.id;
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 5;
-    const rating = await rating_service.getRatingByMovieId(movieId,page,limit);
+    const rating = await rating_service.getRatingByEntityId(movieId,page,limit);
     res.status(200).json(rating);
   } catch (error) {
     console.error("Error fetching rating:", error);

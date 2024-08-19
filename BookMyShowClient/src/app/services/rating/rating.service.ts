@@ -1,8 +1,9 @@
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { httpError } from '../utils/utils';
+import { httpError,apiUrl,httpOptions } from '../utils/utils';
 import { catchError, Observable } from 'rxjs';
+import { Rating } from 'src/app/models/review';
 
 @Injectable({
   providedIn: 'root'
@@ -17,13 +18,12 @@ export class RatingService {
   }
   constructor(private http: HttpClient) { }
 
-  rateEntity(payload:any):Observable<any>{
-    // console.log(payload);
-    return this.http.post<any>(this.apiUrl+'rating/add-rating',payload,this.httpHeader)
+  rateEntity(payload:Rating):Observable<Response>{
+    return this.http.post<Response>(apiUrl+'/rating/add-rating',payload,httpOptions)
     .pipe(catchError(httpError));
   }
   fetchMovieReviews(movieId:string,page:number=0,limit:number=5):Observable<any>{
-    return this.http.get<any>(`${this.apiUrl}/rating/movie/${movieId}?limit=${limit}&page=${page}`,this.httpHeader)
+    return this.http.get<any>(`${apiUrl}/rating/movie/${movieId}?limit=${limit}&page=${page}`,httpOptions)
     .pipe(catchError(httpError));
   }
 }

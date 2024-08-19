@@ -80,10 +80,10 @@ async function updateEntityRatings(ratingsBatch) {
  }
 }
 
-async function getRatingByMovieId(movieId,page,limit){
+async function getRatingByEntityId(entityId,page,limit){
     try{
-        const totalRatingsCount = await Rating.countDocuments({ movieId: movieId });
-        const ratings = await Rating.find({movieId:movieId},{username:1,rating:1,review:1,_id:0,createdAt:1})
+        const totalRatingsCount = await Rating.countDocuments({ entityId: entityId });
+        const ratings = await Rating.find({entityId:entityId},{username:1,rating:1,review:1,_id:0,createdAt:1})
         .sort({createdAt:-1})
         .skip((page-1)*limit)
         .limit(limit);
@@ -98,5 +98,5 @@ module.exports = {
   getAndClearRatingsBatch,
   addIndividualRating,
   updateEntityRatings,
-  getRatingByMovieId
+  getRatingByEntityId
 };

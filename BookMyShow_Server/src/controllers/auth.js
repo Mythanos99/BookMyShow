@@ -49,5 +49,3 @@ async function loginBusiness(req,res){
 
 
 module.exports = { login ,loginBusiness};
-
-// #BUG- cookie not working

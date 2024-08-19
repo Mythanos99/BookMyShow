@@ -5,7 +5,7 @@ ObjectId = require('mongodb').ObjectId;
 async function getAvailableShowsByFormat(id, format, location) {
     try {
       const currentDate = new Date();
-      currentDate.setHours(0, 0, 0, 0); // Set the time to 12 AM
+      currentDate.setHours(0, 0, 0, 0); 
 
       const results = await Show.aggregate([
         {
@@ -13,7 +13,7 @@ async function getAvailableShowsByFormat(id, format, location) {
             movie_id: new ObjectId(id),
             format: format,
             city: location,
-            show_date: { $gte: currentDate }  // TODO- uncomment this later
+            show_date: { $gte: currentDate }  
           }
         },
         {
@@ -94,16 +94,15 @@ async function getAvailableShowsByFormat(id, format, location) {
   } 
   
 
-//   #FIXME- need to check the working of this by getting more data.
+
 async function getSlots(id, date) {
   try {
-      // Convert the date to a string in YYYY-MM-DD format for exact matching
-      // Query the database for shows matching the cinema ID and exact date
+    const formattedDate = new Date(date);
       const shows = await Show.aggregate([
         {
             $match: {
-                cinema_id: new ObjectId(id), // Ensure this matches the type in your database
-                // show_date: date
+                cinema_id: new ObjectId(id),
+                show_date: { $eq: formattedDate }
             }
         },
         {
@@ -132,7 +131,17 @@ async function getSlots(id, date) {
   }
 }
 
+async function add(showData){
+  try{
+    const show= new Show(showData);
+    const result=await show.save();
+    return result;
+  } catch(error){
+    throw new Error("Error adding show");
+  }
+}
+
 
 module.exports={
-    getAvailableShowsByFormat,getById,updateSeat,getSlots
+    getAvailableShowsByFormat,getById,updateSeat,getSlots,add
 }

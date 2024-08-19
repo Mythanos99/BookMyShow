@@ -22,3 +22,11 @@ export class Review{
         this.created_at = created_at;
     }
 }
+
+export interface Rating{
+    entity: string;
+    userId: string;
+    entityId: string;
+    rating: number;
+    review: string;
+}

@@ -1,5 +1,6 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { throwError } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 export function httpError(error: HttpErrorResponse) {
     let msg = '';
@@ -16,3 +17,16 @@ export function httpError(error: HttpErrorResponse) {
     
     return throwError(() => ({ errorCode, msg }));
 }
+
+export const apiUrl: string = environment.apiUrl;
+
+export const httpHeader = {
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json'
+  })
+};
+
+export const httpOptions = {
+  headers: httpHeader.headers,
+  withCredentials: true
+};

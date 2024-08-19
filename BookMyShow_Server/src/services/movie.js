@@ -26,7 +26,7 @@ async function getFilteredResult(filters) {
     }
 
     if (filters.genre) {
-      query.genre = { $elemMatch: { $in: filters.genre.split("|") } };
+      query.genre = { $in: filters.genre.split("|")  };
     }
     const shows = await Show.aggregate([
       { $match: query },
@@ -171,7 +171,6 @@ async function getUpcoming(filters=null) {
 async function addMovie(movie){
   try{
     const newMovie = new Movie(movie);
-    console.log(newMovie);
     await newMovie.save();
     return newMovie;
   } catch (error) {
@@ -189,4 +188,21 @@ async function updateMovie(id,movie){
   }
 }
 
-module.exports = { getAll, getFilteredResult, getById, getUpcoming ,getFilters,addMovie,updateMovie};
+async function getNames(){
+  try{
+    const oneYearAgo = new Date();
+    oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+    const movies = await Movie.find(
+      { release_date: { $gte: oneYearAgo } },
+      { name: 1,genre:1,_id: 1 }
+    );
+    return movies;
+  }
+  catch(error){
+    throw new Error("Error fetching movie names");
+  }
+}
+
+module.exports = { getAll, getFilteredResult, getById, getUpcoming ,getFilters,addMovie,updateMovie,
+  getNames
+};

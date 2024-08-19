@@ -1,44 +1,71 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { BookingInterface, recentBookingResponse } from 'src/app/models/booking';
 import { BookingService } from 'src/app/services/booking/booking.service';
-interface FoodItem {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  _id: string;
-}
-
-interface Order {
-  user_id: string;
-  show_id: string;
-  transaction_id: string;
-  amount: number;
-  seats: string[];
-  food: FoodItem[];  // Ensure this is properly defined
-}
+import { AuthServiceService } from 'src/app/sharedservice/auth-service.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user-bookings',
   templateUrl: './user-bookings.component.html',
   styleUrls: ['./user-bookings.component.scss']
 })
-export class UserBookingsComponent implements OnInit {
-  recentOrders: Order[] = [];
-  allOrders: Order[] = [];
+export class UserBookingsComponent implements OnInit, OnDestroy {
+  recentOrders: BookingInterface[] = [];
+  allOrders: BookingInterface[] = [];
+  private subscriptions: Subscription = new Subscription();
+  isLoadingAllOrders: boolean = false;
+  userId: string |null = '';
 
-  constructor(private bookingService:BookingService) { }
+  constructor(
+    private bookingService: BookingService,
+    private authService: AuthServiceService
+  ) {}
 
   ngOnInit(): void {
-    this.bookingService.getRecentBookingsOfUser('60b9f1b3b3b3b00015f3b3b3').subscribe((data) => {
-      this.recentOrders = data[0].last_bookings;
-      // console.log(data[0]);
-    });
-    this.bookingService.getAllBookingsOfUser('60b9f1b3b3b3b00015f3b3b3').subscribe((data) => {
-      this.allOrders = data;
-      // console.log(data);
-    });
+    // Get the logged-in user ID
+    this.subscriptions.add(
+      this.authService.getUserId().subscribe((id) => {
+        this.userId = id;
+        this.fetchRecentOrders();
+      })
+    );
+  }
+
+  fetchRecentOrders(): void {
+    // Fetch recent bookings
+    this.subscriptions.add(
+      this.bookingService.getRecentBookingsOfUser(this.userId||'').subscribe((data:any) => {
+        if ((data)) {
+          this.recentOrders = data[0].last_bookings;
+          console.log('Recent orders', data);
+        }
+      })
+    );
+  }
+
+  fetchAllOrders(): void {
+    if (this.allOrders.length === 0 && !this.isLoadingAllOrders) {
+      this.isLoadingAllOrders = true;
+      // Fetch all bookings
+      this.subscriptions.add(
+        this.bookingService.getAllBookingsOfUser(this.userId||'').subscribe(
+          (data:BookingInterface[]) => {
+            this.allOrders = data;
+            this.isLoadingAllOrders = false;
+          },
+          (error) => {
+            console.error('Failed to load all orders', error);
+            this.isLoadingAllOrders = false;
+          }
+        )
+      );
+    }
+  }
+
+  ngOnDestroy(): void {
+    // Unsubscribe to prevent memory leaks
+    this.subscriptions.unsubscribe();
   }
 }
-// #FIXME- convert these response and request to correct types.hardcoded user id. Fetch all orders only when user wants it.
-// #TODO- when user clicks on a booking, show the details of the booking.
-// #TODO- when user clicks on load all orders, then keep a loading point.
+
+// #TODO- checking is required for this

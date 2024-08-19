@@ -16,6 +16,7 @@ interface PaymentDetails {
   showLocation: string;
   totalAmount: number;
   show_id: string;
+  show_name: string;
 }
 
 @Component({
@@ -25,6 +26,7 @@ interface PaymentDetails {
 })
 export class BookTicketsComponent implements OnInit {
   tickets: Ticket[] = [];
+  event:any;
   selectedTickets: { [key: string]: number } = {}; // To store selected quantities for each ticket type
   totalAmount: number = 0;
   showPaymentGateway: boolean = false;
@@ -39,8 +41,10 @@ export class BookTicketsComponent implements OnInit {
   }
 
   getEventTicketInfo(): void {
-    this.eventService.getEventTicketInfo(this.eventId || '').subscribe(tickets => {
-      this.tickets = tickets.ticketInfo;
+    this.eventService.getEventById(this.eventId || '').subscribe(event => {
+      this.event=event;
+      this.tickets = event.ticketInfo;
+      console.log(this.event);
     });
   }
 
@@ -72,8 +76,9 @@ export class BookTicketsComponent implements OnInit {
       this.paymentDetails = {
         categoryName: this.getFormattedTicketDetails(),
         numberOfSeats: this.getTotalSeats(),
-        showTime: new Date(),  // Replace with actual show time if available
-        showLocation: 'PVR Orion Uptown, Bengaluru',  // Replace with actual show location if available
+        showTime: this.event.time,
+        show_name: this.event.name,
+        showLocation: this.event.location,
         totalAmount: this.totalAmount,
         show_id: this.eventId || ''
       };

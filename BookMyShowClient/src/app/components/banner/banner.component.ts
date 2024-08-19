@@ -51,7 +51,6 @@ export class BannerComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.locationService.setCity(result);
-        // Use the city information as needed
       }
     });
   }
@@ -90,7 +89,7 @@ export class BannerComponent implements OnInit {
   
   private getDialogHeight(): string {
     if (window.innerHeight <= 600) {
-      return '60vw'; 
+      return '80vh'; 
     } else {
       return '60vh'; 
     }

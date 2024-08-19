@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { MatDialogRef } from '@angular/material/dialog'; // Import MatDialogRef if needed for dialog
+import { MatDialogRef } from '@angular/material/dialog';
 import { AuthServiceService } from 'src/app/sharedservice/auth-service.service';
+import { loginResponse } from 'src/app/models/auth';
+import { ToasterService } from 'src/app/sharedservice/toaster.service';
 
 @Component({
   selector: 'app-login',
@@ -17,8 +19,9 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private dialogRef: MatDialogRef<LoginComponent>, // Inject MatDialogRef if you are using Angular Material dialog
-    private sharedAuthService:AuthServiceService
+    private dialogRef: MatDialogRef<LoginComponent>,
+    private sharedAuthService: AuthServiceService,
+    private toasterService:ToasterService
   ) {
     this.myForm = this.fb.group({
       username: ['', [Validators.required, Validators.email]],
@@ -27,10 +30,9 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Initialization logic if any
   }
 
-  // Getters for form controls
+  // Getter for easy access to form controls
   get f() {
     return this.myForm.controls;
   }
@@ -38,16 +40,16 @@ export class LoginComponent implements OnInit {
   verify_login(myForm: FormGroup) {
     this.submitted = true;
     if (myForm.valid) {
-      console.log(myForm.value);
       this.authService.login(myForm.value).subscribe({
-        next: (data:any) => {
-          console.log('Login successful:', data);
-          this.dialogRef.close();
-          this.sharedAuthService.setUserId(data.user.id);
+        next: (data: loginResponse) => {
+          this.toasterService.showSuccess('Login successful!');
+          this.dialogRef.close(); // Close the dialog on successful login
+          this.sharedAuthService.setUserId(data.user.id); // Set the user ID in shared service
         },
         error: (err) => {
           console.error('Login failed:', err);
-          this.invalidLogin = true; // Show error if user does not exist or other issues
+          this.toasterService.showError('Login failed. Please try again.');
+          this.invalidLogin = true; // Show error message on login failure
         }
       });
     }

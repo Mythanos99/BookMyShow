@@ -90,6 +90,16 @@ async function updateMovie(req, res) {
       });
 }
 
-module.exports = { getAllMovies,getFilteredMovies ,getMovieById,getUpcomingMovies,getMovieFilters,addMovie,updateMovie};
+async function getMovieNames(req, res) {
+    res.setHeader('Content-Type', 'application/json');
+    try {
+        const movies = await movie_service.getNames();
+        res.status(200).json(movies);
+    } catch (error) {
+        res.status(500).json({ message: "Internal Server Error. Could Not fetch Movies" });
+    }
+}
+
+module.exports = { getAllMovies,getFilteredMovies ,getMovieById,getUpcomingMovies,getMovieFilters,addMovie,updateMovie,getMovieNames};
 
 // .#FIXME- res.set header not added to all. Maintain code consistentcy.

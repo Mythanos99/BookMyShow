@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Select Format</h1>
+    <div mat-dialog-content>
+      <mat-radio-group [(ngModel)]="selectedFormat">
+        <mat-radio-button *ngFor="let format of data.formats" [value]="format">
+          {{ format }}
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-button (click)="onCancel()">Cancel</button>
+      <button mat-button color="primary" [disabled]="!selectedFormat" (click)="onConfirm()">Confirm</button>
+    </div>

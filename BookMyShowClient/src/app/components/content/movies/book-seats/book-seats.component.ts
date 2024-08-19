@@ -12,6 +12,7 @@ import { SelectSeatsNumberComponent } from '../dialog/select-seats-number/select
 import { MatDialog } from '@angular/material/dialog';
 import { BookingService } from 'src/app/services/booking/booking.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthServiceService } from 'src/app/sharedservice/auth-service.service';
 
 
 @Component({
@@ -35,21 +36,26 @@ export class BookSeatsComponent implements OnInit {
   seatOptions: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; 
   showPaymentGateway: boolean = false;
   Booking_details: Booking[] = [];
+  user_id: string | null = null;
   
   constructor(private dialog: MatDialog,private showService: ShowService, private route: ActivatedRoute,
-    private bookingService: BookingService,private _snackBar: MatSnackBar
+    private bookingService: BookingService,private _snackBar: MatSnackBar, private authService:AuthServiceService
   ) {}
 
   ngOnInit(): void {
     this.showId = this.route.snapshot.paramMap.get('id');
-    this.fetchShowInfo();
     this.openSeatSelectionDialog();
-  }
+    this.authService.getUserId().subscribe((userId) => {
+      this.user_id = userId;
+      this.fetchShowInfo();
+    });
+    }
 
   fetchShowInfo(): void {
     if (this.showId) {
       this.showService.getShowById(this.showId).subscribe(response => {
         this.show = response;
+        console.log(this.show);
       });
     }
   }
@@ -159,7 +165,7 @@ export class BookSeatsComponent implements OnInit {
             // this._snackBar.open(`Booking seat ${seatName}`, 'Close');
         });
         
-        const bookingData={ userId: '60b9b3b3b3b3b3b3b3b3b3b3', booking: booking };
+        const bookingData={ userId: this.user_id||'', booking: booking };
     if (this.showId) {
         this.bookingService.VerifyBookingDetails(this.showId, bookingData).subscribe(
             response => {

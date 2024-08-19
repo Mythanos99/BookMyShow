@@ -21,10 +21,8 @@ async function getfiltered(filters) {
         }
 
     }
-    console.log(query);
-    // #TODO- check where should the position of the try catch block be placed
     try {
-        const events = await Event.find(query,{name:1,interested:1,ticketInfo:1,city:1,location:1,languages:1,date:1,time:1,duration:1}).sort({date:1});
+        const events = await Event.find(query,{name:1,interested:1,ticketInfo:1,city:1,location:1,languages:1,date:1,time:1,duration:1,image_url:1}).sort({date:1});
         // console.log(events);
         return events;
     } catch (error) {
@@ -35,7 +33,6 @@ async function getfiltered(filters) {
 
 async function getById(id) {
     try {
-        console.log(id);
         const event = await Event.findById(id);
         return event;
     } catch (error) {
@@ -68,4 +65,31 @@ async function add(new_event){
       }
 }
 
-module.exports = { getfiltered ,getById,getTicketInfo,add};
+async function updateSeatEvent(eventId, seatInfo) {
+    try {
+        const event = await Event.findById(eventId);
+        if (!event) {
+            throw new Error("Event not found");
+        }
+        seatInfo.forEach(seat => {
+            const [quantity, type] = seat.split(' ');
+            const ticket = event.ticketInfo.find(ticket => ticket.type === type);
+            if (ticket) {
+                ticket.quantity -= parseInt(quantity, 10);
+                if (ticket.quantity < 0) {
+                    throw new Error(`Not enough tickets available for ${type}`);
+                }
+            } else {
+                throw new Error(`Ticket type ${type} not found`);
+            }
+        });
+
+        await event.save();
+        return event;
+    } catch (error) {
+        console.error("Error updating seat info:", error);
+        throw error;
+    }
+}
+
+module.exports = { getfiltered ,getById,getTicketInfo,add,updateSeatEvent};

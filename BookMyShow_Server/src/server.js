@@ -5,7 +5,7 @@ const app = express();
 const path = require('path');
 const cookieParser = require('cookie-parser');
 require("./db/mongoose");
-// require('./cronjob');
+require('./cronjob');
 
 const cors = require('cors');
 

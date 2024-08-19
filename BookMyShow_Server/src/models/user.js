@@ -12,7 +12,7 @@ const addressSchema = new Schema({
 
 const personalDetailsSchema = new Schema({
   name: { type: String, default: '' },
-  dob: { type: Date, default: Date.now }
+  dob: { type: Date, default: '' },
 });
 
 const userSchema = new Schema({

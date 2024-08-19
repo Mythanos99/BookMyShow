@@ -20,8 +20,8 @@ export class CinemaService {
     return this.http.get<Cinema[]>(`${this.apiUrl}/cinemas/${city}?page=${page}&limit=${limit}`, this.httpHeader)
     .pipe(catchError(httpError));
   }
-  getCinemaById(id:string):Observable<Cinema>{
-    return this.http.get<Cinema>(this.apiUrl+'/cinemas/'+id,this.httpHeader)
+  getCinemaById(id:string):Observable<any>{
+    return this.http.get<any>(this.apiUrl+'/cinemas/cinemaDetails/'+id,this.httpHeader)
     .pipe(catchError(httpError));
   }
   getMoviesByCinemaId(id:string):Observable<any>{

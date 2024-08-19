@@ -8,11 +8,12 @@ const seatSchema = new Schema({
   });
 const showSchema = new Schema({
     movie_id: { type: ObjectId, required: true },
-    cinema_id: { type: String, required: true }, // #FIXME- location_id should be ObjectId also.
+    cinema_id: { type: ObjectId, required: true },
     start_time:{ type: Date, required: true },
     end_time:{ type: Date, required: true },
     show_date:{ type: Date, required: true },
     city:{type:String,required:true},
+    genre:{type:[String],required:false,default:[]},
     language:{type:String,required:true},
     format:{type:String,required:true},
     screen:{type:Number,required:true},

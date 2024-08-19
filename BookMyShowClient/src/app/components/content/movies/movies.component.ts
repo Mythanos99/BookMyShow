@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { Movie } from 'src/app/models/movie';
+import { Filters, Movie, MovieResponse } from 'src/app/models/movie';
 import { MovieService } from 'src/app/services/movie/movie.service';
 import { LocationService } from 'src/app/sharedservice/location.service';
 import { Language, Genre, Format } from 'src/app/constants/filters';
@@ -12,8 +12,8 @@ import { Language, Genre, Format } from 'src/app/constants/filters';
 })
 export class MoviesComponent implements OnInit {
   location: string | null = null;
-  movies: Movie[] = [];
-  filteredMovies: Movie[] = [];
+  movies: MovieResponse[] = [];
+  filteredMovies: MovieResponse[] = [];
   selectedGenres: string[] = [];
   selectedLanguages: string[] = [];
   selectedFormat: string[] = [];
@@ -59,7 +59,7 @@ export class MoviesComponent implements OnInit {
 
   fetchFilters(): void {
     const params = this.buildQueryParams();
-    this.movieService.getMovieFilters(params).subscribe(response => {
+    this.movieService.getMovieFilters(params).subscribe((response:Filters) => {
       this.genres = response.genres;
       this.availableLanguages = response.languages;
       this.availableFormats = response.formats;
@@ -67,9 +67,9 @@ export class MoviesComponent implements OnInit {
   }
 
   setStaticFilters(): void {
-    this.genres = Genre; // Assuming Genre is an array from filters
-    this.availableLanguages = Language; // Assuming Language is an array from filters
-    this.availableFormats = Format; // Assuming Format is an array from filters
+    this.genres = Genre; 
+    this.availableLanguages = Language; 
+    this.availableFormats = Format; 
   }
 
   initializeFiltersFromQueryParams(params: any): void {
@@ -113,7 +113,7 @@ export class MoviesComponent implements OnInit {
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: queryParams,
-      queryParamsHandling: 'merge', // Merge with existing query params
+      queryParamsHandling: 'merge', 
     });
 
     this.fetchMovies();

@@ -1,18 +1,21 @@
 const Movie = require("../models/movie");
 const Cinema = require("../models/cinema");
+const Event = require("../models/event");
 
 async function getResults(searchQuery, cityQuery) {
     try {
-        const [moviesResult, cinemasResult] = await Promise.allSettled([
-            Movie.find({ name: { $regex: new RegExp(searchQuery, "i") } }).sort({ ratedby: 1 }).limit(5),
-            Cinema.find({ name: { $regex: new RegExp(searchQuery, "i") }, city: cityQuery }).sort({ ratedby: 1 }).limit(5)
+        const [moviesResult, cinemasResult,eventsResult] = await Promise.allSettled([
+            Movie.find({ name: { $regex: new RegExp(searchQuery, "i") } },{name:1}).sort({ ratedby: 1 }).limit(5),
+            Cinema.find({ name: { $regex: new RegExp(searchQuery, "i") }, city: cityQuery },{name:1}).limit(5),
+            Event.find({ name: { $regex: new RegExp(searchQuery, "i") }, city: cityQuery },{name:1}).limit(5)
+
         ]);
-        // #FIXME- return only the data that is required for the frontend. currently returning the data full
-        // #TODO return currently screening movies and not all movies.
         const movies = moviesResult.status === 'fulfilled' ? moviesResult.value : [];
         const cinemas = cinemasResult.status === 'fulfilled' ? cinemasResult.value : [];
+        const events = eventsResult.status === 'fulfilled' ? eventsResult.value : [];
 
-        return { movies, cinemas };
+
+        return { movies, cinemas,events};
     } catch (error) {
         throw new Error("Error fetching search results");
     }

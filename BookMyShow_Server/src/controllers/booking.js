@@ -1,6 +1,7 @@
 const booking_service = require("../services/booking");
 const payment_service = require("../services/payment");
 const show_service = require("../services/show");
+const event_service = require("../services/event");
 
 
 async function bookShow(req, res) {
@@ -42,9 +43,24 @@ async function bookShow(req, res) {
 async function bookSeat(req, res) {
   res.setHeader("Content-Type", "application/json");
   try{
-    // console.log(req.body);
     const {Payment,Booking,seat_info}=req.body;
-    const showId=Payment.show_id;
+    // console.log(req.body);
+    if(Payment.entity==="EVE"){
+      const paymentid= await payment_service.makePayment(Payment);
+      if(paymentid){
+        const updatedBooking = { ...Booking, transaction_id: paymentid };
+        const result= await booking_service.createBooking(updatedBooking);
+        const recentBooking=await booking_service.AddRecentBooking(updatedBooking);
+        if(result && recentBooking){
+          const updatedSeat=await event_service.updateSeatEvent(Booking.entity_id,seat_info);
+          return res.status(200).json({message:"Seats Booked Successfully"});
+        }
+        else{
+          return res.status(400).json({message:"Error Booking Seats"});
+        }
+      }
+    }
+    const showId=Payment.entity_id;
     const paymentid= await payment_service.makePayment(Payment);
     // console.log(paymentid);
     if(paymentid){

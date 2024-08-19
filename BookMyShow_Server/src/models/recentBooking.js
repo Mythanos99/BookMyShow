@@ -9,10 +9,13 @@ const foodSchema=new Schema({
 })
 
 const lastBookingSchema = new Schema({
-    // entity: { type: String, required: true }, // entity is either MOV or EVE
-    show_id: { type: ObjectId, required: true },
+    entity: { type: String, required: true }, // entity is either MOV or EVE    
+    entity_id: { type: ObjectId, required: true },
+    entity_name: { type: String, required: true },
+    location: { type: String, required: true },
     seats: { type: [String], required: true },
     food: { type: [foodSchema], required: false },
+    amount: { type: Number, required: true }
 },({timestamps:true}));
 
 const recentBookingSchema = new Schema({

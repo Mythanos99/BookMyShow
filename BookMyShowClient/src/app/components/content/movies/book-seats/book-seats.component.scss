@@ -182,3 +182,36 @@
     }
   }
 }
+.seat-legend-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.seat-legend-item {
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
+}
+
+.seat-legend-box {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #000;
+  margin-right: 8px;
+}
+
+.available {
+  background-color: white;
+  border: 1px solid green;
+}
+
+.selected {
+  background-color: green;
+  border: 1px solid green;
+}
+
+.unavailable {
+  background-color: grey;
+}
+

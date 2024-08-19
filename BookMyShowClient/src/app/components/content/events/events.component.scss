@@ -50,8 +50,10 @@
 }
 
 .card-img-top {
-    height: 180px;
-    object-fit: cover;
+    max-width: 100%; /* Ensure the image does not exceed the card's width */
+    height: 200px; /* Maintain aspect ratio */
+    object-fit: contain;
+    background-color: white;
 }
 
 .see-upcoming-button {

@@ -58,7 +58,7 @@ async function AddRecentBooking(booking){
             const result=await newRecentBooking.save();
             return result;
         }
-        if(recentBooking.last_bookings.length===3){
+        if(recentBooking.last_bookings.length===5){
             recentBooking.last_bookings.shift();
         }
         recentBooking.last_bookings.push(booking);
@@ -71,7 +71,7 @@ async function AddRecentBooking(booking){
 
 async function getAllBookingsForUser(userId){
     try{
-        const bookings=await Booking.find({user_id:userId},{__v:0,createdAt:0,updatedAt:0});
+        const bookings=await Booking.find({user_id:userId},{__v:0,createdAt:0,updatedAt:0,booking_id:0});
         return bookings;
     }catch(error){
         console.error('Error Getting All Bookings For User',error);
@@ -80,25 +80,15 @@ async function getAllBookingsForUser(userId){
 
 async function getRecentBookingsForUser(userId){
     try{
-        const bookings=await RecentBooking.find({user_id:userId},{__v:0,createdAt:0,updatedAt:0});
+        const bookings=await RecentBooking.find({user_id:userId},{__v:0,createdAt:0,updatedAt:0,booking_id:0});
         return bookings;
     }catch(error){
         console.error('Error Getting Recent Bookings For User',error);
     }
 }
 
-async function isEventSeatAvailable(eventId,seat){
-    // try{
-    //     const event=await event_Service.getById(eventId);
-    //     const seats=event.seat_info;
-    //     seat.forEach(s=>{
-    //         if(){
-    //             return false;
-    //         }
-    //     });
-    // }
-}
+
 
 module.exports={isSeatAvaialble,ReserveSeat,isBooked,createBooking,getAllBookingsForUser,getRecentBookingsForUser,
-    AddRecentBooking,isEventSeatAvailable
+    AddRecentBooking
 };

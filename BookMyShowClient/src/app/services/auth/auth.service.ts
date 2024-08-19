@@ -1,33 +1,23 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, throwError } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import { httpError } from '../utils/utils';
+import { catchError, Observable } from 'rxjs';
+import { httpError,httpOptions,apiUrl } from '../utils/utils';
+import { loginResponse } from 'src/app/models/auth';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  apiUrl:string=environment.apiUrl;
-  httpHeader={
-    headers:new HttpHeaders({
-      'Content-Type':'application/json'
-    })
-  }
-  httpOptions ={
-    headers: this.httpHeader.headers,
-    withCredentials:true
-  }
+ 
   constructor(private http: HttpClient) { }
 
-  login(payload:any): Observable<Response>{
+  login(payload:any): Observable<loginResponse>{
     console.log(payload);
-    return this.http.post<Response>(this.apiUrl+'/login',payload,this.httpOptions)
+    return this.http.post<loginResponse>(apiUrl+'/login',payload,httpOptions)
     .pipe(catchError(httpError));
   }
   loginBusiness(payload:any): Observable<Response>{
-    return this.http.post<Response>(this.apiUrl+'/login/business',payload,this.httpOptions)
+    return this.http.post<Response>(apiUrl+'/login/business',payload,httpOptions)
     .pipe(catchError(httpError));
   }
 
-  // #TODO- fix the deprecated error of throw Error
 }

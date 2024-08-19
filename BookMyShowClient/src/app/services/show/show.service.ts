@@ -27,11 +27,16 @@ export class ShowService {
     .pipe(catchError(httpError));
   }
   addShow(show:any):Observable<any>{
-    return this.http.post(this.apiUrl+'/show',show,this.httpHeader)
+    return this.http.post(this.apiUrl+'/shows',show,this.httpHeader)
     .pipe(catchError(httpError));
   }
   getShowTimeSlots(id:string,date:string):Observable<any>{
-    return this.http.post(`${this.apiUrl}/shows/${id}`,date,this.httpHeader)
+    console.log(date);
+    return this.http.post(`${this.apiUrl}/shows/time-slots/${id}`,{date:date},this.httpHeader)
+    .pipe(catchError(httpError));
+  }
+  AddShow(show:any):Observable<any>{
+    return this.http.post(this.apiUrl+'/shows',show,this.httpHeader)
     .pipe(catchError(httpError));
   }
 }

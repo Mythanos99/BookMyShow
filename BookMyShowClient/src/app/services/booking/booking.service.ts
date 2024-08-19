@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { httpError } from '../utils/utils';
 import { catchError, Observable } from 'rxjs';
+import { BookingInterface, recentBookingResponse } from 'src/app/models/booking';
 
 @Injectable({
   providedIn: 'root'
@@ -25,8 +26,8 @@ export class BookingService {
   getRecentBookingsOfUser(id:string):Observable<any>{
     return this.http.get<any>(this.apiUrl+'/booking/recent/'+id,this.httpHeader)
   }
-  getAllBookingsOfUser(id:string):Observable<any>{
-    return this.http.get<any>(this.apiUrl+'/booking/user/'+id,this.httpHeader)
+  getAllBookingsOfUser(id:string):Observable<BookingInterface[]>{
+    return this.http.get<BookingInterface[]>(this.apiUrl+'/booking/user/'+id,this.httpHeader)
   }
 
 }

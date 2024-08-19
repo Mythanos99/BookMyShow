@@ -63,6 +63,8 @@ import { MainPageComponent } from './components/content/list-your-show/main-page
 import { AdminComponent } from './components/content/admin/admin.component';
 import { MatTableModule } from '@angular/material/table';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { WarningDialogComponent } from './components/content/movies/dialog/warning-dialog/warning-dialog.component';
+import { SelectFormatComponent } from './components/content/movies/dialog/select-format/select-format.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -98,7 +100,9 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     PaymentGatewayEventComponent,
     ListEventsComponent,
     MainPageComponent,
-    AdminComponent
+    AdminComponent,
+    WarningDialogComponent,
+    SelectFormatComponent
   ],
   imports: [
     BrowserModule,

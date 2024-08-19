@@ -43,7 +43,6 @@ async function addEvent(req,res){
             ...req.body,
             image_url: req.file ? req.file.path : ''
           };
-          console.log(eventData);
         const event = await event_service.add(eventData);
         res.status(200).send(event);
     }catch(error){

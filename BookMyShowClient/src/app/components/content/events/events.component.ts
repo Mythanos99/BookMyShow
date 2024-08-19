@@ -4,6 +4,7 @@ import { unifiedShows } from 'src/app/models/unifiedShows';
 import { EventService } from 'src/app/services/event/event.service';
 import { LocationService } from 'src/app/sharedservice/location.service';
 import { Language, Event_category, DateGroup } from 'src/app/constants/filters';
+import { getimageURl } from 'src/app/utils/util';
 
 @Component({
   selector: 'app-events',
@@ -21,6 +22,7 @@ export class EventsComponent implements OnInit {
   availableLanguages = Language;
   availableDateGroup = DateGroup;
   initialLoad = true;
+  backendurl: string = 'http://localhost:3000/';
   isDropdownOpen: { [key: string]: boolean } = {
     DateGroup: true,
     language: false,
@@ -172,4 +174,8 @@ export class EventsComponent implements OnInit {
     if (value === 'Weekend') return 'This Weekend';
     return 'Next Week';
   }
+  showImage(image: string): string {
+    return getimageURl(image);
+  }
+
 }

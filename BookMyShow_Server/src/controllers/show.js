@@ -32,4 +32,14 @@ async function getTimeSlots(req,res){
         res.status(500).json({ message: error.message });
     }
 }
-module.exports={getShowByMovieId,getShowById,getTimeSlots};
+
+async function addShow(req,res){
+    try{
+        const showData=req.body;
+        const show=await show_service.add(showData);
+        res.status(200).json(show);
+    } catch(error){
+        res.status(500).json({ message: error.message });
+    }
+}
+module.exports={getShowByMovieId,getShowById,getTimeSlots,addShow};

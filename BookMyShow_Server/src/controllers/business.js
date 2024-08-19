@@ -57,4 +57,25 @@ async function getAllBusinesses(req,res){
         res.status(500).json({ message: error.message });
     }
 }
-module.exports = { addBusiness,getAccess,reapplyForAccess,updateAccess,getAllBusinesses};
+
+async function getBusinessByid(req,res){
+    try{
+        const id=req.params.id;
+        const business=await business_service.getById(id);
+        res.status(200).json(business);
+    }   catch(error){
+        res.status(500).json({ message: error.message });
+    }
+}
+
+async function updateBusiness(req,res){
+    try{
+        const id=req.params.id;
+        const business=req.body;
+        const status=await business_service.update(id,business);
+        res.status(200).json(status);
+    }   catch(error){
+        res.status(500).json({ message: error.message });
+    }
+}
+module.exports = { addBusiness,getAccess,reapplyForAccess,updateAccess,getAllBusinesses,getBusinessByid,updateBusiness};

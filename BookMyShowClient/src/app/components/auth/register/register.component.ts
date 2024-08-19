@@ -3,8 +3,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user/user.service';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { httpError } from 'src/app/services/utils/utils'; // Adjust the path as necessary
 import { MatDialogRef } from '@angular/material/dialog';
+import { AuthServiceService } from 'src/app/sharedservice/auth-service.service';
+import { ToasterService } from 'src/app/sharedservice/toaster.service';
+import { ErrorResponse } from 'src/app/models/error';
+import { loginResponse } from 'src/app/models/auth';
 
 @Component({
   selector: 'app-register',
@@ -16,17 +19,22 @@ export class RegisterComponent implements OnInit {
   userExists: boolean = false;
   errorMessage: string = '';
 
-  constructor(private fb: FormBuilder, private userService: UserService, private dialogRef: MatDialogRef<RegisterComponent>) { 
+  constructor(
+    private fb: FormBuilder, 
+    private userService: UserService, 
+    private dialogRef: MatDialogRef<RegisterComponent>,
+    private toasterService: ToasterService,
+    private authService: AuthServiceService
+  ) { 
     this.registerForm = this.fb.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required],
+      username: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required],
       mobile_no: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]]
-    });
+    }, { validator: this.passwordMatchValidator });
   }
 
   ngOnInit(): void {
-    // Initialization logic if any
   }
 
   // Getters for form controls
@@ -35,10 +43,9 @@ export class RegisterComponent implements OnInit {
   passwordMatchValidator(form: FormGroup) {
     const password = form.get('password');
     const confirmPassword = form.get('confirmPassword');
-    if(!password || !confirmPassword) return;
     if (password && confirmPassword && password.value !== confirmPassword.value) {
       confirmPassword.setErrors({ mismatch: true });
-    } else {
+    } else if (confirmPassword) {
       confirmPassword.setErrors(null);
     }
   }
@@ -52,26 +59,29 @@ export class RegisterComponent implements OnInit {
 
   onSubmit() {
     if (this.registerForm.valid) {
-      // Handle the form submission
-      console.log(this.registerForm.value);
       this.userService.register(this.registerForm.value).pipe(
         catchError((error) => {
-          const { errorCode, msg } = error;
-          if (errorCode === 400) {
-            console.log('User already exists');
+          const errorResponse: ErrorResponse = error.error || { errorCode: 500, msg: 'Unknown error' };
+          if (errorResponse.errorCode === 400) {
             this.userExists = true;
+            this.toasterService.showError('Email ID is already registered.');
           } else {
-            console.error('An error occurred:', msg);
-            this.errorMessage = msg;
+            this.errorMessage = errorResponse.msg;
+            this.toasterService.showError("Please register Again");
           }
           return of(null); // Return a safe value or empty observable
         })
-      ).subscribe((data) => {
+      ).subscribe((data: loginResponse | null) => {
         if (data) {
-          console.log(data);
+          this.authService.setUserId(data.user.id);
+          this.toasterService.showSuccess('Registration successful!');
           this.dialogRef.close(); // Close the dialog on success
         }
       });
+    } else {
+      if (this.f['password'].errors?.['minlength']) {
+        this.toasterService.showError('Password must be at least 6 characters long.');
+      }
     }
   }
 }

@@ -2,7 +2,7 @@ const Business = require('../models/business');
 async function add(businessData){
     try{
         const business = await Business.create(businessData);
-        return business;
+        return {message: "Business Created Successfully"};
     } catch(error){
         throw new Error("Error creating business");
     }

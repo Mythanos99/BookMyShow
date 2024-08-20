@@ -22,7 +22,7 @@
             <ng-container *ngIf="isMovieReleased(); else upcomingMovie">
               <div class="d-flex align-items-center mb-2">
                 <i class="fa fa-star text-warning me-2"></i>
-                <span>{{ movie.rating }} ({{ movie.ratedby }} votes)</span>
+                <span>{{ movie.rating | number:'1.2-2' }} ({{ movie.ratedby }} votes)</span>
                 <button class="btn btn-primary ms-3" (click)="rateNow()">Rate Now</button>
               </div>
             </ng-container>

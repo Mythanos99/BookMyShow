@@ -26,11 +26,12 @@ export class AuthInterceptor implements HttpInterceptor {
     });
     return next.handle(clonedRequest).pipe(
       catchError(err => {
-        if (err.status === 401) {
+        console.log(err);
+        if (err.status === 401 && (err.error.message==='Invalid token'|| err.error.message==='Authentication token missing')) {
           console.log('Session expired');
           this.authService.signout();
           this.dialog.open(LoginComponent);
-          this.toasterService.showError('Session Expired .Login again');
+          this.toasterService.showInfo('Session Expired .Login again');
         }
         return throwError(err);
       })

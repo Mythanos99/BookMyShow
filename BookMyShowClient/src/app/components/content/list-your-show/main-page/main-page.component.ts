@@ -21,7 +21,6 @@ export class MainPageComponent implements OnInit {
   ngOnInit(): void {
     this.authService.getBusinessId().subscribe((response) => {
       this.businessId = response;
-      console.log('Business Id:', this.businessId);
       this.fetchAccess();
     });
   }
@@ -29,7 +28,6 @@ export class MainPageComponent implements OnInit {
   fetchAccess(): void {
     this.businessService.fetchAccess(this.businessId || '').subscribe((response) => {
       this.access = response.access;
-      console.log('Access:', this.access);
     });
   }
 
@@ -54,7 +52,6 @@ export class MainPageComponent implements OnInit {
 
   reapplyPermission(): void {
     this.businessService.reapplyPermission(this.businessId || '').subscribe((response) => {
-      console.log('Reapply Permission:', response);
     });
   }
   signOut(): void {

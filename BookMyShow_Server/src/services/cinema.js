@@ -32,6 +32,7 @@ async function getShowsByCinemaGrouped(cinemaId) {
         }
       },
       {
+        // Group by date and movie_id to aggregate shows
         $group: {
           _id: { date: "$show_date", movie_id: "$movie_id" },
           shows: {
@@ -48,7 +49,7 @@ async function getShowsByCinemaGrouped(cinemaId) {
         }
       },
       {
-        // Group by date to organize movies within the same date
+        // Regroup by date
         $group: {
           _id: "$_id.date",
           movies: {
@@ -60,10 +61,6 @@ async function getShowsByCinemaGrouped(cinemaId) {
         }
       },
       {
-        // Sort by date in ascending order
-        $sort: { "_id": 1 }
-      },
-      {
         // Lookup movie details from the Movie collection
         $lookup: {
           from: "movies",
@@ -73,33 +70,52 @@ async function getShowsByCinemaGrouped(cinemaId) {
         }
       },
       {
-        // Unwind the movie details array
-        $unwind: "$movie_details"
+        // Unwind the movie_details array
+        $unwind: "$movies"
       },
       {
-        // Group again to include movie details
+        // Join movie_details with movies based on movie_id
+        $lookup: {
+          from: "movies",
+          localField: "movies.movie_id",
+          foreignField: "_id",
+          as: "movie_detail"
+        }
+      },
+      {
+        // Unwind the movie_detail array
+        $unwind: "$movie_detail"
+      },
+      {
+        // Add movie_name to each movie object
+        $addFields: {
+          "movies.movie_name": "$movie_detail.name"
+        }
+      },
+      {
+        // Regroup movies to restore original structure
         $group: {
           _id: "$_id",
           movies: {
             $push: {
               movie_id: "$movies.movie_id",
-              movie_name: "$movie_details.name",
+              movie_name: "$movies.movie_name",
               shows: "$movies.shows"
             }
           }
         }
       },
       {
-        // Sort by date in ascending order
-        $sort: { "_id": 1 }
-      },
-      {
-        // Format the output to include the date and movies
+        // Project the final result
         $project: {
           _id: 0,
           date: "$_id",
           movies: 1
         }
+      },
+      {
+        // Sort by date in ascending order
+        $sort: { "date": 1 }
       }
     ]);
 
@@ -108,6 +124,10 @@ async function getShowsByCinemaGrouped(cinemaId) {
     throw new Error("Error fetching shows by cinema");
   }
 }
+
+
+
+
 
 async function getCinemaDetails(cinemaId) {
     try {

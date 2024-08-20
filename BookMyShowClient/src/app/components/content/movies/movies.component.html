@@ -106,7 +106,7 @@
               <h5 class="card-title">{{ movie.name }}</h5>
               <p class="movie-certification">{{ movie.movie_rated }}</p>
               <p class="rating-info">
-                <span *ngIf="viewMode === 'current'"><strong>Rating:</strong> {{ movie.rating }} ( {{movie.ratedby}} Votes)</span>
+                <span *ngIf="viewMode === 'current'"><strong>Rating:</strong> {{ movie.rating | number:'1.2-2'}} ( {{movie.ratedby}} Votes)</span>
                
                 <span *ngIf="viewMode !== 'current'">{{ movie.likes }} Likes</span>
               </p>

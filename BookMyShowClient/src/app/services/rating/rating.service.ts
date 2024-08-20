@@ -22,7 +22,7 @@ export class RatingService {
     return this.http.post<Response>(apiUrl+'/rating/add-rating',payload,httpOptions)
     .pipe(catchError(httpError));
   }
-  fetchMovieReviews(movieId:string,page:number=0,limit:number=5):Observable<any>{
+  fetchMovieReviews(movieId:string,page:number,limit:number):Observable<any>{
     return this.http.get<any>(`${apiUrl}/rating/movie/${movieId}?limit=${limit}&page=${page}`,httpOptions)
     .pipe(catchError(httpError));
   }

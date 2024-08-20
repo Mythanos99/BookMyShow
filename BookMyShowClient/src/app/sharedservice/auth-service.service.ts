@@ -22,7 +22,18 @@ export class AuthServiceService {
     }
     return this.userIdSubject.asObservable();
   }
-
+  checkUserId():void{
+    const localId = localStorage.getItem('userId');
+    if (localId) {
+      this.userIdSubject.next(localId);
+    }
+  }
+  checkBusinessId():void{
+    const localId = localStorage.getItem('businessId');
+    if (localId) {
+      this.BusinessIdSubject.next(localId);
+    }
+  }
   // Set the user ID both in the BehaviorSubject and local storage.
   setUserId(userId: string): void {
     this.userIdSubject.next(userId);
@@ -30,9 +41,11 @@ export class AuthServiceService {
     console.log('User ID set:', userId);
   }
   getCurrentBusinessId(): string | null {
+    this.checkBusinessId();
     return this.BusinessIdSubject.value;
   }
   getCurrentUserId(): string | null {
+    this.checkUserId();
     return this.userIdSubject.value;
   }
 

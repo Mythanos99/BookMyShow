@@ -57,10 +57,16 @@ async function addMovie(req, res) {
         }
     
         try {
-          const movieData = {
-            ...req.body,
-            image_url: req.file ? req.file.path : ''
-          };
+            const movieData = {
+                ...req.body,
+                genre: req.body.genre ? req.body.genre.split(',').map(item => item.trim()) : [],
+                cast: req.body.cast ? req.body.cast.split(',').map(item => item.trim()) : [],
+                crew: req.body.crew ? req.body.crew.split(',').map(item => item.trim()) : [],
+                languages: req.body.languages ? req.body.languages.split(',').map(item => item.trim()) : [],
+                formats: req.body.formats ? req.body.formats.split(',').map(item => item.trim()) : [],
+                formats: req.body.formats ? req.body.formats.split(',').map(item => item.trim()) : [],
+                image_url: req.file ? req.file.path : ''
+            };
     
           const newMovie = await movie_service.addMovie(movieData);
           return res.status(201).json(newMovie);

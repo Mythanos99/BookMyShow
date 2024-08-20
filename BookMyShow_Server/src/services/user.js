@@ -16,7 +16,7 @@ async function createUser(data) {
 
     // Create a new user object
     const newUser = new User({
-      username,
+      username, 
       mobile_no,
       password: hashedPassword,
       role: role || 'user',

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CinemaService } from 'src/app/services/cinema/cinema.service';
-import { map } from 'rxjs/operators';
 
 interface SeatInfo {
   type: string;
@@ -16,17 +15,18 @@ interface Show {
   end_time: string;
   format: string;
   language: string;
+  genre: string[]; // Changed to an array of strings
   seat_info: SeatInfo[];
 }
 
 interface Movie {
-  movie_id: string[];
+  movie_id: string; // Changed to single string
   movie_name: string;
-  shows: Show[][];
+  shows: Show[]; // Changed from nested arrays to a single array
 }
 
 interface DateGroup {
-  date: string; // The date field is now 'date' instead of '_id'
+  date: string; // The date field is 'date'
   movies: Movie[];
 }
 
@@ -74,4 +74,3 @@ export class BuyTicketsComponent implements OnInit {
     this.router.navigate(['/book-tickets', show._id]);
   }
 }
-

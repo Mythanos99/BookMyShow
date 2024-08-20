@@ -41,6 +41,7 @@ async function addEvent(req,res){
         try {
           const eventData = {
             ...req.body,
+            languages: req.body.languages ? req.body.languages.split(',').map(item => item.trim()) : [],
             image_url: req.file ? req.file.path : ''
           };
         const event = await event_service.add(eventData);

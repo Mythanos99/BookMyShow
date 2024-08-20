@@ -120,8 +120,7 @@ export class ListEventsComponent implements OnInit {
 
       formData.append('date', `${formattedDate}T00:00:00.000Z`);
       formData.append('time', dateTime);
-
-      formData.append('languages', JSON.stringify(this.eventForm.get('languages')?.value));
+      formData.append('languages', this.eventForm.get('languages')?.value.join(','));
       formData.append('ticketInfo', JSON.stringify(this.eventForm.get('ticketInfo')?.value));
 
       this.eventService.addEvent(formData).subscribe(

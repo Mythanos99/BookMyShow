@@ -32,3 +32,5 @@ secrets.json
 # Ignore package lock files
 package-lock.json
 yarn.lock
+
+uploads/

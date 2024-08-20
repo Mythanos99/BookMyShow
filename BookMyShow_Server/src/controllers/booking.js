@@ -44,7 +44,6 @@ async function bookSeat(req, res) {
   res.setHeader("Content-Type", "application/json");
   try{
     const {Payment,Booking,seat_info}=req.body;
-    // console.log(req.body);
     if(Payment.entity==="EVE"){
       const paymentid= await payment_service.makePayment(Payment);
       if(paymentid){

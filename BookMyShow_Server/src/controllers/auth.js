@@ -7,13 +7,13 @@ function login(req, res) {
 
   auth_service.verify_login(username, password)
     .then(({ user, token }) => {
-      // Set cookie with JWT token
+
       res.cookie("jwtToken", token, {
-        httpOnly: false, // Ensures the cookie is sent only in HTTP(S) requests
+        httpOnly: false, 
         sameSite: "Lax", 
-        secure: false, // Set to false for local development
-        expires: new Date(Date.now() + 3600000), // Cookie expiration
-        path: '/', // Ensures the cookie is accessible throughout the application
+        secure: false, 
+        expires: new Date(Date.now() + 3600000), 
+        path: '/', 
       });
       res.status(200).json({
         message: "Login successful",

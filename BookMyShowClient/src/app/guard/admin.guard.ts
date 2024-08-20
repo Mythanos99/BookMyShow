@@ -19,7 +19,9 @@ export class LoginGuard implements CanActivate {
   }
   
 }
-
+@Injectable({
+  providedIn: 'root'  
+})
 export class BusinessGuard implements CanActivate {
   constructor(
     private authService:AuthServiceService
@@ -27,8 +29,8 @@ export class BusinessGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      const userId = this.authService.getBusinessId();
-      return userId === 'admin';
+      const businessId = this.authService.getCurrentBusinessId();
+      return businessId !== null;
   }
   
 }

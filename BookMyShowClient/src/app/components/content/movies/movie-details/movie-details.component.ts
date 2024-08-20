@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+  import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MovieService } from 'src/app/services/movie/movie.service';
 import { RatingService } from 'src/app/services/rating/rating.service';
@@ -147,7 +147,6 @@ export class MovieDetailsComponent implements OnInit {
       (response: any) => {
         this.ratings = response.ratings || [];
         this.totalRatingsCount = response.totalRatingsCount || 0;
-        console.log(response);
         this.updatePaginatedRatings();
       },
       (error: any) => {
@@ -170,8 +169,8 @@ export class MovieDetailsComponent implements OnInit {
   }
 
   updatePaginatedRatings(): void {
-    const start = (this.page - 1) * this.ratingsPerPage;
-    const end = start + this.ratingsPerPage;
+    const start = 0
+    const end = Math.min(this.ratingsPerPage,this.totalRatingsCount-(this.page-1)*this.ratingsPerPage)
     this.paginatedRatings = this.ratings.slice(start, end);
   }
 }

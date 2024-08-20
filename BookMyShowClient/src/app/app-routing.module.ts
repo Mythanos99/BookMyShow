@@ -20,7 +20,7 @@ import { BookTicketsComponent } from './components/content/events/book-tickets/b
 import { ListEventsComponent } from './components/content/list-your-show/list-events/list-events.component';
 import { MainPageComponent } from './components/content/list-your-show/main-page/main-page.component';
 import { AdminComponent } from './components/content/admin/admin.component';
-import { LoginGuard } from './guard/admin.guard';
+import { BusinessGuard, LoginGuard } from './guard/admin.guard';
 
 const routes: Routes = [
   // #TODO change it to location and add lazy loading. Individual routing for features like movies
@@ -40,11 +40,11 @@ const routes: Routes = [
   { path: 'my-profile', component:UserProfileComponent,canActivate:[LoginGuard]},
   { path: 'my-bookings', component:UserBookingsComponent,canActivate:[LoginGuard]},
   { path: 'list-shows', component:ListYourShowComponent},
-  { path: 'list-shows/movie', component:ListMovieComponent},
-  { path: 'list-shows/cinema', component:ListCinemaComponent},
-  { path: 'list-shows/shows', component:ListShowsComponent},
-  { path: 'list-shows/events', component:ListEventsComponent},
-  { path: 'list-shows/home', component:MainPageComponent},
+  { path: 'list-shows/movie', component:ListMovieComponent,canActivate:[BusinessGuard]},
+  { path: 'list-shows/cinema', component:ListCinemaComponent,canActivate:[BusinessGuard]},
+  { path: 'list-shows/shows', component:ListShowsComponent,canActivate:[BusinessGuard]},
+  { path: 'list-shows/events', component:ListEventsComponent,canActivate:[BusinessGuard]},
+  { path: 'list-shows/home', component:MainPageComponent,canActivate:[BusinessGuard]},
 
 
 

@@ -17,7 +17,6 @@ const showRouter = require("./routers/show");
 const bookingRouter = require("./routers/booking");
 const eventRouter = require("./routers/event");
 const businessRouter = require("./routers/business.js");
-const unifiedShowsRouter = require("./routers/unifiedShows")
 const search_controller = require("./controllers/search");
 const ratingRouter = require("./routers/rating");
 app.use(cors({
@@ -39,7 +38,6 @@ app.use("/shows", showRouter);
 app.use("/booking",bookingRouter);
 app.get("/search", search_controller.getSearchResult); 
 app.use("/events", eventRouter);
-app.use("/unifiedShows", unifiedShowsRouter)
 app.use("/rating",ratingRouter);
 
 

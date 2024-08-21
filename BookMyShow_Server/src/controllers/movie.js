@@ -106,6 +106,12 @@ async function getMovieNames(req, res) {
     }
 }
 
-module.exports = { getAllMovies,getFilteredMovies ,getMovieById,getUpcomingMovies,getMovieFilters,addMovie,updateMovie,getMovieNames};
+async function updateMovieById(req, res){
+    
+}
+
+module.exports = { getAllMovies,getFilteredMovies ,getMovieById,getUpcomingMovies,getMovieFilters,addMovie,updateMovie,getMovieNames,
+    updateMovieById
+};
 
 // .#FIXME- res.set header not added to all. Maintain code consistentcy.

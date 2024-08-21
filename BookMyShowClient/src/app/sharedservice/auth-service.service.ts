@@ -45,7 +45,6 @@ export class AuthServiceService {
   setUserId(userId: string): void {
     this.userIdSubject.next(userId);
     localStorage.setItem('userId', userId);
-    console.log('User ID set:', userId);
   }
   getCurrentBusinessId(): string | null {
     this.checkBusinessId();
@@ -79,7 +78,6 @@ export class AuthServiceService {
   setBusinessId(businessId: string): void {
     this.BusinessIdSubject.next(businessId);
     localStorage.setItem('businessId', businessId);
-    console.log('Business ID set:', businessId);
   }
 
   signoutBusiness(): void {

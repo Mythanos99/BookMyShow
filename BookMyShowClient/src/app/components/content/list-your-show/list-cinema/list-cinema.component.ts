@@ -143,7 +143,6 @@ export class ListCinemaComponent implements OnInit {
       // Call the service to submit the data
       this.cinemaService.AddCinema(cinemaData).subscribe(
         (response: any) => {
-          console.log('Cinema added successfully:', response);
           // Add the cinema ID to the Business entity
           this.Business.Cinitems.push({id: response._id, name: response.name});
           this.businessService.updateBusiness(this.BusinessId || '', this.Business).subscribe((data) => {

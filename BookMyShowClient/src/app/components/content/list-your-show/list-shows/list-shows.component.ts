@@ -96,17 +96,12 @@ export class ListShowsComponent implements OnInit {
     this.cinemaService.getCinemaById(this.selectedCinemaId).subscribe((response) => {
       this.seatingArrangementData = response.seating_arrangement;
       this.city = response.city;
-      console.log(this.seatingArrangementData);
       this.seatingArrangement = this.seatingArrangementData.find(arrangement => arrangement.screens_no.includes(screen))?.seats || [];
-      console.log(this.seatingArrangement);
       this.sendShowData();
     });
   }
 
-  onSelectScreen(): void {
-    console.log(this.selectedScreen);
-  }
-
+  
   addSeatNumber(seatNumber: string): void {
     if (seatNumber) {
       this.seatNumbers.push(seatNumber);

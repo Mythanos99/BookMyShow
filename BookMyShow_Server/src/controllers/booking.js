@@ -61,12 +61,11 @@ async function bookSeat(req, res) {
     }
     const showId=Payment.entity_id;
     const paymentid= await payment_service.makePayment(Payment);
-    // console.log(paymentid);
     if(paymentid){
       const updatedBooking = { ...Booking, transaction_id: paymentid };
       const result= await booking_service.createBooking(updatedBooking);
       const recentBooking=await booking_service.AddRecentBooking(updatedBooking);
-      // console.log(result);
+
       if(result && recentBooking){
         const updateSeat=await show_service.updateSeat(showId,seat_info);
         return res.status(200).json({message:"Seats Booked Successfully"});

@@ -89,6 +89,17 @@ async function chcekPermission(req,res){
         res.status(500).json({ message: error.message });
     }
 }
+
+async function getAccessItems(req,res){
+    try{
+        const id=req.params.id;
+        const entity=req.params.entity;
+        const items=await business_service.getAccessItems(id,entity);
+        res.status(200).json(items);
+    }   catch(error){
+        res.status(500).json({ message: error.message });
+    }
+}
 module.exports = { addBusiness,getAccess,reapplyForAccess,updateAccess,getAllBusinesses,getBusinessByid,updateBusiness,
-    chcekPermission
+    chcekPermission,getAccessItems
 };

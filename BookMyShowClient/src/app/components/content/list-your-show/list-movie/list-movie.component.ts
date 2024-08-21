@@ -57,7 +57,6 @@ export class ListMovieComponent implements OnInit {
       // Fetch Business details using the fetched BusinessId
       this.businessService.fetchBusinessById(this.BusinessId || '').subscribe((data) => {
         this.Business = data;
-        console.log(this.Business);
       });
     });
   }

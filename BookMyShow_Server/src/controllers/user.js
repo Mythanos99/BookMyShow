@@ -51,7 +51,6 @@ async function updateUserById(req, res) {
   try {
     const id = req.params.id;
     const data = req.body;
-    console.log(data);
     const message = await user_service.updateById(id, data);
     res.status(200).json({status:200,message:message});
   } catch (error) {

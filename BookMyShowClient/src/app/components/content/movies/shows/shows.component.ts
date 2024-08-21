@@ -113,7 +113,6 @@ export class ShowsComponent implements OnInit {
             })),
           }));
           this.selectDate(0); 
-          console.log(this.dateGroups);
         });
     }
   }
@@ -133,7 +132,7 @@ export class ShowsComponent implements OnInit {
 
   onLanguageChange(event: any): void {
     // Handle language change logic
-    console.log('Language changed:', event.value);
+    // #FIXME- implement this method
   }
 
   onFormatChange(event: any): void {

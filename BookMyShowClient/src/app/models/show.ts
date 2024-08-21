@@ -51,5 +51,4 @@ export class Seat{
     }
 }
 
-// #TODO- add screen number option in show model.
   

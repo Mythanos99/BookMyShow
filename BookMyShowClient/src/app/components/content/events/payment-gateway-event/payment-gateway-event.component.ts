@@ -70,11 +70,9 @@ export class PaymentGatewayEventComponent implements OnInit {
     };
 
     const payload = { Payment: this.payment, Booking: this.booking, seat_info: seatsArray };
-    console.log(payload);
 
     this.bookingService.BookTickets(payload).subscribe(
       (response) => {
-        console.log(response);
         this.toasterService.showSuccess('Booking successful!'); // Show success message
         this.router.navigate(['/home']); // Navigate to home page
       },

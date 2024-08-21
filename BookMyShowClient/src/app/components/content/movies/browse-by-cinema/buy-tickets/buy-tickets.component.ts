@@ -57,7 +57,6 @@ export class BuyTicketsComponent implements OnInit {
           ...group,
           date: new Date(group.date).toString() !== 'Invalid Date' ? group.date : 'Unknown Date'
         }));
-        console.log(this.dateGroups);
       });
     }
   }

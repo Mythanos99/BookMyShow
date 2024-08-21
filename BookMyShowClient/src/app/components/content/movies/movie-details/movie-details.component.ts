@@ -150,7 +150,6 @@ export class MovieDetailsComponent implements OnInit {
   }
 
   likeMovie(): void {
-    console.log('Like button clicked');
     const payload={
       entity:'MOV',
       entityId:this.movieId||''

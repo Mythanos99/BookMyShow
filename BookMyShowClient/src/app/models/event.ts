@@ -34,5 +34,4 @@ export class Events {
     this.reviews = reviews;
   }
 }
-// #TODO- in this model check if _id is needed to be defined.
-// #TODO- I think it will be better to have separate model for eventResponse and EventRequest
+

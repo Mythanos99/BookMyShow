@@ -39,4 +39,8 @@ export class MovieService {
     return this.http.get(`${apiUrl}/movies/names`,httpHeader)
     .pipe(catchError(httpError));
   }
+  UpdateMovie(id: string, formData: FormData): Observable<any> {
+    return this.http.put(`${apiUrl}/movies/${id}`, formData)
+    .pipe(catchError(httpError));
+  }
 }

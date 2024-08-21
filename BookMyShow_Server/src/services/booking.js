@@ -17,7 +17,6 @@ async function ReserveSeat(showKey,userId){
     try{
         const result = await redis.set(showKey, userId, 'EX', 300); // 5 minutes expiration
         return result === 'OK';
-        // #TODO write proper message to show that seat is booked.
     }catch(error){
         console.error('Error Reserving Seat',error);
     }

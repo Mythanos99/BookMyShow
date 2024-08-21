@@ -44,7 +44,6 @@ export class BookTicketsComponent implements OnInit {
     this.eventService.getEventById(this.eventId || '').subscribe(event => {
       this.event=event;
       this.tickets = event.ticketInfo;
-      console.log(this.event);
     });
   }
 

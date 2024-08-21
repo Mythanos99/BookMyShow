@@ -83,7 +83,6 @@ export class PaymentGatewayComponent implements OnInit {
 
     this.updateSeats();
     const payload = { Payment: this.payment, Booking: this.booking, seat_info: this.Show.seat_info };
-    console.log(payload);
     this.bookingService.BookTickets(payload).subscribe(
       (response) => {
         this.toasterService.showSuccess('Payment successful!'); // Show success message

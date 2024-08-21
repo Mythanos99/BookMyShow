@@ -48,4 +48,7 @@ export class BusinessService {
     return this.http.get(this.apiUrl+'/business/permission/'+id+'/'+entity,httpOptions)
     .pipe(catchError(httpError));
   }
+  getAccessItems(id:string,entity:string):Observable<any>{
+    return this.http.get<any>(this.apiUrl+'/business/accessItems/'+id+'/'+entity,this.httpHeader).pipe(catchError(httpError))
+  }
 }

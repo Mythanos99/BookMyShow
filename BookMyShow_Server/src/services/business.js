@@ -83,6 +83,23 @@ async function checkPermission(id,entity){
     } 
 }
 
+async function getAccessItems(id,entity){
+    try{
+        const business = await Business.findById(id,{Movitems:1,Cinitems:1,Eveitems:1});
+        let items = [];
+        if(entity === "MOV"){
+            items = business.Movitems;
+        } else if(entity === "CIN"){
+            items = business.Cinitems;
+        } else if(entity === "EVE"){
+            items = business.Eveitems;
+
+        }   
+        return items;
+    } catch(error){
+        throw new Error("Error fetching access items");
+    }
+}
 module.exports={add,getAccess,reapplyAccess,updateAccess,getAll,getById,update,
-    checkPermission
+    checkPermission,getAccessItems
 };

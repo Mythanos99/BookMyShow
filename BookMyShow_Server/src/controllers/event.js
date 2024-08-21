@@ -5,7 +5,6 @@ async function getFilteredEvents(req,res){
     res.setHeader('Content-Type', 'application/json');
     try{
         const filters=req.query;
-        // console.log(filters);
         const events = await event_service.getfiltered(filters);
         res.status(200).send(events);
     }catch(error){

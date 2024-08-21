@@ -9,5 +9,7 @@ router.get("/upcoming",movie_controller.getUpcomingMovies);
 router.get("/:id",movie_controller.getMovieById);
 router.post("/",movie_controller.addMovie);
 
+router.put("/:id",movie_controller.updateMovieById);
+
 
 module.exports = router;

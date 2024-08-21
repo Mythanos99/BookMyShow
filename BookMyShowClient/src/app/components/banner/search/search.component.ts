@@ -64,7 +64,6 @@ export class SearchComponent implements OnInit, OnDestroy {
       this.loading = true;
       this.searchService.search(this.location, query).subscribe(
         (response: searchResposne) => {
-          console.log(response);
           this.arrMovies = response.movies || [];
           this.arrCinemas = response.cinemas || [];
           this.arrEvents = response.events || [];

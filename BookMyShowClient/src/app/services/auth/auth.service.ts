@@ -11,7 +11,7 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   login(payload:any): Observable<loginResponse>{
-    console.log(payload);
+    (payload);
     return this.http.post<loginResponse>(apiUrl+'/login',payload,httpOptions)
     .pipe(catchError(httpError));
   }

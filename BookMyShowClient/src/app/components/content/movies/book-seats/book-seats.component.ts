@@ -55,7 +55,6 @@ export class BookSeatsComponent implements OnInit {
     if (this.showId) {
       this.showService.getShowById(this.showId).subscribe(response => {
         this.show = response;
-        console.log(this.show);
       });
     }
   }
@@ -143,7 +142,6 @@ export class BookSeatsComponent implements OnInit {
     bookSeats(): void {
         const booking:Booking[]=[];
         this.selectedSeats.forEach(seat => {
-            console.log(seat);
             
             const categoryId = this.getRowNumber(seat[0]);
             const rowId = this.getRowNumber(seat[1]);
@@ -161,15 +159,12 @@ export class BookSeatsComponent implements OnInit {
             const obj = { categoryId, rowId, seatName, seatId };
             booking.push(obj);
             
-            console.log(seatName, categoryId, rowId, seatId);
-            // this._snackBar.open(`Booking seat ${seatName}`, 'Close');
         });
         
         const bookingData={ userId: this.user_id||'', booking: booking };
     if (this.showId) {
         this.bookingService.VerifyBookingDetails(this.showId, bookingData).subscribe(
             response => {
-                console.log(response.message);
                 this.Booking_details=booking;
                 this.showPaymentGateway = true;
 

@@ -1,5 +1,7 @@
 const Movie = require("../models/movie");
 const Show = require("../models/show");
+const { buildQuery } = require("../utils/utils");
+
 async function getAll() {
   try {
     const movies = await Movie.find({});
@@ -11,23 +13,7 @@ async function getAll() {
 
 async function getFilteredResult(filters) {
   try {
-    const query = {};
-    const today = new Date();
-    query.start_time = { $gte: today }; 
-    if (filters.location) {
-      query.city = filters.location;
-    }
-
-    if (filters.languages) {
-      query.language = { $in: filters.languages.split("|") };
-    }
-    if (filters.format) {
-      query.format = { $in: filters.format.split("|") };
-    }
-
-    if (filters.genre) {
-      query.genre = { $in: filters.genre.split("|")  };
-    }
+    const query = buildQuery(filters, { start_time: { $gte: new Date()} });
     const shows = await Show.aggregate([
       { $match: query },
       { $group: { _id: "$movie_id", count: { $sum: 1 } } },
@@ -57,7 +43,6 @@ async function getFilteredResult(filters) {
   } catch (error) {
     throw new Error("Error fetching movies");
   }
-  // #TODO- Check the implementation is correct by using proper data
 }
 
 async function getFilters(location) {
@@ -92,7 +77,6 @@ async function getFilters(location) {
           }
         },
       ]);
-      // console.log(result);
       
       if (result.length > 0) {
         return {
@@ -121,19 +105,8 @@ async function getById(id) {
 
 async function getUpcoming(filters=null) {
     try {
-        const query = {};
-        const today = new Date();
-        query.release_date = { $gte: today };
-        if (filters.languages) {
-        query.languages = { $in: filters.languages.split("|") };
-        }
-        if (filters.format) {
-        query.format = { $in: filters.format.split("|") };
-        }
-        if (filters.genre) {
-        query.genre = { $in: filters.genre.split("|") };
-        }
-        // #TODO- make a split filter utils function that splits the  filters on the basis of the particular word.
+        const query = buildQuery(filters, { release_date: { $gte: new Date() } });
+        delete query.city;
         const movies = await Movie.aggregate([
             { $match: query }, // Match the provided query
             {
@@ -180,8 +153,8 @@ async function addMovie(movie){
 
 async function updateMovie(id,movie){
   try{
-    const updatedMovie = await Movie.findByIdAndUpdate(id,movie,{new:true});
-    return updatedMovie; // #TODO- check if updated Movie is needed to be returned or not.
+    await Movie.updateOne({ _id: id }, movie);
+    return {message:"Successfully Updated"}; 
   }
   catch(error){
     throw new Error("Error updating movie");

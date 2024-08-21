@@ -34,12 +34,10 @@
     </div>
   
     <div *ngIf="showsData">
-      <form (ngSubmit)="onSelectScreen()">
         <div class="form-group">
           <label for="screen">Enter Screen Number</label>
           <input type="number" id="screen" class="form-control" [(ngModel)]="selectedScreen" name="screen" required>
         </div>
-      </form>
     </div>
   
     <div *ngIf="selectedScreen !== null">

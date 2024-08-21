@@ -78,7 +78,7 @@ async function getById(id) {
 async function updateById(id, data) {
   try {
     const result = await User.updateOne({ _id: id }, data);
-    if (result.nModified === 0) {
+    if (result.matchedCount === 0) {
       throw new Error("No user found to update");
     }
     return { message: "User updated successfully" };

@@ -32,7 +32,6 @@ export class EventDetailsComponent implements OnInit {
     if (this.eventId) {
       this.eventService.getEventById(this.eventId).subscribe((event:Events)=>{
         this.event=event;
-        console.log(event);
       }
       );
     }
@@ -54,7 +53,6 @@ export class EventDetailsComponent implements OnInit {
   }
 
   likeMovie(): void {
-    console.log('Like button clicked');
     const payload={
       entity:'EVE',
       entityId:this.eventId||''

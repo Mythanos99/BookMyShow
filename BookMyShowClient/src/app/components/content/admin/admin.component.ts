@@ -88,11 +88,9 @@ export class AdminComponent implements OnInit {
     const business = this.dataSource.data.find((business: any) => business._id === businessId);
     if (business) {
       this.businessService.updateBusinessAccess(businessId, business.access).subscribe(() => {
-        // Optionally handle success, e.g., show a success message
-        console.log('Access updated successfully');
+        this.toasterService.showSuccess('Access updated successfully');
       }, error => {
-        // Handle error, e.g., show an error message
-        console.error('Failed to update access', error);
+        this.toasterService.showError('Failed to update access');
       });
     }
   }

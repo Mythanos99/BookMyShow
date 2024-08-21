@@ -65,6 +65,7 @@ import { MatTableModule } from '@angular/material/table';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { WarningDialogComponent } from './components/content/movies/dialog/warning-dialog/warning-dialog.component';
 import { SelectFormatComponent } from './components/content/movies/dialog/select-format/select-format.component';
+import { UpdateMovieComponent } from './components/content/list-your-show/update-movie/update-movie.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -102,7 +103,8 @@ import { SelectFormatComponent } from './components/content/movies/dialog/select
     MainPageComponent,
     AdminComponent,
     WarningDialogComponent,
-    SelectFormatComponent
+    SelectFormatComponent,
+    UpdateMovieComponent
   ],
   imports: [
     BrowserModule,

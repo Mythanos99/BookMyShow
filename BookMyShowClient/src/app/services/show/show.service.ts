@@ -31,7 +31,6 @@ export class ShowService {
     .pipe(catchError(httpError));
   }
   getShowTimeSlots(id:string,date:string):Observable<any>{
-    console.log(date);
     return this.http.post(`${this.apiUrl}/shows/time-slots/${id}`,{date:date},this.httpHeader)
     .pipe(catchError(httpError));
   }

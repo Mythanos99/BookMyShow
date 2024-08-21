@@ -91,6 +91,29 @@ function getFieldname(entity){
   else return 'interested'
 }
 
+function buildQuery(filters, additionalQuery = {}) {
+  const query = { ...additionalQuery };
+  if (filters) {
+      if (filters.location) {
+          query.city = filters.location;
+      }
+      if (filters.languages) {
+          query.language = { $in: splitFilter(filters.languages) };
+      }
+      if (filters.format) {
+          query.format = { $in: splitFilter(filters.format) };
+      }
+      if (filters.genre) {
+          query.genre = { $in: splitFilter(filters.genre) };
+      }
+  }
+  return query;
+}
+
+function splitFilter(filterString, delimiter = "|") {
+  return filterString.split(delimiter);
+}
+
 
 
 module.exports = {
@@ -98,5 +121,6 @@ module.exports = {
   comparePassword,
   getDayGroupInfo,
   getModelName,
-  getFieldname
+  getFieldname,
+  buildQuery
 };

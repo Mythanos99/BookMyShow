@@ -11,5 +11,6 @@ router.get("",business_controller.getAllBusinesses);
 router.put("/reapply/:id",business_controller.reapplyForAccess);
 router.put("/update-access/:id",business_controller.updateAccess);
 router.get("/permission/:id/:entity",business_controller.chcekPermission);
+router.get("/accessItems/:id/:entity",business_controller.getAccessItems);
 
 module.exports = router;

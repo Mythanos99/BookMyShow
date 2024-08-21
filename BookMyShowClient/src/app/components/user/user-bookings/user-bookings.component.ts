@@ -37,7 +37,6 @@ export class UserBookingsComponent implements OnInit, OnDestroy {
       this.bookingService.getRecentBookingsOfUser(this.userId||'').subscribe((data:any) => {
         if ((data)) {
           this.recentOrders = data[0].last_bookings;
-          console.log('Recent orders', data);
         }
       })
     );
@@ -68,4 +67,3 @@ export class UserBookingsComponent implements OnInit, OnDestroy {
   }
 }
 
-// #TODO- checking is required for this

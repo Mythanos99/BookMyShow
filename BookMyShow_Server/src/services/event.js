@@ -23,7 +23,6 @@ async function getfiltered(filters) {
     }
     try {
         const events = await Event.find(query,{name:1,interested:1,ticketInfo:1,city:1,location:1,languages:1,date:1,time:1,duration:1,image_url:1}).sort({date:1});
-        // console.log(events);
         return events;
     } catch (error) {
         console.error("Error fetching filtered events:", error);

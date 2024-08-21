@@ -85,7 +85,6 @@ export class UserProfileComponent implements OnInit, OnDestroy {
         personal_details: { ...this.profileForm.value.personal_details }
       };
       this.subscriptions.add(this.userService.updateUserById(this.userId||'', updatedUser).subscribe(response => {
-        console.log(response);
         if (response.status === 200) {
           this.toasterService.showSuccess('User Successfull Updated');
         } else {

@@ -51,7 +51,6 @@ export class ListEventsComponent implements OnInit {
     if (this.businessId) {
       this.businessService.fetchBusinessById(this.businessId).subscribe(data => {
         this.business = data;
-        console.log(this.business);
       });
     }
   }

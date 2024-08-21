@@ -1,8 +1,7 @@
 const Payment=require('../models/payment');
 async function makePayment(payment){
     try{
-        const paymentModel=new Payment(payment);
-        const result=await paymentModel.save();
+        const result = await Payment.create(payment);
         return result._id;
     }catch(error){
         console.error('Error Making Payment',error);
@@ -10,5 +9,3 @@ async function makePayment(payment){
 }
 
 module.exports={makePayment};
-
-// #TODO- check if save is deprecated or not.(insertOne)

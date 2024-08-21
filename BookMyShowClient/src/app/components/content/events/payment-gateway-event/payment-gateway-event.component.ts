@@ -65,6 +65,7 @@ export class PaymentGatewayEventComponent implements OnInit {
       amount: this.paymentDetails.totalAmount,
       seats: seatsArray,
       entity_name: this.paymentDetails.show_name,
+      show_time: this.paymentDetails.showTime,
       location: this.paymentDetails.showLocation,
     };
 

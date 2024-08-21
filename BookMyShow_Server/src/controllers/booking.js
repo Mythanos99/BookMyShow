@@ -64,7 +64,6 @@ async function bookSeat(req, res) {
     // console.log(paymentid);
     if(paymentid){
       const updatedBooking = { ...Booking, transaction_id: paymentid };
-      // console.log(updatedBooking);
       const result= await booking_service.createBooking(updatedBooking);
       const recentBooking=await booking_service.AddRecentBooking(updatedBooking);
       // console.log(result);

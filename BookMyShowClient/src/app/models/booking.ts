@@ -6,6 +6,7 @@ export class Booking {
   transaction_id: ObjectId;
   amount: number;
   seats: string[];
+
   createdAt?: Date;
   updatedAt?: Date;
 
@@ -37,6 +38,7 @@ export interface BookingInterface {
   seats: string[];
   food: FoodItem[];
   amount: number;
+  show_time: Date;
 }
 
 export interface FoodItem {

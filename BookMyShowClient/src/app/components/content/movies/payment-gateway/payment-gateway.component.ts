@@ -76,6 +76,7 @@ export class PaymentGatewayComponent implements OnInit {
       entity_name: this.Movie.name,
       location: this.cinema.location.house_no + ', ' + this.cinema.location.street + ', ' + this.cinema.location.area + ', ' + this.cinema.location.pincode,
       amount: this.TotalAmount,
+      show_time: this.Show.start_time,
       seats,
       food: this.selectedItems
     };

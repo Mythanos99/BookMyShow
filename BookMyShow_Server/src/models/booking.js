@@ -13,6 +13,7 @@ const BookingSchema = new Schema({
     entity_name: { type: String, required: true },
     location: { type: String, required: true },
     transaction_id: { type: ObjectId, required: true },
+    show_time: { type: Date, required: true },
     amount: { type: Number, required: true },
     seats: { type: [String], required: true },
     food: { type: [foodSchema], required: false },

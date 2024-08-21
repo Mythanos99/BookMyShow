@@ -19,6 +19,7 @@
             <div class="card-body">
               <p class="card-text"><strong>Movie Name:</strong> {{ order.entity_name }}</p>
               <p class="card-text"><strong>Location:</strong> {{ order.location }}</p>
+              <p class="card-text"><strong>Show Time:</strong> {{ order.show_time | date: 'd MMMM, yyyy h:mm a' }}</p>
               <p class="card-text"><strong>Amount:</strong> {{ order.amount | currency: 'INR' }}</p>
               <p class="card-text"><strong>Seats:</strong> {{ order.seats.join(', ') }}</p>
               <div *ngIf="order.food.length > 0">
@@ -48,6 +49,7 @@
             <div class="card-body">
               <p class="card-text"><strong>Movie Name:</strong> {{ order.entity_name }}</p>
               <p class="card-text"><strong>Location:</strong> {{ order.location }}</p>
+              <p class="card-text"><strong>Show Time:</strong> {{ order.show_time | date: 'd MMMM, yyyy h:mm a' }}</p>
               <p class="card-text"><strong>Amount:</strong> {{ order.amount | currency: 'INR' }}</p>
               <p class="card-text"><strong>Seats:</strong> {{ order.seats.join(', ') }}</p>
               <div *ngIf="order.food.length > 0">

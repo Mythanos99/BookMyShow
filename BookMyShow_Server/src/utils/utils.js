@@ -84,11 +84,19 @@ function getModelName(entity) {
   return model;
 }
 
+function getFieldname(entity){
+  if(entity==='MOV'){
+    return 'likes';
+  }
+  else return 'interested'
+}
+
 
 
 module.exports = {
   hashPassword,
   comparePassword,
   getDayGroupInfo,
-  getModelName
+  getModelName,
+  getFieldname
 };

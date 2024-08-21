@@ -78,4 +78,17 @@ async function updateBusiness(req,res){
         res.status(500).json({ message: error.message });
     }
 }
-module.exports = { addBusiness,getAccess,reapplyForAccess,updateAccess,getAllBusinesses,getBusinessByid,updateBusiness};
+
+async function chcekPermission(req,res){
+    try{
+        const id=req.params.id;
+        const entity=req.params.entity;
+        const status=await business_service.checkPermission(id,entity);
+        res.status(200).json({status:status});
+    }   catch(error){
+        res.status(500).json({ message: error.message });
+    }
+}
+module.exports = { addBusiness,getAccess,reapplyForAccess,updateAccess,getAllBusinesses,getBusinessByid,updateBusiness,
+    chcekPermission
+};

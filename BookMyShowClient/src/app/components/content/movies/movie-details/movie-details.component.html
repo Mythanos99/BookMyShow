@@ -23,14 +23,20 @@
               <div class="d-flex align-items-center mb-2">
                 <i class="fa fa-star text-warning me-2"></i>
                 <span>{{ movie.rating | number:'1.2-2' }} ({{ movie.ratedby }} votes)</span>
-                <button class="btn btn-primary ms-3" (click)="rateNow()">Rate Now</button>
+                <span *ngIf="isLoggedIn">
+                  <button  *ngIf="userRating.rating===-1"class="btn btn-primary ms-3" (click)="rateNow()">Rate Now</button>
+                  <button  *ngIf="userRating.rating!==-1"class="btn btn-primary ms-3" >{{userRating.rating}}/10</button>
+              </span>
+              <span *ngIf="!isLoggedIn">
+                <button class="btn btn-primary ms-3" disabled="true">Login To Rate</button>
+            </span>
               </div>
             </ng-container>
             <ng-template #upcomingMovie>
               <div class="d-flex align-items-center mb-2">
                 <i class="fa fa-thumbs-up text-success me-2"></i>
                 <span>{{ movie.likes }} Interested</span>
-                <button class="btn btn-primary ms-3" (click)="likeMovie()">Like To Show Interest</button>
+                <button *ngIf="!hasShownInterested" class="btn btn-primary ms-3" (click)="likeMovie()">Like To Show Interest</button>
               </div>
             </ng-template>
             <p><strong>Release Date:</strong> {{ movie.release_date | date }}</p>

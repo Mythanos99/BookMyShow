@@ -69,4 +69,20 @@ async function update(id,businessData){
     }
 }
 
-module.exports={add,getAccess,reapplyAccess,updateAccess,getAll,getById,update};
+async function checkPermission(id,entity){
+    try{
+        const business = await Business.findById(id);
+        for (const element of business.access) {
+            if (element === entity) {
+                return true;
+            }
+        }
+        return false;
+    } catch(error){
+        throw new Error("Error checking permission");
+    } 
+}
+
+module.exports={add,getAccess,reapplyAccess,updateAccess,getAll,getById,update,
+    checkPermission
+};

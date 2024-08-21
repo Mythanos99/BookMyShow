@@ -30,4 +30,28 @@ async function getRatingByMovieId(req, res) {
     res.status(500).json({ error: "Internal server error" });
   }
 }
-module.exports = { addRating ,getRatingByMovieId };
+
+async function getRatingForMovieByUser(req,res){
+  res.setHeader("Content-Type", "application/json");
+  try {
+    const movieId = req.params.movieId;
+    const userId = req.params.userId;
+    const rating = await rating_service.getRatingForEntityByUser(movieId,userId);
+    res.status(200).json(rating);
+  } catch (error) {
+    console.error("Error fetching rating:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+
+async function addInterested(req,res){
+  res.setHeader("COntent-Type","application/json");
+  try{
+    const {entity,entityId} = req.body;
+    const status=rating_service.addInterestedToBatch(entity,entityId);
+    res.status(200).json({message:status});
+  } catch (error) {
+    res.status(500).json({error:"Internal server error"});
+  }
+}
+module.exports = { addRating ,getRatingByMovieId ,getRatingForMovieByUser,addInterested };

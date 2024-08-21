@@ -1,4 +1,5 @@
 const ratingsBatch = {}; 
+const interestedBatch ={};
 const Movie = require('../models/movie'); 
 const Rating = require('../models/rating'); 
 const Event = require('../models/event'); 
@@ -22,7 +23,36 @@ function addRatingToBatch(entity, entityId, rating) {
   ratingsBatch[key].ratingCount += 1;
   console.log(ratingsBatch);
 }
+/**
+ * 
+ * @param {string} entity- The type of entity being rated (MOV, EVE).
+ * @param {string} entityId - The ID of the entity.
+ * @returns {string} Returns a string indicating the status of the operation.
+ */
+function addInterestedToBatch(entity, entityId){
+  try{
+    const key=`${entity}-${entityId}`;
+    if(!interestedBatch[key]){
+    interestedBatch[key]={
+      entity:entity,
+      entityId:entityId,
+      interestedCount:0
+    };
+    }
+    interestedBatch[key].interestedCount+=1;
+    console.log(interestedBatch);
+    return "Successfull Added to the batch";
+  } catch (error) {
+  console.error("Error adding interested:", error);
+  return "Error adding to the batch";
+  }
+}
 
+/**
+ * 
+ * @param {*} rating Adds the rating  to the ratings Batch
+ * @returns {boolean} Returns true if the rating is added successfully, false otherwise.  
+ */
 async function addIndividualRating(rating) {
     try{
         const newRating = new Rating(rating);
@@ -46,6 +76,44 @@ function getAndClearRatingsBatch() {
   return batch;
 }
 
+function getAndClearInterestedBatch(){
+  const batch = { ...interestedBatch };
+  for (const key in interestedBatch) {
+    delete interestedBatch[key];
+  }
+  return batch;
+}
+
+async function updateInterestedCount(interestedBatch){
+  for(const key in interestedBatch){
+    const {entity,entityId,interestedCount}=interestedBatch[key];
+    model=utils.getModelName(entity);
+    const currentEntity=await model.findById(entityId);
+
+    if(!currentEntity){
+      console.error(`Entity with ID ${entityId} not found.`);
+      throw new Error(`Entity with ID ${entityId} not found.`);
+    }
+
+    if(entity==="MOV"){
+    const newCount=currentEntity.likes+interestedCount;
+    await model.findByIdAndUpdate(entityId,{
+      $set:{
+        likes:newCount
+      },
+    });
+  } else{
+    const newCount=currentEntity.interested+interestedCount;
+    await model.findByIdAndUpdate(entityId,{
+      $set:{
+        interested:newCount
+      },
+    });
+  }
+  }
+}
+
+   
 
 /**
  * Update ratings in the database for different entities.
@@ -93,10 +161,25 @@ async function getRatingByEntityId(entityId,page,limit){
         return [];
     }
 }
+
+async function getRatingForEntityByUser(entityId,userId){
+    try{
+        const rating = await Rating.findOne({ entityId: entityId, userId: userId },{rating:1,review:1,_id:0});
+        if(rating)return rating;
+        return {rating:-1,review:""};
+    } catch (error) {
+        console.error("Error fetching rating:", error);
+        return null;
+    }
+}
 module.exports = {
     addRatingToBatch,
   getAndClearRatingsBatch,
   addIndividualRating,
   updateEntityRatings,
-  getRatingByEntityId
+  getRatingByEntityId,
+  getRatingForEntityByUser,
+  addInterestedToBatch,
+  updateInterestedCount,
+  getAndClearInterestedBatch
 };

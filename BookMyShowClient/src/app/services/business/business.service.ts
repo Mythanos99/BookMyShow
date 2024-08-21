@@ -2,7 +2,7 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { httpError } from '../utils/utils';
+import { httpError, httpOptions} from '../utils/utils';
 
 @Injectable({
   providedIn: 'root'
@@ -37,11 +37,15 @@ export class BusinessService {
     .pipe(catchError(httpError));
   }
   fetchBusinessById(id:string):Observable<any>{
-    return this.http.get(this.apiUrl+'/business/'+id,this.httpHeader)
+    return this.http.get(this.apiUrl+'/business/'+id,httpOptions)
     .pipe(catchError(httpError));
   }
   updateBusiness(id:string,business:any):Observable<any>{
-    return this.http.put(this.apiUrl+'/business/'+id,business,this.httpHeader)
+    return this.http.put(this.apiUrl+'/business/'+id,business,httpOptions)
+    .pipe(catchError(httpError));
+  }
+  checkBusinessAccess(id:string,entity:String):Observable<any>{
+    return this.http.get(this.apiUrl+'/business/permission/'+id+'/'+entity,httpOptions)
     .pipe(catchError(httpError));
   }
 }

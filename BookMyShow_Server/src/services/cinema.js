@@ -26,13 +26,12 @@ async function getShowsByCinemaGrouped(cinemaId) {
   try {
     const results = await Show.aggregate([
       {
-        // Match shows by the cinema's location_id
         $match: {
           cinema_id: new ObjectId(cinemaId)
         }
       },
       {
-        // Group by date and movie_id to aggregate shows
+
         $group: {
           _id: { date: "$show_date", movie_id: "$movie_id" },
           shows: {

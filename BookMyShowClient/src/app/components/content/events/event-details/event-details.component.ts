@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventService } from 'src/app/services/event/event.service';
 import { LocationService } from 'src/app/sharedservice/location.service';
-import { MatDialog } from '@angular/material/dialog';
-import { RatingDialogComponent } from 'src/app/components/shared/rating-dialog/rating-dialog.component';
 import { Events } from 'src/app/models/event';
 import { getimageURl } from 'src/app/utils/util';
+import { ToasterService } from 'src/app/sharedservice/toaster.service';
+import { RatingService } from 'src/app/services/rating/rating.service';
 
 @Component({
   selector: 'app-event-details',
@@ -16,13 +16,15 @@ export class EventDetailsComponent implements OnInit {
   event: any
   eventId: string | null = null;
   location: string | null = null;
+  hasShownInterested:boolean=false;
 
   constructor(
     private route: ActivatedRoute,
     private eventService: EventService,
     private router: Router,
     private locationService: LocationService,
-    public dialog: MatDialog
+    private toasterService:ToasterService,
+    private ratingService:RatingService
   ) {}
 
   ngOnInit(): void {
@@ -50,20 +52,21 @@ export class EventDetailsComponent implements OnInit {
   showImage(image: string): string {
     return getimageURl(image);
   }
-  rateNow(): void {
-    console.log('Rate now clicked');
-    const dialogRef = this.dialog.open(RatingDialogComponent, {
-      width: '400px',
-      data: { event: this.event }
-    });
-    
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Rating:', result.rating);
-        console.log('Review:', result.review);
-        // You can send this data to your server here
-      }
+
+  likeMovie(): void {
+    console.log('Like button clicked');
+    const payload={
+      entity:'EVE',
+      entityId:this.eventId||''
+    }
+    this.ratingService.showInterestInEntity(payload).subscribe(
+      (response:any)=>{
+        this.hasShownInterested=true;
+        this.toasterService.showSuccess("Thank You for Showing Interest")
+      },
+    (error:any)=>{
+      this.toasterService.showError("Sorry. Your input could not be processed at this moment.")
     });
   }
 }
-// #TODO- error handling case when say if the id is not present in the database.
+

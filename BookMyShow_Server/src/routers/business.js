@@ -10,5 +10,6 @@ router.put("/:id",business_controller.updateBusiness);
 router.get("",business_controller.getAllBusinesses);
 router.put("/reapply/:id",business_controller.reapplyForAccess);
 router.put("/update-access/:id",business_controller.updateAccess);
+router.get("/permission/:id/:entity",business_controller.chcekPermission);
 
 module.exports = router;

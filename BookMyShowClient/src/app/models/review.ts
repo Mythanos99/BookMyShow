@@ -30,3 +30,13 @@ export interface Rating{
     rating: number;
     review: string;
 }
+
+export interface UserRating{
+    rating: number;
+    review: string;
+}
+
+export interface Interested{
+    entity:string;
+    entityId:string;
+}

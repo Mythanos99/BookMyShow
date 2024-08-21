@@ -56,7 +56,9 @@ export class MoviesComponent implements OnInit {
       }
     });
   }
+  fetchUserRating(userId:string,moovieId:string):void{
 
+  }
   fetchFilters(): void {
     const params = this.buildQueryParams();
     this.movieService.getMovieFilters(params).subscribe((response:Filters) => {

@@ -34,6 +34,13 @@ export class AuthServiceService {
       this.BusinessIdSubject.next(localId);
     }
   }
+  isUserLoggedIn(): boolean {
+    return this.userIdSubject.value !== null;
+  }
+  isBusinessLoggedIn(): boolean {
+    return this.BusinessIdSubject.value!==null;
+  }
+
   // Set the user ID both in the BehaviorSubject and local storage.
   setUserId(userId: string): void {
     this.userIdSubject.next(userId);

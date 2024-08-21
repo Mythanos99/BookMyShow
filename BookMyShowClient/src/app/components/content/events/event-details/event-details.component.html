@@ -27,6 +27,7 @@
 
           <!-- Interested Count -->
           <p><strong>Interested:</strong> {{ event.interested }} people</p>
+          <button *ngIf="!hasShownInterested" class="btn btn-primary ms-3" (click)="likeMovie()">Like To Show Interest</button>
 
           <!-- Book Tickets Button -->
           <div class="mb-4">

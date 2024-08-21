@@ -10,7 +10,8 @@ import { PageEvent } from '@angular/material/paginator';
 import { AuthServiceService } from 'src/app/sharedservice/auth-service.service';
 import { SelectFormatComponent } from '../dialog/select-format/select-format.component';
 import { WarningDialogComponent } from '../dialog/warning-dialog/warning-dialog.component';
-import { Rating } from 'src/app/models/review';
+import { Rating, UserRating } from 'src/app/models/review';
+import { ToasterService } from 'src/app/sharedservice/toaster.service';
 
 @Component({
   selector: 'app-movie-details',
@@ -30,6 +31,9 @@ export class MovieDetailsComponent implements OnInit {
   totalRatingsCount: number = 0;
   page: number = 1; // Default page number
   userId: string | null = null;
+  isLoggedIn: boolean = false;
+  userRating: UserRating={rating:-1,review:''};
+  hasShownInterested:boolean=false;
 
   constructor(
     private route: ActivatedRoute,
@@ -38,15 +42,21 @@ export class MovieDetailsComponent implements OnInit {
     private locationService: LocationService,
     public dialog: MatDialog,
     private ratingService: RatingService,
-    private authService: AuthServiceService
+    private authService: AuthServiceService,
+    private toasterService:ToasterService
   ) {}
 
   ngOnInit(): void {
+    this.movieId = this.route.snapshot.paramMap.get('id');
+
     this.authService.getUserId().subscribe((userId) => {
       this.userId = userId;
+      if(this.userId && this.movieId){
+        this.isLoggedIn = true;
+        this.fetchUserRating();
+      }
     });
 
-    this.movieId = this.route.snapshot.paramMap.get('id');
     if (this.movieId) {
       this.movieService.getMovieById(this.movieId).subscribe(
         (movie) => {
@@ -61,7 +71,18 @@ export class MovieDetailsComponent implements OnInit {
       this.location = city;
     });
   }
-
+  fetchUserRating(): void {
+    if(this.userId && this.movieId){
+      this.ratingService.fetchUserRating(this.userId,this.movieId).subscribe(
+        (response: UserRating) => {
+          this.userRating = response;
+        },
+        (error: any) => {
+          console.error('Error fetching user rating', error);
+        }
+      );
+    }
+  }
   bookTickets(): void {
     if (this.movie) {
       const dialogRef = this.dialog.open(SelectFormatComponent, {
@@ -117,10 +138,11 @@ export class MovieDetailsComponent implements OnInit {
         };
         this.ratingService.rateEntity(payload).subscribe(
           (response: any) => {
-            console.log('Rating submitted successfully', response);
+            this.userRating = {rating: payload.rating, review: payload.review};
+            this.toasterService.showSuccess('Rating submitted successfully!');
           },
           (error: any) => {
-            console.error('Error submitting rating', error);
+            this.toasterService.showError('Failed to submit rating. Please try again.');
           }
         );
       }
@@ -129,7 +151,18 @@ export class MovieDetailsComponent implements OnInit {
 
   likeMovie(): void {
     console.log('Like button clicked');
-    // Implement the logic to handle liking the movie here
+    const payload={
+      entity:'MOV',
+      entityId:this.movieId||''
+    }
+    this.ratingService.showInterestInEntity(payload).subscribe(
+      (response:any)=>{
+        this.hasShownInterested=true;
+        this.toasterService.showSuccess("Thank You for Showing Interest")
+      },
+    (error:any)=>{
+      this.toasterService.showError("Sorry. Your input could not be processed at this moment.")
+    });
   }
 
   isMovieReleased(): boolean {

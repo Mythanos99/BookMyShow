@@ -9,7 +9,7 @@ const businessSchema = new Schema({
     name: { type: String, required: true },
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    accessRequired: { type: Boolean, default: true },  //#TODO- Identity should be one of the 4 values
+    accessRequired: { type: Boolean, default: true },  //If true, then access is required
     Movitems: { type: [itemSchema] },
     Cinitems: { type: [itemSchema] },
     Eveitems: { type: [itemSchema] },

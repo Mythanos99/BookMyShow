@@ -8,7 +8,7 @@ router.post("/",user_controller.createUser);
 router.get("/:id",auth_middleware.authenticateToken,user_controller.getUserById);
 router.put("/:id",auth_middleware.authenticateToken,user_controller.updateUserById);
 
-// #TODO- add a middleware to check if the user is authenticated
+
 
 
 module.exports = router;

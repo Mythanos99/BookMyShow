@@ -118,6 +118,5 @@ async function bookEvent(req, res) {
 
 module.exports = { bookShow ,bookSeat,getAllBookingsForUser,getRecentBookings,bookEvent};
 
-// #TODO- check if thise res.json needed to be written in the separate utils functions or same funciton
 
-// #TODO- check if thise res.json needed to be written in the separate utils functions or same funciton
+// #TODO- check if thise res.json needed to be written in the separate utils functions or same funcito

@@ -41,4 +41,21 @@ export class Cinema {
       this.house_no = house_no;
     }
   }
+
+  export interface CinemaDetails{
+    _id: string;
+    name: string;
+    city: string;
+    location:{
+      house_no: string;
+      street: string;
+      area: string;
+      pincode: string;
+      _id:string;
+    };
+  }
+export interface CinemaResponse {
+  cinema: CinemaDetails[];
+  totalCinemas: number;
+}
   

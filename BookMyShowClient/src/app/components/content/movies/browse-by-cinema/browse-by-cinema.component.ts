@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Cinema } from 'src/app/models/cinema';
+import { CinemaDetails, CinemaResponse } from 'src/app/models/cinema';
 import { CinemaService } from 'src/app/services/cinema/cinema.service';
 import { LocationService } from 'src/app/sharedservice/location.service';
 import { PageEvent } from '@angular/material/paginator';
@@ -12,10 +12,10 @@ import { Router } from '@angular/router';
 })
 export class BrowseByCinemaComponent implements OnInit {
   location: string | null = null;
-  cinemas: Cinema[] = [];
+  cinemas: CinemaDetails[] = [];
   page: number = 1;
-  limit: number = 10; 
-  totalCinemas: number = 20;
+  limit: number = 3; 
+  totalCinemas: number = 0;
 
   constructor(private locationService: LocationService, private cinemaService: CinemaService,
     private router: Router
@@ -35,8 +35,8 @@ export class BrowseByCinemaComponent implements OnInit {
   fetchCinemas(): void {
     if (this.location) {
       this.cinemaService.getAllCinemasByLocation(this.location, this.page, this.limit).subscribe(response => {
-        this.cinemas = response; // Assuming response contains cinemas array
-        // this.totalCinemas = this.cinemas.length;  // #FIXME- get response for the backend for this. Hence need to restructur eht ebackend payload.
+        this.cinemas = response.cinema; 
+        this.totalCinemas = response.totalCinemas;  
       });
     }
   }
@@ -47,6 +47,6 @@ export class BrowseByCinemaComponent implements OnInit {
     this.fetchCinemas();
   }
   buyTicketsByCinema(cinema:any):void{
-    this.router.navigate(['/buyticketsByCinema/',cinema._id]);
+    this.router.navigate(['movies/buyticketsByCinema/',cinema._id]);
   }
 }

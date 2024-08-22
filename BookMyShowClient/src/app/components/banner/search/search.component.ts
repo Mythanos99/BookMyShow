@@ -104,4 +104,5 @@ export class SearchComponent implements OnInit, OnDestroy {
       this.router.navigate([`/events/${id}`]);
     }
   }
+  // #TODO- maybe can make a method that will have a timout of 2 seconds and then fetch.
 }

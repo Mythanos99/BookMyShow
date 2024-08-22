@@ -8,7 +8,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class LocationService {
   private cityNameSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
-  cityName$: Observable<string | null> = this.cityNameSubject.asObservable();
+    cityName$: Observable<string | null> = this.cityNameSubject.asObservable();
 
   constructor(private dialog: MatDialog) {
     const storedCity = localStorage.getItem('userCity');

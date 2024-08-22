@@ -6,8 +6,9 @@ ObjectId = require('mongodb').ObjectId;
 
 async function getAllByCity(city, page, limit) {
     try {
-        const cinema = await Cinema.find({ city: { $regex: new RegExp(city, "i") } }).skip((page - 1) * limit).limit(limit);
-        return cinema;
+        const cinema = await Cinema.find({ city: { $regex: new RegExp(city, "i") }},{_id:1,name:1,city:1,location:1}).skip((page - 1) * limit).limit(limit);
+        const totalCinemas = await Cinema.countDocuments({ city: { $regex: new RegExp(city, "i") } });
+        return {cinema:cinema,totalCinemas:totalCinemas};
     } catch (error) {
         throw new Error("Error fetching cinema");
     }

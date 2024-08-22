@@ -12,6 +12,7 @@ import { SelectFormatComponent } from '../dialog/select-format/select-format.com
 import { WarningDialogComponent } from '../dialog/warning-dialog/warning-dialog.component';
 import { Rating, UserRating } from 'src/app/models/review';
 import { ToasterService } from 'src/app/sharedservice/toaster.service';
+import { Language } from 'src/app/constants/filters';
 
 @Component({
   selector: 'app-movie-details',
@@ -34,6 +35,7 @@ export class MovieDetailsComponent implements OnInit {
   isLoggedIn: boolean = false;
   userRating: UserRating={rating:-1,review:''};
   hasShownInterested:boolean=false;
+  selectedLanguage: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -87,13 +89,15 @@ export class MovieDetailsComponent implements OnInit {
     if (this.movie) {
       const dialogRef = this.dialog.open(SelectFormatComponent, {
         width: '300px',
-        data: { formats: this.movie.formats || [] } // Pass the available formats to the dialog
+        data: { formats: this.movie.formats || [] ,
+          languages: this.movie.languages || [] } 
       });
 
-      dialogRef.afterClosed().subscribe((selectedFormat) => {
-        if (selectedFormat) {
-          this.selectedFormat = selectedFormat;
-          if (this.movie.rating === 'A') {
+      dialogRef.afterClosed().subscribe((selectedParam) => {
+        this.selectedFormat=selectedParam.selectedFormat;
+        this.selectedLanguage=selectedParam.selectedLanguage;
+        if (this.selectedFormat && this.selectedLanguage) {
+          if (this.movie.movie_rated === 'A') {
             // Show warning dialog for A-rated movies
             const warningDialogRef = this.dialog.open(WarningDialogComponent, {
               width: '400px'
@@ -116,8 +120,9 @@ export class MovieDetailsComponent implements OnInit {
     const queryParams = {
       format: this.selectedFormat,
       location: this.location,
+      language: this.selectedLanguage
     };
-    this.router.navigate(['/shows', this.movieId], { queryParams });
+    this.router.navigate(['movies/shows', this.movieId], { queryParams });
   }
 
  

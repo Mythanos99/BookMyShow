@@ -170,7 +170,6 @@ export class BookSeatsComponent implements OnInit {
 
 
             },
-            // TODO- dont display message in snack bar use proper dialog box
             error => {
                 if (error.error.message === "One or more seats are already booked") {
                     this._snackBar.open('One or more seats are already booked', 'Close');
@@ -200,6 +199,5 @@ export class BookSeatsComponent implements OnInit {
     }
 }
 
-// #FIXME- no need to show url and all in the error message.
 
 // #[x]- clean the code. Bad logic implemented.

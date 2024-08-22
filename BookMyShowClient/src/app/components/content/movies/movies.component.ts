@@ -1,28 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { Filters, Movie, MovieResponse } from 'src/app/models/movie';
+import { Filters, MovieResponse } from 'src/app/models/movie';
 import { MovieService } from 'src/app/services/movie/movie.service';
 import { LocationService } from 'src/app/sharedservice/location.service';
 import { Language, Genre, Format } from 'src/app/constants/filters';
+import { Subscription, combineLatest } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-movies',
   templateUrl: './movies.component.html',
   styleUrls: ['./movies.component.scss']
 })
-export class MoviesComponent implements OnInit {
+export class MoviesComponent implements OnInit, OnDestroy {
   location: string | null = null;
   movies: MovieResponse[] = [];
   filteredMovies: MovieResponse[] = [];
   selectedGenres: string[] = [];
   selectedLanguages: string[] = [];
   selectedFormat: string[] = [];
-  genres: string[] = ['Action', 'Comedy', 'Drama', 'Thriller', 'Horror'];
-  availableLanguages: string[] = ['English', 'Hindi', 'Korean'];
-  availableFormats: string[] = ['2D', '3D', 'IMAX'];
+  genres: string[] = Genre;
+  availableLanguages: string[] = Language;
+  availableFormats: string[] = Format;
   viewMode: string = 'current';
   private initialLoad = true;
   backendurl: string = 'http://localhost:3000/';
+  private subscriptions: Subscription = new Subscription();
 
   isDropdownOpen: { [key: string]: boolean } = {
     language: true,
@@ -38,43 +41,62 @@ export class MoviesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.locationService.cityName$.subscribe(city => {
-      this.location = city;
-      this.fetchMovies();
-      if (this.viewMode === 'current') {
-        this.fetchFilters();
-      } else {
-        this.setStaticFilters();
-      }
-    });
-
-    this.route.queryParams.subscribe(params => {
-      if (this.initialLoad) {
-        this.initialLoad = false; // Fetch the params from the URL only once
-        this.initializeFiltersFromQueryParams(params);
-        this.applyFilters(); // Fetch initial movie list based on URL filters
-      }
-    });
+    this.subscriptions.add(
+      combineLatest([
+        this.locationService.cityName$,
+        this.route.queryParams
+      ]).pipe(
+        tap(([city, params]) => {
+          this.location = city;
+          if (this.initialLoad) {
+            this.initialLoad = false;
+            this.initializeFiltersFromQueryParams(params);
+            
+          }
+        }),
+        switchMap(() => this.fetchMovies())
+      ).subscribe()
+    );
+    this.fetchFilters();
   }
-  fetchUserRating(userId:string,moovieId:string):void{
 
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
-  fetchFilters(): void {
+
+  private fetchMovies() {
+    const queryParams = this.buildQueryParams();
+    const movieObservable = this.viewMode === 'current'
+      ? this.movieService.getFilteredMovies(queryParams)
+      : this.movieService.getUpcomingMovies(queryParams);
+
+    return movieObservable.pipe(
+      tap(movies => {
+        this.movies = movies;
+        this.filteredMovies = movies;
+      })
+    );
+  }
+
+  private fetchFilters(): void {
     const params = this.buildQueryParams();
-    this.movieService.getMovieFilters(params).subscribe((response:Filters) => {
-      this.genres = response.genres;
-      this.availableLanguages = response.languages;
-      this.availableFormats = response.formats;
+    this.movieService.getMovieFilters(params).subscribe({
+      next: (response: Filters) => {
+        this.genres = response.genres;
+        this.availableLanguages = response.languages;
+        this.availableFormats = response.formats;
+      },
+      error: (err) => console.error('Error fetching filters', err)
     });
   }
 
-  setStaticFilters(): void {
-    this.genres = Genre; 
-    this.availableLanguages = Language; 
-    this.availableFormats = Format; 
+  private setStaticFilters(): void {
+    this.genres = Genre;
+    this.availableLanguages = Language;
+    this.availableFormats = Format;
   }
 
-  initializeFiltersFromQueryParams(params: any): void {
+  private initializeFiltersFromQueryParams(params: any): void {
     this.selectedLanguages = params['languages'] ? params['languages'].split(',') : [];
     this.selectedGenres = params['genres'] ? params['genres'].split(',') : [];
     this.selectedFormat = params['formats'] ? params['formats'].split(',') : [];
@@ -86,7 +108,7 @@ export class MoviesComponent implements OnInit {
     this.updateSelectedItems(value, selectedArray, !isSelected);
   }
 
-  getSelectedArray(type: string): string[] {
+  private getSelectedArray(type: string): string[] {
     switch (type) {
       case 'genre':
         return this.selectedGenres;
@@ -99,7 +121,7 @@ export class MoviesComponent implements OnInit {
     }
   }
 
-  updateSelectedItems(value: string, selectedArray: string[], shouldSelect: boolean): void {
+  private updateSelectedItems(value: string, selectedArray: string[], shouldSelect: boolean): void {
     if (shouldSelect) {
       selectedArray.push(value);
     } else {
@@ -115,13 +137,13 @@ export class MoviesComponent implements OnInit {
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: queryParams,
-      queryParamsHandling: 'merge', 
+      queryParamsHandling: 'merge',
     });
 
-    this.fetchMovies();
+    this.fetchMovies().subscribe();
   }
 
-  buildQueryParamsObject(): Params {
+  private buildQueryParamsObject(): Params {
     const queryParams: Params = {};
 
     queryParams['languages'] = this.selectedLanguages.length ? this.selectedLanguages.join(',') : null;
@@ -131,7 +153,7 @@ export class MoviesComponent implements OnInit {
     return queryParams;
   }
 
-  buildQueryParams(): string {
+  private buildQueryParams(): string {
     const params: string[] = [];
 
     if (this.location) {
@@ -162,18 +184,7 @@ export class MoviesComponent implements OnInit {
         this.selectedFormat = [];
         break;
     }
-  }
-
-  fetchMovies(): void {
-    const queryParams = this.buildQueryParams();
-    const movieObservable = this.viewMode === 'current'
-      ? this.movieService.getFilteredMovies(queryParams)
-      : this.movieService.getUpcomingMovies(queryParams);
-
-    movieObservable.subscribe(movies => {
-      this.movies = movies;
-      this.filteredMovies = movies;
-    });
+    this.applyFilters();
   }
 
   getimageurl(movieurl: string): string {
@@ -199,14 +210,13 @@ export class MoviesComponent implements OnInit {
     this.viewMode = mode;
     if (mode === 'upcoming') {
       this.setStaticFilters();
-    }
-    else{
+    } else {
       this.fetchFilters();
     }
-    this.fetchMovies();
+    this.fetchMovies().subscribe();
   }
 
   browseByCinema(): void {
-    this.router.navigate(['/cinemas']);
+    this.router.navigate(['movies/cinemas']);
   }
 }

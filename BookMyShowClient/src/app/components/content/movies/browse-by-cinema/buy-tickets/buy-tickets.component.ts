@@ -70,6 +70,6 @@ export class BuyTicketsComponent implements OnInit {
   }
 
   onShowSelect(show: Show): void {
-    this.router.navigate(['/book-tickets', show._id]);
+    this.router.navigate(['movies/book-tickets', show._id]);
   }
 }

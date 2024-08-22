@@ -46,7 +46,7 @@
       </div>
     </div>
   </div>
-
+<ng-container *ngIf="selectedDateGroup?.cinemas?.length!==0">
   <div *ngFor="let cinema of selectedDateGroup?.cinemas" class="cinema-section mb-4 p-3 border rounded bg-light">
     <div class="row">
       <div class="cinema-header col-12 col-md-4">
@@ -74,4 +74,7 @@
       </div>
     </div>
   </div>
+  </ng-container>
+  <div *ngIf="selectedDateGroup?.cinemas?.length===0" class="text-center">
+    <p class="text-muted">.Sorry :( No shows available for the selected Language and Format. </p>
 </div>

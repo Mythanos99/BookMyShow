@@ -9,10 +9,11 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class SelectFormatComponent implements OnInit {
 
   selectedFormat: string | null = null;
+  selectedLanguage: string | null = null;
 
   constructor(
     public dialogRef: MatDialogRef<SelectFormatComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { formats: string[] }
+    @Inject(MAT_DIALOG_DATA) public data: { formats: string[], languages: string[] }
   ) {}
 
   onCancel(): void {
@@ -20,7 +21,7 @@ export class SelectFormatComponent implements OnInit {
   }
 
   onConfirm(): void {
-    this.dialogRef.close(this.selectedFormat);
+    this.dialogRef.close({selectedFormat:this.selectedFormat,selectedLanguage:this.selectedLanguage});
   }
 
   ngOnInit(): void {

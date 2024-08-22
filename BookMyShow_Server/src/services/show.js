@@ -2,17 +2,17 @@
 const Show = require('../models/show');
 ObjectId = require('mongodb').ObjectId;
 
-async function getAvailableShowsByFormat(id, format, location) {
+async function getAvailableShowsByFormat(id, format, location,language) {
     try {
       const currentDate = new Date();
       currentDate.setHours(0, 0, 0, 0); 
-
       const results = await Show.aggregate([
         {
           $match: {
             movie_id: new ObjectId(id),
             format: format,
             city: location,
+            language: language,
             show_date: { $gte: currentDate }  
           }
         },

@@ -3,7 +3,7 @@ import { environment } from 'src/environments/environment';
 import { httpError } from '../utils/utils';
 import { catchError, Observable } from 'rxjs';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { Cinema } from 'src/app/models/cinema';
+import { CinemaResponse } from 'src/app/models/cinema';
 @Injectable({
   providedIn: 'root'
 })
@@ -16,8 +16,8 @@ export class CinemaService {
   }
   constructor(private http: HttpClient) { }
 
-  getAllCinemasByLocation(city:string,page:number,limit:number):Observable<Cinema[]>{
-    return this.http.get<Cinema[]>(`${this.apiUrl}/cinemas/${city}?page=${page}&limit=${limit}`, this.httpHeader)
+  getAllCinemasByLocation(city:string,page:number,limit:number):Observable<CinemaResponse>{
+    return this.http.get<CinemaResponse>(`${this.apiUrl}/cinemas/${city}?page=${page}&limit=${limit}`, this.httpHeader)
     .pipe(catchError(httpError));
   }
   getCinemaById(id:string):Observable<any>{

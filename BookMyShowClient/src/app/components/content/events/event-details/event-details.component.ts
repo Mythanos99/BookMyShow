@@ -45,7 +45,7 @@ export class EventDetailsComponent implements OnInit {
       const queryParams = {
         location: this.location,
       };
-      this.router.navigate(['/book-event-tickets', this.eventId],);
+      this.router.navigate(['events/book-event-tickets', this.eventId],);
     }
   }
   showImage(image: string): string {

@@ -5,6 +5,9 @@ BookMyShow is a web application that allows users to book tickets for movies. It
 
 ![BookMyShow Screenshot](images/movies_page.png)
 ![BookMyShow Screenshot](images/home_page.png)
+![BookMyShow Screenshot](images/shows_page.png)
+![BookMyShow Screenshot](images/seat_layout.png)
+
 
 
 ## Features
@@ -95,6 +98,26 @@ BookMyShow is a web application that allows users to book tickets for movies. It
 - **Trending Movies**: 
   - Implemented trending movies on the home page using Redis to store data.
   - Set up a 24-hour cron job to update the trending movies data.
+
+## DB Schema
+
+![DB_SCHEMA](images/Updated%20DB%20Schema.png)
+
+### Key Points:
+- **Users**: Stores user information and authentication details.
+- **Movies**: Contains movie details including title, genre, and ratings.
+- **Bookings**: Manages booking information linking users to their booked seats.
+- **Seats**: Represents the seating arrangement for each show, including availability status.
+
+## API Sequence Diagram
+
+![API_FLOW](images/diagram-export-26-8-2024-10_21_41-am.png)
+
+### Key Points:
+- **User Authentication**: Secure login and token generation using JWT.
+- **Movie Search**: Efficient querying of the movie database to return search results.
+- **Booking Seats**: Handles seat selection, availability checks, and booking confirmation.
+- **Trending Movies**: Fetches and displays trending movies based on user interactions and bookings.
 
 ## Future Improvements
 - **Caching**: Implement caching on the fetch movies API and other API's to reduce response time.

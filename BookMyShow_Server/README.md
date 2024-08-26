@@ -106,7 +106,7 @@ The database configuration files set up the connections to MongoDB and Redis. Th
 Cron jobs are scheduled tasks that run at specified intervals. In the BookMyShow server, cron jobs are used for tasks such as updating trending movies and clearing old data. The cron job configurations are located in the `cronjob.js`
 
 ### 9. Server Initialization
-The server initialization file ([`server.js`](command:_github.copilot.openSymbolFromReferences?%5B%22server.js%22%2C%5B%7B%22uri%22%3A%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22%2Fhome%2Fsriramhariharan%2FDocuments%2FBookMyShow%2FBookMyShow_Server%2FREADME.md%22%2C%22external%22%3A%22file%3A%2F%2F%2Fhome%2Fsriramhariharan%2FDocuments%2FBookMyShow%2FBookMyShow_Server%2FREADME.md%22%2C%22path%22%3A%22%2Fhome%2Fsriramhariharan%2FDocuments%2FBookMyShow%2FBookMyShow_Server%2FREADME.md%22%2C%22scheme%22%3A%22file%22%7D%2C%22pos%22%3A%7B%22line%22%3A71%2C%22character%22%3A12%7D%7D%5D%5D "Go to definition")) sets up the Express application, configures middleware, and starts the server. It is the entry point of the application and is responsible for bootstrapping the entire server.
+The server initialization file `server.js` sets up the Express application, configures middleware, and starts the server. It is the entry point of the application and is responsible for bootstrapping the entire server.
 
 ### Uploads Folder
 The `uploads` folder contains images uploaded by users. These images are stored with unique filenames to avoid conflicts and are used for various purposes within the application, such as movie poster image and event images.
@@ -134,6 +134,10 @@ The `uploads` folder contains images uploaded by users. These images are stored 
 
 3. **Set up environment variables:**
     Create a `.env` file in the root directory and add the necessary environment variables.
+    The variables are 
+    ```sh
+    MONGO_DB_URL=<YOUR_URL> (mongodb://localhost:27017/bookmyshow)
+    JWT_SECRET = <YOUR_JWT_SECRET> (can be any string )
 
 4. **Start the server:**
     ```sh

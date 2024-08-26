@@ -4,6 +4,7 @@ const port = process.env.PORT || 3000;
 const app = express();
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const { closeMongoConnection } =require("./db/mongoose");
 require("./db/mongoose");
 require('./cronjob');
 
@@ -44,5 +45,8 @@ app.get("/trending",trending_controller.getTrending);
 
 
 const server = app.listen(port, () => console.log(`Server listening on port ${port}!`));
+
+process.on('SIGINT', closeMongoConnection);  // For Ctrl+C in the terminal
+process.on('SIGTERM', closeMongoConnection); // For termination signals from the OS
 
 

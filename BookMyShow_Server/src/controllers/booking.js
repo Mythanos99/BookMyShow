@@ -58,6 +58,7 @@ async function bookSeat(req, res) {
           return res.status(400).json({message:"Error Booking Seats"});
         }
       }
+      
     }
     const showId=Payment.entity_id;
     const paymentid= await payment_service.makePayment(Payment);

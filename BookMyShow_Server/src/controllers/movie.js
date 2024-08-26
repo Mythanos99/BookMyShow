@@ -12,6 +12,7 @@ async function getAllMovies(req, res) {
     }
 }
 async function getFilteredMovies(req, res) {
+    res.setHeader('Content-Type', 'application/json');
     try {
         const filters = req.query;
         const movies = await movie_service.getFilteredResult(filters);
@@ -22,6 +23,7 @@ async function getFilteredMovies(req, res) {
 }
 
 async function getMovieById(req, res) {
+    res.setHeader('Content-Type', 'application/json');
     try {
         const movie = await movie_service.getById(req.params.id);
         res.status(200).json(movie);
@@ -31,6 +33,7 @@ async function getMovieById(req, res) {
 }
 
 async function getUpcomingMovies(req, res) {
+    res.setHeader('Content-Type', 'application/json');
     try {
         const filters = req.query;
         const movies = await movie_service.getUpcoming(filters);
@@ -41,6 +44,7 @@ async function getUpcomingMovies(req, res) {
 }
 
 async function getMovieFilters(req, res) {
+    res.setHeader('Content-Type', 'application/json');
     try {
         var location=req.query.location;
         const filters = await movie_service.getFilters(location);
@@ -51,6 +55,7 @@ async function getMovieFilters(req, res) {
 }
 
 async function addMovie(req, res) {
+    res.setHeader('Content-Type', 'application/json');
     upload(req, res, async (err) => {
         if (err) {
           return res.status(400).json({ error: err });
@@ -77,6 +82,7 @@ async function addMovie(req, res) {
 }
 
 async function updateMovie(req, res) {
+    res.setHeader('Content-Type', 'application/json');
     upload(req, res, async (err) => {
         if (err) {
           return res.status(400).json({ error: err });
@@ -114,4 +120,3 @@ module.exports = { getAllMovies,getFilteredMovies ,getMovieById,getUpcomingMovie
     updateMovieById
 };
 
-// .#FIXME- res.set header not added to all. Maintain code consistentcy.

@@ -50,27 +50,27 @@ async function createBooking(booking){
 
 async function AddRecentBooking(booking){
     try{
-        const userId=booking.user_id;
-        const recentBooking=await RecentBooking.findOne({user_id:userId});
-        if(!recentBooking){
-            const newRecentBooking=new RecentBooking({user_id:userId,last_bookings:[booking]});
-            const result=await newRecentBooking.save();
+        const userId = booking.user_id;
+        const recentBooking = await RecentBooking.findOne({ user_id: userId });
+        if (!recentBooking) {
+            const newRecentBooking = new RecentBooking({ user_id: userId, last_bookings: [booking] });
+            const result = await newRecentBooking.save();
             return result;
         }
-        if(recentBooking.last_bookings.length===5){
-            recentBooking.last_bookings.shift();
+        if (recentBooking.last_bookings.length === 5) {
+            recentBooking.last_bookings.pop();
         }
-        recentBooking.last_bookings.push(booking);
-        const result=await recentBooking.save();
+        recentBooking.last_bookings.unshift(booking);
+        const result = await recentBooking.save();
         return result;
-    } catch(error){
-        console.error('Error Adding Recent Booking',error);
+    } catch (error) {
+        console.error('Error Adding Recent Booking', error);
     }
 }
 
 async function getAllBookingsForUser(userId){
     try{
-        const bookings=await Booking.find({user_id:userId},{__v:0,createdAt:0,updatedAt:0,booking_id:0});
+        const bookings=await Booking.find({user_id:userId},{__v:0,createdAt:0,updatedAt:0,booking_id:0}).sort({createdAt:-1});
         return bookings;
     }catch(error){
         console.error('Error Getting All Bookings For User',error);
@@ -79,7 +79,7 @@ async function getAllBookingsForUser(userId){
 
 async function getRecentBookingsForUser(userId){
     try{
-        const bookings=await RecentBooking.find({user_id:userId},{__v:0,createdAt:0,updatedAt:0,booking_id:0});
+        const bookings=await RecentBooking.find({user_id:userId},{__v:0,createdAt:0,updatedAt:0,booking_id:0})
         return bookings;
     }catch(error){
         console.error('Error Getting Recent Bookings For User',error);

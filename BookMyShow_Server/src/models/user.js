@@ -27,3 +27,5 @@ const userSchema = new Schema({
 const User = mongoose.model('users', userSchema)
 
 module.exports = User
+
+// #FIXME- Better would be keep _id=false in the perosnalDetailsSchema and addressSchema.

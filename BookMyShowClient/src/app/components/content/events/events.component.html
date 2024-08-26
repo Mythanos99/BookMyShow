@@ -7,17 +7,17 @@
       <!-- Date Group Filter Dropdown -->
       <div class="filter-container mb-3">
         <div class="filter-header">
-          <span class="filter-title" (click)="toggleDropdown('DateGroup')"> &#9662; DateGroup</span>
+          <span class="filter-title" (click)="toggleDropdown('DateGroup')">&#9662; DateGroup</span>
           <div class="d-flex align-items-center ms-auto">
             <button class="btn btn-link clear-button ms-2" (click)="clearFilter('DateGroup')">Clear</button>
           </div>
         </div>
         <div class="filter-content" *ngIf="isDropdownOpen['DateGroup']">
           <div *ngFor="let dateGroup of availableDateGroup">
-            <button 
-              class="btn filter-btn" 
-              [ngClass]="{'selected': selectedDateGroup.includes(getDateGroupValue(dateGroup))}" 
-              (click)="onFilterChange('DateGroup', getDateGroupValue(dateGroup))">
+            <button
+              class="btn filter-btn"
+              [ngClass]="{'selected': selectedDateGroup.includes(getDateGroupValue(dateGroup))}"
+              (click)="onDateGroupChange(getDateGroupValue(dateGroup))">
               {{ dateGroup }}
             </button>
           </div>

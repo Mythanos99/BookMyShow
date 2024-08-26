@@ -73,7 +73,6 @@ export class RegisterComponent implements OnInit {
         })
       ).subscribe((data: loginResponse | null) => {
         if (data) {
-          this.authService.setUserId(data.user.id);
           this.toasterService.showSuccess('Registration successful!');
           this.dialogRef.close(); // Close the dialog on success
         }

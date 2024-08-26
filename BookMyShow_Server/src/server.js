@@ -18,6 +18,7 @@ const bookingRouter = require("./routers/booking");
 const eventRouter = require("./routers/event");
 const businessRouter = require("./routers/business.js");
 const search_controller = require("./controllers/search");
+const trending_controller = require("./controllers/trending");
 const ratingRouter = require("./routers/rating");
 app.use(cors({
     origin: 'http://localhost:4200',   //#FIXME: Change this to the frontend URL when deploying
@@ -39,6 +40,7 @@ app.use("/booking",bookingRouter);
 app.get("/search", search_controller.getSearchResult); 
 app.use("/events", eventRouter);
 app.use("/rating",ratingRouter);
+app.get("/trending",trending_controller.getTrending);
 
 
 const server = app.listen(port, () => console.log(`Server listening on port ${port}!`));

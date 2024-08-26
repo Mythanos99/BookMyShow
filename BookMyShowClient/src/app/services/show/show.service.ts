@@ -40,4 +40,3 @@ export class ShowService {
   }
 }
 
-// #FIXME in the respose data not all Show data will be sent. threfore see if a new model is needed to be created for the response data

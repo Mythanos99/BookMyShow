@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { TrendingService } from 'src/app/services/trending/trending.service';
+import { getimageURl } from 'src/app/utils/util';
 
 @Component({
   selector: 'app-home',
@@ -7,10 +10,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  movies: any[] = [];
+
+  constructor(private trendingService: TrendingService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
+    this.fetchTrendingMovies();
   }
-  // #TODO -try to implement this.
+
+  fetchTrendingMovies() {
+    this.trendingService.getTrendingMovies().subscribe((res: any[]) => {
+      this.movies = res;
+    });
+  }
+
+  showImage(image: string): string {
+    return getimageURl(image);
+  }
+  bookTicket(movieId: string) {
+    this.router.navigate([`/movies/${movieId}`]);
+  }
 
 }

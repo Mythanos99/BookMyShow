@@ -2,9 +2,10 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SearchService } from 'src/app/services/search/search.service';
 import { LocationService } from 'src/app/sharedservice/location.service';
 import { searchResposne, SearchResults } from 'src/app/models/interfaces';
-import { Subscription } from 'rxjs';
+import { Subscription, Subject, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatDialogRef } from '@angular/material/dialog';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-search',
@@ -22,6 +23,8 @@ export class SearchComponent implements OnInit, OnDestroy {
   searchQuery: string = '';
   
   private locationSubscription: Subscription = new Subscription();
+  private searchSubject: Subject<string> = new Subject<string>();
+  private searchSubscription: Subscription = new Subscription();
 
   constructor(
     private searchService: SearchService, 
@@ -35,57 +38,60 @@ export class SearchComponent implements OnInit, OnDestroy {
       this.locationService.cityName$.subscribe(city => {
         this.location = city || '';
         if (this.searchQuery.length >= 2) {
-          this.performSearch(this.searchQuery);
+          this.searchSubject.next(this.searchQuery);
         } else {
           this.resetResults();
         }
       })
+    );
+    // Debonce the search query to avoid making too many requests
+    this.searchSubscription = this.searchSubject.pipe(
+      debounceTime(300), 
+      distinctUntilChanged(),
+      switchMap(query => {
+        if (query.length >= 2) {
+          this.loading = true;
+          return this.searchService.search(this.location, query);
+        } else {
+          this.resetResults();
+          return of({ movies: [], cinemas: [], events: [] } as searchResposne);
+        }
+      })
+    ).subscribe(
+      (response: searchResposne) => {
+        this.arrMovies = response.movies || [];
+        this.arrCinemas = response.cinemas || [];
+        this.arrEvents = response.events || [];
+        this.checkDataAvailability();
+        this.loading = false;
+      },
+      error => {
+        console.error('Search failed', error);
+        this.loading = false;
+      }
     );
   }
 
   ngOnDestroy(): void {
     // Unsubscribe from all subscriptions
     this.locationSubscription.unsubscribe();
+    this.searchSubscription.unsubscribe();
   }
 
   onSearch(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
-    const query = inputElement.value;
+    const query = inputElement.value.trim();
     this.searchQuery = query;
-    if (query.length >= 2) {
-      this.performSearch(query);
-    } else {
-      this.resetResults();
-    }
+    this.searchSubject.next(query); // Emit the search query
   }
 
-  private performSearch(query: string): void {
-    if (this.location) {
-      this.loading = true;
-      this.searchService.search(this.location, query).subscribe(
-        (response: searchResposne) => {
-          this.arrMovies = response.movies || [];
-          this.arrCinemas = response.cinemas || [];
-          this.arrEvents = response.events || [];
-          this.checkDataAvailability();
-        },
-        error => {
-          console.error('Search failed', error);
-        },
-        () => {
-          this.loading = false;
-        }
-      );
-    }
-  }
-
-  private checkDataAvailability() {
+  private checkDataAvailability(): void {
     this.hasData = this.arrMovies.length > 0 ||
-                    this.arrCinemas.length > 0 ||
-                    this.arrEvents.length > 0;
+                   this.arrCinemas.length > 0 ||
+                   this.arrEvents.length > 0;
   }
 
-  private resetResults() {
+  private resetResults(): void {
     this.arrMovies = [];
     this.arrCinemas = [];
     this.arrEvents = [];
@@ -96,13 +102,10 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.dialogRef.close(); 
     if(type === 'movie') {
       this.router.navigate([`/movies/${id}`]);
-    }
-    else if(type === 'cinema') {
+    } else if(type === 'cinema') {
       this.router.navigate([`/buyticketsByCinema/${id}`]);
-    }
-    else{
+    } else {
       this.router.navigate([`/events/${id}`]);
     }
   }
-  // #TODO- maybe can make a method that will have a timout of 2 seconds and then fetch.
 }

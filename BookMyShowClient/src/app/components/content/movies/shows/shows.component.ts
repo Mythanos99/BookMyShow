@@ -82,7 +82,6 @@ export class ShowsComponent implements OnInit, OnDestroy {
           this.location = newLocation;
           this.selectedLanguage = newLanguage;
 
-          // console.log("Query params changed", this.queryParamFormat, this.queryParamLocation, this.queryParamLanguage);
           this.updateLocation();
         }
       })
@@ -187,4 +186,3 @@ export class ShowsComponent implements OnInit, OnDestroy {
   }
 }
 
-// #FIXME- Duplicated API calls are happening. Better code can be better. Unsusbcribe from the observales when the component is destroyed.

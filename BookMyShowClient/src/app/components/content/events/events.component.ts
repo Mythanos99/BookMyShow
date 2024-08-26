@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { unifiedShows } from 'src/app/models/unifiedShows';
+import { Subscription, combineLatest } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { EventService } from 'src/app/services/event/event.service';
 import { LocationService } from 'src/app/sharedservice/location.service';
 import { Language, Event_category, DateGroup } from 'src/app/constants/filters';
@@ -11,7 +12,7 @@ import { getimageURl } from 'src/app/utils/util';
   templateUrl: './events.component.html',
   styleUrls: ['./events.component.scss']
 })
-export class EventsComponent implements OnInit {
+export class EventsComponent implements OnInit, OnDestroy {
   location: string | null = null;
   Events: any[] = [];
   filteredEvents: any[] = [];
@@ -29,21 +30,38 @@ export class EventsComponent implements OnInit {
     category: false
   };
 
-  constructor(private eventService: EventService, private locationService: LocationService, private router: Router,
-    private route: ActivatedRoute) {}
+  private subscriptions: Subscription = new Subscription();
+
+  constructor(
+    private eventService: EventService,
+    private locationService: LocationService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    this.locationService.cityName$.subscribe(city => {
-      this.location = city;
-      this.fetchEvents();
-    });
-    this.route.queryParams.subscribe(params => {
-      if (this.initialLoad) {
-        this.initialLoad = false; // Flag to make sure the params from the url are fetched only once.
-        this.initializeFiltersFromQueryParams(params);
-        this.fetchEvents();
-      }
-    });
+    this.subscriptions.add(
+      combineLatest([
+        this.locationService.cityName$,
+        this.route.queryParams
+      ]).pipe(
+        switchMap(([city, params]) => {
+          this.location = city;
+          if (this.initialLoad) {
+            this.initialLoad = false;
+            this.initializeFiltersFromQueryParams(params);
+          }
+          return this.eventService.getFilteredEvent(this.buildQueryParams());
+        })
+      ).subscribe(events => {
+        this.Events = events;
+        this.filteredEvents = events;
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   initializeFiltersFromQueryParams(params: any): void {
@@ -54,7 +72,7 @@ export class EventsComponent implements OnInit {
       this.selectedCategories = params['category'].split(',');
     }
     if (params['DateGroup']) {
-      this.selectedDateGroup = params['DateGroup'].split(',');
+      this.selectedDateGroup = params['DateGroup'];
     }
   }
 
@@ -79,32 +97,35 @@ export class EventsComponent implements OnInit {
     }
   }
 
+  onDateGroupChange(value: string): void {
+    this.selectedDateGroup = [value];
+  }
+
   applyFilters(): void {
     let queryParams: Params = {};
 
     if (this.selectedLanguages.length) {
       queryParams['languages'] = this.selectedLanguages.join(',');
     } else {
-      queryParams['languages'] = null; // Remove 'languages' from URL if empty
+      queryParams['languages'] = null;
     }
 
     if (this.selectedCategories.length) {
       queryParams['category'] = this.selectedCategories.join(',');
     } else {
-      queryParams['category'] = null; // Remove 'category' from URL if empty
+      queryParams['category'] = null;
     }
 
     if (this.selectedDateGroup.length) {
-      queryParams['DateGroup'] = this.selectedDateGroup.join(',');
+      queryParams['DateGroup'] = this.selectedDateGroup;
     } else {
-      queryParams['DateGroup'] = null; // Remove 'DateGroup' from URL if empty
+      queryParams['DateGroup'] = null;
     }
 
-    // Update the query parameters in the URL
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: queryParams,
-      queryParamsHandling: 'merge', // merge with existing query params
+      queryParamsHandling: 'merge',
     });
 
     this.fetchEvents();
@@ -118,15 +139,17 @@ export class EventsComponent implements OnInit {
     } else if (type === 'DateGroup') {
       this.selectedDateGroup = [];
     }
-    this.applyFilters(); // Ensure filters are re-applied after clearing
+    this.applyFilters();
   }
 
   fetchEvents(): void {
     const queryParams = this.buildQueryParams();
-    this.eventService.getFilteredEvent(queryParams).subscribe(events => {
-      this.Events = events;
-      this.filteredEvents = events;
-    });
+    this.subscriptions.add(
+      this.eventService.getFilteredEvent(queryParams).subscribe(events => {
+        this.Events = events;
+        this.filteredEvents = events;
+      })
+    );
   }
 
   buildQueryParams(): string {
@@ -174,8 +197,8 @@ export class EventsComponent implements OnInit {
     if (value === 'Weekend') return 'This Weekend';
     return 'Next Week';
   }
+
   showImage(image: string): string {
     return getimageURl(image);
   }
-
 }

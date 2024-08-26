@@ -26,5 +26,4 @@ const recentBookingSchema = new Schema({
 
 const RecentBooking = mongoose.model('recent_bookings', recentBookingSchema);
 module.exports = RecentBooking;
-
-// #TODO- check the use of indexes on the MongoDB for other collections as well.    
+ 

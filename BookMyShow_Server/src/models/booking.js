@@ -7,7 +7,7 @@ const foodSchema=new Schema({
     quantity:{type:Number,required:true}
 })
 const BookingSchema = new Schema({
-    user_id: { type: ObjectId, required: true },
+    user_id: { type: ObjectId, required: true,index: true},  // Here indexing by user is better.
     entity_id: { type: ObjectId, required: true },
     entity: { type: String, required: true },
     entity_name: { type: String, required: true },
@@ -22,5 +22,4 @@ const BookingSchema = new Schema({
 
 
 const Booking = mongoose.model('bookings', BookingSchema);
-// module.exports = { schema: foodSchema };
 module.exports = Booking;

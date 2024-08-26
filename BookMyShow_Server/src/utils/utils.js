@@ -36,7 +36,6 @@ function getDayGroupInfo(DayGroup) {
   const startOfNextWeek = new Date();
   startOfNextWeek.setDate(today.getDate() + (8 - dayOfWeek));
   startOfNextWeek.setHours(0, 0, 0, 0);
-
   const endOfNextWeek = new Date();
   endOfNextWeek.setDate(today.getDate() + (14 - dayOfWeek));
   endOfNextWeek.setHours(23, 59, 59, 999);
@@ -50,7 +49,6 @@ function getDayGroupInfo(DayGroup) {
 
   return null;
 }
-// #BUG- if multiple dayGroups then nothing is considered.
 
 /**
  * Get the Mongoose model based on the entity type.
@@ -114,6 +112,12 @@ function splitFilter(filterString, delimiter = "|") {
   return filterString.split(delimiter);
 }
 
+function getlast7days(){
+  const today = new Date();
+  const last7days = new Date(today.setDate(today.getDate() - 7));
+  return last7days;
+}
+
 
 
 module.exports = {
@@ -122,5 +126,6 @@ module.exports = {
   getDayGroupInfo,
   getModelName,
   getFieldname,
-  buildQuery
+  buildQuery,
+  getlast7days
 };

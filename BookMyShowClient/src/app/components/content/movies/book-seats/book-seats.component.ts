@@ -199,5 +199,3 @@ export class BookSeatsComponent implements OnInit {
     }
 }
 
-
-// #[x]- clean the code. Bad logic implemented.

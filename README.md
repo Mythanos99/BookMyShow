@@ -1,7 +1,7 @@
 # BookMyShow -CLONE
 
 ## Description
-BookMyShow is a web application that allows users to book tickets for movies. It provides a seamless experience for browsing, selecting, and booking movie tickets. The application also features trending movies based on user bookings and reviews.
+BookMyShow is a full-stack web application built using the MEAN stack (MongoDB, Express.js, Angular, Node.js) with the support of Redis for caching. It allows users to book tickets for movies, providing a seamless experience for browsing, selecting, and booking movie tickets. The application also features trending movies based on user bookings and reviews. 
 
 ![BookMyShow Screenshot](images/movies_page.png)
 ![BookMyShow Screenshot](images/home_page.png)
